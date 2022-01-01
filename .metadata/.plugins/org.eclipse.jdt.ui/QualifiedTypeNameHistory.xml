@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.hycujjang.util.Gmaill"/>
+<fullyQualifiedTypeName name="javax.mail.Transport"/>
+<fullyQualifiedTypeName name="com.hycujjang.controller.service.EmailSend"/>
+<fullyQualifiedTypeName name="com.hycujjang.objectPack.user.UserDTO"/>
+</qualifiedTypeNameHistroy>
