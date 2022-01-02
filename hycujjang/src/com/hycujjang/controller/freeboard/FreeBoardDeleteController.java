@@ -26,17 +26,13 @@ public class FreeBoardDeleteController extends HttpServlet{
 			pageBack(response, "로그인후 사용 가능합니다.");
 		} 
 		
+		BufferedReader br = request.getReader();
+		String requestData = br.readLine();		
 		if (userID.equals("admin")) {
-			BufferedReader br = request.getReader();
-			String requestData = br.readLine();
-			
 			deleteAll(requestData);
-			
 			String resultJson = getJson("ok");
 			response.getWriter().write(resultJson);
 		} else {
-			BufferedReader br = request.getReader();
-			String requestData = br.readLine();
 			HashMap<String, String> requestMap = new HashMap<String, String>();
 			requestMap = jsonParse(requestData);
 			

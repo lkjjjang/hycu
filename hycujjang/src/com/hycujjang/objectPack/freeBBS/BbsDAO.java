@@ -9,7 +9,6 @@ import com.hycujjang.controller.freeboard.FreeBoardController;
 import com.hycujjang.util.DatabaseUtil;
 
 public class BbsDAO {
-	
 	public BbsDTO getFreeBoardDetail(int bbsID) {		
 		BbsDTO result = null;
 		String SQL = "";

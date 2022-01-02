@@ -43,7 +43,7 @@
 						회원관리
 					</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown">
-						<a class="dropdown-item" href="userLogout.jsp">로그아웃</a>
+						<a class="dropdown-item" href="logout.jsp">로그아웃</a>
 					</div>
 				</li>
 			</ul>
@@ -73,17 +73,32 @@
 					</tr>
 					<tr id="upvote_bbsID">
 						<td colspan="3" style="text-align: center;">
-							<!-- ${userID} 로그인시 세션에 저장해둠 -->
-							<button onclick="upvoteUpdate(${detail.bbsID}, ${userID})" class="btn btn-primary">${detail.bbsUpvote} 추천</button>
+							<c:if test="${userID == 'guest'}">
+								<!-- ${userID} 로그인시 세션에 저장해둠 -->
+								<button onclick="guest()" class="btn btn-primary">${detail.bbsUpvote} 추천</button>
+							</c:if>
+							<c:if test="${userID != 'guest'}">
+								<!-- ${userID} 로그인시 세션에 저장해둠 -->
+								<button onclick="upvoteUpdate(${detail.bbsID}, ${userID})" class="btn btn-primary">${detail.bbsUpvote} 추천</button>
+							</c:if>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<div style="text-align: right;">
-			<button class="btn btn-outline-secondary" id="bbsContentUpdate_${detail.bbsID}">수정</button>
-			<button class="btn btn-outline-secondary" id="delID_bbsContent_${detail.bbsID}">삭제</button>
-		</div>
+		<c:if test="${userID == 'guest'}">
+			<div style="text-align: right;">
+				<button class="btn btn-outline-secondary" onclick="guest()">수정</button>
+				<button class="btn btn-outline-secondary" onclick="guest()">삭제</button>
+			</div>
+		</c:if>
+		<c:if test="${userID != 'guest'}">
+			<div style="text-align: right;">
+				<button class="btn btn-outline-secondary" id="delID_contentModify_${detail.bbsID}">수정</button>
+				<button class="btn btn-outline-secondary" id="delID_bbsContent_${detail.bbsID}">삭제</button>
+			</div>
+		</c:if>
+		
 	</div>
 	
 	<br>
@@ -191,7 +206,12 @@
 							<br>
 							<div style="text-align: center;">
 								<input type="hidden" id="bbsID" value="${detail.bbsID}">
-								<button class="btn btn-primary" onclick="commentRegister()">댓글등록</button>
+								<c:if test="${userID == 'guest'}">
+									<button class="btn btn-primary" onclick="guest()">댓글등록</button>
+								</c:if>
+								<c:if test="${userID != 'guest'}">
+									<button class="btn btn-primary" onclick="commentRegister()">댓글등록</button>
+								</c:if>
 							</div>
 						</td>
 					</tr>
@@ -216,11 +236,9 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
-		$("button[id^='bbsContentUpdate_']").click(function(envet){   
-			var x = event.clientX - 250;    
-			var	y = event.clientY;		
-				openUpdateForm(x, y, this);	  			
-			});	
+		function guest() {
+			alert('게스트 계정은 사용할 수 없습니다.');
+		}
 	</script>
 	<script type="text/javascript">
 	// 게시글 추천
@@ -266,6 +284,14 @@
 			var	y = event.clientY;		
   			openForm(x, y, this);	  			
   		});
+		
+		function modifyMsg(msg){
+			alert(msg);
+		}
+		
+		function goModify(bbsID) {
+			location.href = 'contentModifyController?id='+ bbsID +'';
+		}
 		
 		// 댓글 삭제 버튼 클릭시 자식창에서 보내주는 메시지를 띄움
 		function delMsg(msg, resultCode, commentCount){

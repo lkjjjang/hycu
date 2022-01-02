@@ -18,7 +18,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="index.jsp">한양사이버대 강의평가</a>	
+		<a class="navbar-brand" href="lectureBoardController?pageNumber=1">한양사이버대 강의평가</a>	
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -76,7 +76,35 @@
 			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
 			crossorigin="anonymous">
 	</script>
-	<!-- request.getSession().getServletContext().getRealPath("/") + File.separator + "/upload" -->
+	<script type="text/javascript">
+		
+	</script>
+	<script type="text/javascript">
+		window.onload = function() {
+			console.log('window.onload = function()');
+			mobileCheck();
+		}
+	</script>
+	<script type="text/javascript">
+		function mobileCheck() {
+			console.log('mobileCheck');
+			var uAgent = navigator.userAgent.toLowerCase(); 
+			var mobilePhones = new Array('iphone', 'ipod', 'ipad', 'android', 'blackberry', 'windows ce','nokia', 'webos', 'opera mini', 'sonyericsson', 'opera mobi', 'iemobile'); 
+			for (var i = 0; i < mobilePhones.length; i++){ 
+				if (uAgent.indexOf(mobilePhones[i]) != -1){ 
+					<%
+					 session.setAttribute("devices", "mobile");
+					%>
+					console.log('devices, mobile');
+					return;
+				} 
+			}
+			<%
+			 session.setAttribute("devices", "pc");
+			%>
+			console.log('devices, pc');
+		}
+	</script>
 </body>
 </html>
 

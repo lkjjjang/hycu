@@ -35,8 +35,7 @@ public class UserDAO {
 		
 		return -2; // 데이터베이스 오류
 	}
-	
-	public boolean hasID(UserDTO user) {
+	public boolean hasID(String userID) {
 		String SQL = "SELECT userID FROM LECTURE_USER WHERE userID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -44,7 +43,7 @@ public class UserDAO {
 		try {
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, user.getUserID());
+			pstmt.setString(1, userID);
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
@@ -56,6 +55,29 @@ public class UserDAO {
 			instanseClose(conn, pstmt, rs);
 		}
 		return true; 
+	}
+	
+	public int delete(String userID) {
+		String SQL = "DELETE FROM LECTURE_USER WHERE userID = ?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseUtil.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, userID);
+			// executeUpdate 실행성공시 업데이트한 갯수를 반환
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			instanseClose(conn, pstmt, rs);
+		}
+		return -1; // 회원가입 실패
+	}
+	
+	public boolean hasID(UserDTO user) {
+		return hasID(user.getUserID());
 	}
 	
 	public int join(UserDTO user) {
@@ -136,10 +158,6 @@ public class UserDAO {
 			pstmt.setString(1, userID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				System.out.println(rs.getString(1));
-				System.out.println(rs.getString(1));
-				System.out.println(rs.getString(1));
-				System.out.println(rs.getString(1));
 				return rs.getString(1);
 			}
 		} catch (Exception e) {

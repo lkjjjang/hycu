@@ -18,33 +18,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.hycujjang.objectPack.user.UserDAO;
+import com.hycujjang.objectPack.user.UserDTO;
 import com.hycujjang.util.Gmail;
 import com.hycujjang.util.SHA256;
 
 @WebServlet("/emailSendAction")
 public class EmailSendController extends HttpServlet {
+	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("dddddd");
 		UserDAO userDAO = new UserDAO();	
 		String userID = request.getParameter("userID");
 		PrintWriter script = response.getWriter();
-		/*
-		boolean emailChecked = userDAO.hasEmailChecked(userID);
 		
-		if (emailChecked == true) {
-			script.println("<script>");
-			script.println("alert('이미 인증 된 회원입니다.');");
-			script.println("location.href = 'index.jsp'");
-			script.println("</script>");
-			script.close();
-		}*/
-		
-		String host = "http://localhost:8080/hycu/";
+		String host = "http://localhost:8080/";
 		String from = "lkjjjang1985@gmail.com";
 		String to = userDAO.getUserEmail(userID);
 		String subject = "강의평가를 위한 이메일 인증 메일입니다.";
 		String content = "다음 링크에 접속하여 이메일 인증을 진행하세요." +
-			"<a href='" + host + "emailCheckAction?code=" + SHA256.getSHA256(to) + "'>이메일 인증하기</a>";
+			"<a href='" + host + "emailCheckAction?code=" + SHA256.getSHA256(to) + ""
+					+ "&id=" + to + "'>이메일 인증하기</a>";
 	
 		Properties p = new Properties();
 		p.put("mail.smtp.starttls.enable", "true");

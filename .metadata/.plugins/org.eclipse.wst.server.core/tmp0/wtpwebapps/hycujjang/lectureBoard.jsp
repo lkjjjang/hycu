@@ -59,8 +59,14 @@
 			</select>
 			<input type="text" name="search" value="${param.search}" class="form-control mx-1 mt-2" placeholder="내용을 입력하세요">
 			<button type="submit" class="btn btn-primary mx-1 mt-2">검색</button>
-			<a class="btn btn-primary mx-1 mt-2" data-toggle="modal" href="#registerModal">등록하기</a>
-			<a class="btn btn-danger mx-1 mt-2" data-toggle="modal" href="#reportModal">신고</a>
+			<c:if test="${userID == 'guest'}">
+				<a class="btn btn-primary mx-1 mt-2" onclick="guest()">등록하기</a>
+				<a class="btn btn-danger mx-1 mt-2" onclick="guest()">신고</a>
+			</c:if>
+			<c:if test="${userID != 'guest'}">
+				<a class="btn btn-primary mx-1 mt-2" data-toggle="modal" href="#registerModal">등록하기</a>
+				<a class="btn btn-danger mx-1 mt-2" data-toggle="modal" href="#reportModal">신고</a>
+			</c:if>
 		</form> 
 		
 		<!-- 게시글 출력 -->
@@ -313,6 +319,11 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
 			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
 			crossorigin="anonymous">
+	</script>
+	<script type="text/javascript">
+		function guest(){
+			alert('게스트계정은 사용할 수 없습니다.');
+		}
 	</script>	
 </body>
 </html>

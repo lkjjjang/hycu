@@ -43,12 +43,23 @@
 		</div>	
 	</nav>
 	
-	<img src="images/hycu1.jpg" style="display: block; margin: 0 auto;">
+	
 	<section class="container mt-3" style="max-width: 560px;">
-		<form method="post" action="userRegisterController">
+		<div class="row">
+			<div class="col-md-12">
+				<img src="images/hycu1.jpg" class="img-responsive">
+			</div>
+		</div>
 			<div class="form-group">
 				<label>아이디</label>
-				<input type="text" name="userID" class="form-control" placeholder="아이디를 입력하세요 (모든 게시글은 익명 입니다.)">
+				<div class="row">
+					<div class="col-md-10">
+						<input type="text" name="userID" id="id" class="form-control" placeholder="아이디를 입력하세요 (모든 게시글은 익명 입니다.)">
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-primary" onclick="idCheck()">확인</button>
+					</div>
+				</div>
 			</div>
 			<div class="form-group">
 				<label>비밀번호</label>
@@ -61,12 +72,11 @@
 			</div>
 			<div class="form-group">
 				<label>이메일</label>
-				<input type="email" name="userEmail" class="form-control" placeholder="한사대 이메일만 사용 가능합니다. (학번@hycu.ac.kr)">
+				<input type="email" name="email" class="form-control" placeholder="한사대 이메일만 사용 가능합니다. (학번@hycu.ac.kr)">
 			</div>
-			<div style="text-align: center;">
-				<button type="submit" class="btn btn-primary">회원가입</button>
+			<div style="text-align: center; row">
+				<button type="submit" class="btn btn-primary" onclick="register()">회원가입</button>
 			</div>
-		</form>
 	</section>
 	
 	<footer class="bg-dark mt-4 p-5 text-center" style="color: #FFFFFF;">
@@ -85,6 +95,54 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
+		function sendController(data) {
+			var result;
+			$.ajax({
+				type: "post",
+				url: "userRegisterController",
+				data: JSON.stringify(data),
+				async: false,
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(json) {
+					result = json;
+				},
+				error: function(json) {
+					alert('시스템 오류 입니다.')
+				}
+			});
+			return result;
+		}
+		
+		function register() {
+			var data = {requestCode: 'register', 
+					id: document.getElementById("id").value,
+					pass: document.getElementById("pass_1").value,
+					email: document.getElementsByName('email')[0].value
+			}		
+			
+			var response = sendController(data);
+			if (response[0].resultCode == 'null') {
+				alert('입력 안 된 사항이 있습니다.');
+			} else if (response[0].resultCode == 'email') {
+				alert('한사대 이메일만 사용 가능합니다.');
+			} else {
+				location.href="emailSendAction.jsp";
+			}
+		}
+		
+		function idCheck() {
+			var data = {requestCode: 'idCheck', id: document.getElementById("id").value}	
+			var response = sendController(data);
+			if (response[0].resultCode == 'null') {
+				alert('공백은 사용 할수 없습니다.');
+			} else if (response[0].resultCode == 'Available') {
+				alert('사용 가능합니다.');
+			} else if (response[0].resultCode == 'unAvailable') {
+				alert('사용중인 아이디 입니다.');
+			}
+		}
+		
 		function isSame() {
 			var pass1 = document.getElementById('pass_1').value;
 		    if (pass1.length < 6 || pass1.length > 16) {

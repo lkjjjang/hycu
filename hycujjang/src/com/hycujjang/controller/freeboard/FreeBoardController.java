@@ -41,12 +41,18 @@ public class FreeBoardController extends HttpServlet {
 			
 			// ÆäÀÌÂ¡Ã³¸®¸¦ À§ÇØ °Ô½Ã±Û °¹¼ö ÆÄ¾Ç
 			int listCount = getListCount(request);			
-			
 			request.setAttribute("freeBBS", bbsList);
 			request.setAttribute("listCount", listCount);
 			request.setAttribute("pageNumber", pageNumber);
 			request.setAttribute("freeBBSListPrintCount", FreeBoardController.freeBBSListPrintCount);
-			request.getRequestDispatcher("freeBoard.jsp").forward(request, response);
+			
+			String devices = (String) request.getSession().getAttribute("devices");
+			System.out.println(devices);
+			if (devices.equals("mobile")) {
+				request.getRequestDispatcher("mobile.jsp").forward(request, response);
+			} else {
+				request.getRequestDispatcher("freeBoard.jsp").forward(request, response);
+			}
 		}
 	}
 	

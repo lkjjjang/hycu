@@ -18,7 +18,7 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="index.jsp">한양사이버대 강의평가</a>	
+		<a class="navbar-brand" href="lectureBoardController?pageNumber=1">한양사이버대 강의평가</a>	
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
 			<span class="navbar-toggler-icon"></span>
 		</button>

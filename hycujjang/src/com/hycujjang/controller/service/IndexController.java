@@ -21,8 +21,8 @@ public class IndexController extends HttpServlet{
 			UserDAO userDAO = new UserDAO();
 			if (!userDAO.hasEmailChecked(userID)) {
 				pageBack(response, "이메일 인증 후 사용 가능합니다.");
-			}			
-			response.sendRedirect("lectureBoardController");
+			}	
+			response.sendRedirect("lectureBoardController?pageNumber=1");
 		} else {
 			response.sendRedirect("index2.jsp");
 		}

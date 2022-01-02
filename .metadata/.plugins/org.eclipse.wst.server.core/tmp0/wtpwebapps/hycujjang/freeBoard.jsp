@@ -21,8 +21,7 @@
 	<link rel="stylesheet" href="./css/custom.css">
 </head>
 <body>
-
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
 		<a class="navbar-brand" href="index.jsp">한양사이버대 강의평가</a>	
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
 			<span class="navbar-toggler-icon"></span>
@@ -54,37 +53,37 @@
 			<table class="table table-hover">
 				<colgroup>
 					<col width="10%"/>
-					<col width="50%"/>
+					<col width="45%"/>
 					<col width="15%"/>
-					<col width="10%"/>
+					<col width="15%"/>
 					<col width="15%"/>
 				</colgroup>
 				<thead style="text-align: center;">			
 					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>작성자</th>
-						<th>조회수</th>
-						<th>작성일</th>					
+						<th style="padding: 6px;">번호</th>
+						<th style="padding: 6px;">제목</th>
+						<th style="padding: 6px;">작성자</th>
+						<th style="padding: 6px;">조회수</th>
+						<th style="padding: 6px;">작성일</th>					
 					</tr>				
 				</thead>
 				<tbody>
 					<c:forEach var="freeBBS" items="${freeBBS}" begin="0" end="${freeBBSListPrintCount}">
 						<tr>
-							<td style="text-align: center;">
+							<td style="text-align: center; padding: 6px;">
 								<c:if test="${userID == 'admin'}">
 									<input type="checkbox" name="delCheck_id" id="delCheck_id" value="${freeBBS.bbsID}">
 								</c:if>
 								${freeBBS.bbsID} 
 							</td>
-							<td>
+							<td style="padding: 6px;">
 								<a href="freeBoardDetailController?id=${freeBBS.bbsID}">${freeBBS.bbsTitle}</a>
 								<c:if test="${freeBBS.commentCount != 0}">[${freeBBS.commentCount}]</c:if>	
 								<c:if test="${freeBBS.useImage == 1}"><img src="images/imageIcon.png"></c:if>						
 							</td>
-							<td style="text-align: center;">${freeBBS.nickName}</td>
-							<td style="text-align: center;">${freeBBS.bbsHit}</td>
-							<td style="text-align: center;">${freeBBS.bbsDate}</td>
+							<td style="text-align: center; padding: 6px;">${freeBBS.nickName}</td>
+							<td style="text-align: center; padding: 6px;">${freeBBS.bbsHit}</td>
+							<td style="text-align: center; padding: 6px;">${freeBBS.bbsDate}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -96,12 +95,17 @@
 			</div>	
 		</c:if>
 		<c:if test="${userID != 'admin'}">
-			<div style="text-align: right;">
-				<a href="write.jsp" class="btn btn-primary">글쓰기</a>
-			</div>	
+			<c:if test="${userID == 'guest'}">
+				<div style="text-align: right;">
+					<button onclick="guestWrite()" class="btn btn-primary">글쓰기</button>
+				</div>
+			</c:if>
+			<c:if test="${userID != 'guest'}">
+				<div style="text-align: right;">
+					<a href="write.jsp" class="btn btn-primary">글쓰기</a>
+				</div>
+			</c:if>
 		</c:if>
-		
-		
 		
 		<!-- 페이지번호 출력 -->
 		<!-- 파라미터로 들어오는 페이지 번호를 이용해 startNum값을 구함 -->
@@ -153,6 +157,11 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
 			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
 			crossorigin="anonymous">
+	</script>
+	<script type="text/javascript">
+		function guestWrite() {
+			alert('게스트 계정은 글작성이 불가능 합니다.');
+		}
 	</script>
 	<script type="text/javascript">
 		function deleteAll() {
