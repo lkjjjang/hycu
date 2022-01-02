@@ -100,24 +100,6 @@
 			</ul>
 		</div>		
 	</div>
-  		<!-- 
-  		${userID == 'admin'} 세션에 있는 유저 아이디
-  		넘어오는 목록${freeBBS} 
-  		<c:if test="${userID == 'admin'}">
-			<input type="checkbox" name="delCheck_id" id="delCheck_id" value="${freeBBS.bbsID}">
-		</c:if>
-		${freeBBS.bbsID} 
-		<a href="freeBoardDetailController?id=${freeBBS.bbsID}">${freeBBS.bbsTitle}</a>
-  		
-  		${freeBBS.nickName}
-  		${freeBBS.bbsHit}
-  		${freeBBS.bbsDate}
-  		
-  		-->
-		<!-- 페이지번호 출력 -->
-		<!-- 파라미터로 들어오는 페이지 번호를 이용해 startNum값을 구함 -->
-	
-	
 	
 	<footer class="bg-dark mt-4 p-5 text-center" style="color: #FFFFFF;">
 		Copyright &copy; 2021이기주All Rights Reserved.

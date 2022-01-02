@@ -26,7 +26,6 @@ public class VoteController extends HttpServlet{
 		
 		// json으로 넘어온 request를 gson이 분해하고 commentDTO를 생성
 		VoteDTO voteDTO = gson.fromJson(requestData, VoteDTO.class);
-		System.out.println(voteDTO);
 		
 		// ok 추천성공 no 이미추천함 error 데이터베이스 오류		
 		ResultCode rc = upvoteUpdate(voteDTO);		
@@ -36,8 +35,6 @@ public class VoteController extends HttpServlet{
 		VoteDAO voteDAO = new VoteDAO();
 		String upvoteCount = voteDAO.getUpvoteCount(voteDTO) + "";
 		String result = getJson(resultCode, upvoteCount);
-		
-		System.out.println(result);
 		
 		// 요청에 응답해줌
 		response.getWriter().write(result);	

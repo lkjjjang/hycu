@@ -39,8 +39,6 @@ public class ImgUpload extends HttpServlet{
 		
 		String userID = request.getParameter("userID");		
 		String orifileName = part.getSubmittedFileName();	
-		System.out.println("userID : " + userID);
-		System.out.println("orifileName : " + orifileName);
 		// 앞단에서 넘어온 파일을 받아옴
 		// summernote 자체에서 이미지외 파일은 걸러줌
 		InputStream fis = part.getInputStream();
@@ -49,8 +47,7 @@ public class ImgUpload extends HttpServlet{
 		// 기존 tempImg 폴더 하위에 userID 폴더를 만들어 이미지 저장 
 		// 만들어진 폴더는 글 생성시 삭제되고 파일들은 upload/일자 폴더로 이동
 		String directory = this.getServletContext().getRealPath("/tempImg/") + userID;
-		FileUtils fileUtils = new FileUtils(directory, orifileName);		
-		System.out.println("directory : " + directory);
+		FileUtils fileUtils = new FileUtils(directory, orifileName);	
 		
 		File folder = new File(directory);		
 		if (!folder.exists()) {
@@ -69,10 +66,8 @@ public class ImgUpload extends HttpServlet{
 
 		directory = fileUtils.getDirectory();
 		String newfileName = fileUtils.getFileName();
-		System.out.println("newfileName : " + newfileName);
 		// 경로설정시 경로구분자 사용, 최종 경로임
 		String filePath = directory + File.separator + newfileName;
-		System.out.println("filePath : " + filePath);
 		// 출력스트림을 이용 파일을 원하는 경로에 붙여넣음
 		FileOutputStream fos = new FileOutputStream(filePath);
 		try {

@@ -44,29 +44,27 @@
 	</nav>
 	<img src="images/hycu1.jpg" style="display: block; margin: 0 auto;">
 	<section class="container mt-3" style="max-width: 560px;">
-		<form method="post" action="loginController">
-			<div class="form-group">
-				<label>아이디</label>
-				<input type="text" name="userID" class="form-control">
-			</div>
-			<div class="form-group">
-				<label>비빌번호</label>
-				<input type="password" name="userPassword" class="form-control">
-			</div>
-			<div style="text-align: center;">
-				<input type="submit" class="btn btn-primary" value="로그인" />
-				<a href="userJoin.jsp"><input type="button" class="btn btn-primary" value="회원가입" /></a>
-			</div>
-		</form>		
+		<div class="form-group">
+			<label>아이디</label>
+			<input type="text" name="userID" id="id" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>비밀번호</label>
+			<input type="password" name="userPassword" id="password" class="form-control">
+		</div>
+		<div style="text-align: center;">
+			<button class="btn btn-primary" onclick="login()">로그인</button>
+			<a href="userJoin.jsp"><input type="button" class="btn btn-primary" value="회원가입" /></a>
+		</div>	
 	</section>
 
 	<footer class="bg-dark mt-4 p-5 text-center" style="color: #FFFFFF;">
 		Copyright &copy; 2021이기주All Rights Reserved.
 	</footer>
 	
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
-			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" 
-			crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.6.0.js"
+  			integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  			crossorigin="anonymous">
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
 			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
@@ -77,32 +75,53 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
-		
-	</script>
-	<script type="text/javascript">
-		window.onload = function() {
-			console.log('window.onload = function()');
-			mobileCheck();
+		function login() {
+			var devices = mobileCheck();
+			var id = document.getElementById('id').value;
+			var password = document.getElementById('password').value;
+			var data = {id: id, password: password, devices: devices}
+			$.ajax({
+				type: "post",
+				url: "loginController",
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(json) {
+					var result = json[0].resultCode;
+					if (result == 'ok') {
+						location.href = 'lectureBoardController?pageNumber=1';
+						return;
+					}
+					
+					if (result == 'unCheckedEmail') {
+						alert('이메일 인증 후 사용 가능합니다.')
+					} else if (result == 'wrongPass') {
+						alert('비밀번호가 틀렸습니다.')
+					} else if (result == 'wrongID') {
+						alert('존재하지 않는 아이디 입니다.')
+					} else if (result == 'wrongDB') {
+						alert('데이터 베이스 오류 입니다.')
+					} else {
+						alert('입력 안 된 사항이 있습니다.')
+					}
+					
+				},
+				error: function(json) {
+					alert('시스템 오류 입니다.')
+				}
+			});
 		}
 	</script>
 	<script type="text/javascript">
 		function mobileCheck() {
-			console.log('mobileCheck');
 			var uAgent = navigator.userAgent.toLowerCase(); 
 			var mobilePhones = new Array('iphone', 'ipod', 'ipad', 'android', 'blackberry', 'windows ce','nokia', 'webos', 'opera mini', 'sonyericsson', 'opera mobi', 'iemobile'); 
 			for (var i = 0; i < mobilePhones.length; i++){ 
 				if (uAgent.indexOf(mobilePhones[i]) != -1){ 
-					<%
-					 session.setAttribute("devices", "mobile");
-					%>
-					console.log('devices, mobile');
-					return;
+					return 'mobile';
 				} 
 			}
-			<%
-			 session.setAttribute("devices", "pc");
-			%>
-			console.log('devices, pc');
+			return 'pc';
 		}
 	</script>
 </body>
