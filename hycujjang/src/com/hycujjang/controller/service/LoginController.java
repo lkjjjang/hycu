@@ -19,7 +19,7 @@ import com.hycujjang.objectPack.user.UserDAO;
 public class LoginController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// {id: id, password: password, devices: devices} 넘어오는 형태
+		// {id: id, password: password} 넘어오는 형태
 		BufferedReader br = request.getReader();
 		String requestData = br.readLine();	
 		HashMap<String, String> requestMap = new HashMap<String, String>();
@@ -31,7 +31,6 @@ public class LoginController extends HttpServlet {
 		
 		String userID = requestMap.get("id");
 		String userPassword = requestMap.get("password");
-		String devices = requestMap.get("devices");
 		String resultJson = null;
 		
 		// 실제 로그인구현부분 
@@ -47,7 +46,6 @@ public class LoginController extends HttpServlet {
 				resultJson = parseJson("unCheckedEmail");
 			} else {
 				session.setAttribute("userID", userID);
-				session.setAttribute("devices", devices);
 				resultJson = parseJson("ok");
 			}
 		} else if (result == 0){

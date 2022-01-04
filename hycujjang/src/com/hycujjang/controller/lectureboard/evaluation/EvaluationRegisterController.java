@@ -1,7 +1,10 @@
 package com.hycujjang.controller.lectureboard.evaluation;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.Buffer;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,103 +19,62 @@ import com.hycujjang.objectPack.evaluation.EvaluationDTO;
 public class EvaluationRegisterController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userID = null;
-		String lectureName = null;
-		String professorName = null;
-		int lectureYear = 0;
-		String semesterDivide = null;
-	    String lectureDivide = null;
-		String evaluationTitle = null;
-		String evaluationContent = null;
-		String totalScore = null;
-		String creditScore = null;
-		String comfortableScore = null;
-		String lectureScore = null;
-		
-		if (request.getSession().getAttribute("userID") != null) {
-			userID = (String) request.getSession().getAttribute("userID");
+		BufferedReader br = request.getReader();
+		String requestJson = br.readLine();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map = getMap(requestJson);
+		if (map == null) {
+			response.getWriter().write(parseJson("isNull"));
 		}
 		
-		if (request.getParameter("lectureName") != null) {
-			lectureName = request.getParameter("lectureName");
-		}
-		
-		if (request.getParameter("professorName") != null) {
-			professorName = request.getParameter("professorName");
-		}
-		
-		if (request.getParameter("lectureYear") != null) {
-			try {
-				lectureYear = Integer.parseInt(request.getParameter("lectureYear"));
-			} catch (Exception e) {
-				System.out.print("강의년도 데이터 오류");
-			}
-		}
-		
-		if (request.getParameter("semesterDivide") != null) {
-			semesterDivide = request.getParameter("semesterDivide");
-		}
-		
-		if (request.getParameter("lectureDivide") != null) {
-			lectureDivide = request.getParameter("lectureDivide");
-		}
-		
-		if (request.getParameter("evaluationTitle") != null) {
-			evaluationTitle = request.getParameter("evaluationTitle");
-		}
-		
-		if (request.getParameter("evaluationContent") != null) {
-			evaluationContent = request.getParameter("evaluationContent");
-		}
-		
-		if (request.getParameter("totalScore") != null) {
-			totalScore = request.getParameter("totalScore");
-		}
-		
-		if (request.getParameter("creditScore") != null) {
-			creditScore = request.getParameter("creditScore");
-		}
-		
-		if (request.getParameter("comfortableScore") != null) {
-			comfortableScore = request.getParameter("comfortableScore");
-		}
-		
-		if (request.getParameter("lectureScore") != null) {
-			lectureScore = request.getParameter("lectureScore");
-		}
-		
-		if (lectureName == null || professorName == null || lectureYear == 0 
-				|| semesterDivide == null || lectureDivide == null || evaluationTitle == null 
-				|| evaluationContent == null || totalScore == null || creditScore == null 
-				|| comfortableScore == null || lectureScore == null
-				|| evaluationTitle.equals("") || evaluationContent.equals("")) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('입력이 안 된 사항이 있습니다.');");
-			script.println("history.back();");
-			script.println("</script>");
-			script.close();
-			return;
-		}
+		String userID = (String) request.getSession().getAttribute("userID");
+		String lectureName = map.get("lectureName");
+		String professorName = map.get("professorName");
+		int lectureYear = Integer.parseInt(map.get("lectureYear"));
+		String semesterDivide = map.get("semesterDivide");
+		String lectureDivide = map.get("lectureDivide");
+		String evaluationTitle = map.get("evaluationTitle");
+		String evaluationContent = map.get("evaluationContent");
+		String totalScore = map.get("totalScore");
+		String creditScore = map.get("creditScore");
+		String comfortableScore = map.get("comfortableScore");
+		String lectureScore = map.get("lectureScore");
 		
 		EvaluationDAO evaluationDAO = new EvaluationDAO();
-		EvaluationDTO evaluationDTO = new EvaluationDTO(0, userID, lectureName, professorName, lectureYear, 
-				semesterDivide, lectureDivide, evaluationTitle, evaluationContent, 
+		EvaluationDTO evaluationDTO = new EvaluationDTO(0, userID, lectureName, professorName, lectureYear,
+				semesterDivide, lectureDivide, evaluationTitle, evaluationContent,
 				totalScore, creditScore, comfortableScore, lectureScore, 0);
-		int result = evaluationDAO.write(evaluationDTO);
-		PrintWriter script = response.getWriter();
-		if (result == -1) {
-			script.println("<script>");
-			script.println("alert('강의평가 등록에 실패 했습니다.');");
-			script.println("history.back();");
-			script.println("</script>");
-			script.close();
+		int writeResult = evaluationDAO.write(evaluationDTO);
+		if (writeResult == 1) {
+			response.getWriter().write("[{\"resultCode\":\"ok\"}]");
 		} else {
-			script.println("<script>");
-			script.println("alert('정상적으로 등록 되었습니다.');");
-			script.println("location.href='lectureBoardController'");
-			script.println("</script>");
-			script.close();
+			response.getWriter().write("[{\"resultCode\":\"error\"}]");
 		}
+	}
+	
+	private HashMap<String, String> getMap(String json) {	
+		HashMap<String, String> result = new HashMap<String, String>();
+		String markRemove = json.replace("{", "").replace("}", "").replace("\"", "");
+		String[] split = markRemove.split(",");
+		
+		for (String cha: split) {
+			String[] sp = cha.split(":");
+			if (sp.length == 1) {
+				return null;
+			}
+			// 스플릿 하면서 value 가 없을떈 생성자체가 안되니 null체크 안해도 됨
+			result.put(sp[0], sp[1]);
+		}
+
+		return result;
+	}
+	
+	private String parseJson(String resultCode) {		
+		StringBuilder sb = new StringBuilder();
+		sb.append("[{\"resultCode\":\"");
+		sb.append(resultCode);
+		sb.append("\"}]");
+		
+		return sb.toString();
 	}
 }

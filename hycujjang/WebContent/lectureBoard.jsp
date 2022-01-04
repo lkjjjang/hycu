@@ -86,37 +86,32 @@
 					</h5>
 					<p class="card-text">${evaluationList.evaluationContent}</p>
 					<div class="row">
-						<div class="col-9 text-left">
+						<div class="col-md-9 text-left">
 							성적<span style="color: red;">${evaluationList.creditScore}</span>
 							널널<span style="color: red;">${evaluationList.comfortableScore}</span>
 							강의<span style="color: red;">${evaluationList.lectureScore}</span>
 							<span style="color: green;">(추천: ${evaluationList.likeCount})</span>
 						</div>
-						<div class="col-3 text-right">
-							<form method="post" action="updateModal">
-								<a onclick="return confirm('추천하시겠습니까?')" 
-									href="likecontroller?evaluationID=${evaluationList.evaluationID}&lectureDivide=${param.lectureDivide}&searchType=${param.searchType}&search=${param.search}&pageNumber=${param.pageNumber}">추천</a>
-								
-								<c:set var="sessionID" value="${userID}"></c:set>
-								<c:set var="writerID" value="${evaluationList.userID}"></c:set>
-								<c:if test="${sessionID == writerID}">
-									<a onclick="return confirm('삭제하시겠습니까?')" 
-										href="evaluationDeleteController?evaluationID=${evaluationList.evaluationID}&lectureDivide=${param.lectureDivide}&searchType=${param.searchType}&search=${param.search}&pageNumber=${param.pageNumber}">삭제</a>
-										<input type="hidden" name="lectureName" value="${evaluationList.lectureName}">
-										<input type="hidden" name="professorName" value="${evaluationList.professorName}">
-										<input type="hidden" name="totalScore" value="${evaluationList.totalScore}">
-										<input type="hidden" name="evaluationTitle" value="${evaluationList.evaluationTitle}">
-										<input type="hidden" name="lectureYear" value="${evaluationList.lectureYear}">
-										<input type="hidden" name="semesterDivide" value="${evaluationList.semesterDivide}">
-										<input type="hidden" name="evaluationContent" value="${evaluationList.evaluationContent}">
-										<input type="hidden" name="evaluationID" value="${evaluationList.evaluationID}">
-										<input type="hidden" name="creditScore" value="${evaluationList.creditScore}">
-										<input type="hidden" name="comfortableScore" value="${evaluationList.comfortableScore}">
-										<input type="hidden" name="lectureScore" value="${evaluationList.lectureScore}">
-										<input type="hidden" name="lectureDivide" value="${evaluationList.lectureDivide}">
-									<button type="submit" class="btn btn-primary">수정</button>
-								</c:if>
-							</form>
+						<div class="col-md-3 text-right">
+							<a onclick="like(${evaluationList.evaluationID}); return false;" href="#">추천</a>
+							<c:set var="sessionID" value="${userID}"></c:set>
+							<c:set var="writerID" value="${evaluationList.userID}"></c:set>
+							<c:if test="${sessionID == writerID}">
+								<a onclick="cardDelete(${evaluationList.evaluationID}); return false;" href="#">삭제</a>
+									<input type="hidden" name="lectureName" value="${evaluationList.lectureName}">
+									<input type="hidden" name="professorName" value="${evaluationList.professorName}">
+									<input type="hidden" name="totalScore" value="${evaluationList.totalScore}">
+									<input type="hidden" name="evaluationTitle" value="${evaluationList.evaluationTitle}">
+									<input type="hidden" name="lectureYear" value="${evaluationList.lectureYear}">
+									<input type="hidden" name="semesterDivide" value="${evaluationList.semesterDivide}">
+									<input type="hidden" name="evaluationContent" value="${evaluationList.evaluationContent}">
+									<input type="hidden" name="evaluationID" value="${evaluationList.evaluationID}">
+									<input type="hidden" name="creditScore" value="${evaluationList.creditScore}">
+									<input type="hidden" name="comfortableScore" value="${evaluationList.comfortableScore}">
+									<input type="hidden" name="lectureScore" value="${evaluationList.lectureScore}">
+									<input type="hidden" name="lectureDivide" value="${evaluationList.lectureDivide}">
+								<a type="submit" href="#registerModal">수정</a>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -170,27 +165,26 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form action="evaluationRegisterController" method="post">
 						<div class="form-row">
 							<div class="form-group col-sm-6">
 								<label>강의명</label>
-								<input type="text" name="lectureName" class="form-control" maxlength="20">
+								<input type="text" name="lectureName" id="lectureName" class="form-control" maxlength="20">
 							</div>
 							<div class="form-group col-sm-6">
 								<label>교수명</label>
-								<input type="text" name="professorName" class="form-control" maxlength="20">
+								<input type="text" name="professorName" id="professorName" class="form-control" maxlength="20">
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-sm-4">
 								<label>수강 연도</label>
-								<select name="lectureYear" class="form-control">
+								<select name="lectureYear" id="lectureYear" class="form-control">
 									<option value="2017">2017</option>
 									<option value="2018">2018</option>
 									<option value="2019">2019</option>
 									<option value="2020">2020</option>
-									<option value="2021" selected>2021</option>
-									<option value="2022">2022</option>
+									<option value="2021">2021</option>
+									<option value="2022" selected>2022</option>
 									<option value="2023">2023</option>
 									<option value="2023">2024</option>
 									<option value="2023">2025</option>
@@ -199,7 +193,7 @@
 							</div>
 							<div class="form-group col-sm-4">
 								<label>수강 학기</label>
-								<select name="semesterDivide" class="form-control">
+								<select name="semesterDivide" id="semesterDivide" class="form-control">
 									<option value="1학기" selected>1학기</option>
 									<option value="여름학기">여름학기</option>
 									<option value="2학기">2학기</option>
@@ -208,7 +202,7 @@
 							</div>
 							<div class="form-group col-sm-4">
 								<label>강의 구분</label>
-								<select name="lectureDivide" class="form-control">
+								<select name="lectureDivide" id="lectureDivide" class="form-control">
 									<option value="전공" selected>전공</option>
 									<option value="교양">교양</option>
 									<option value="기타">기타</option>
@@ -217,16 +211,16 @@
 						</div>
 						<div class="form-group">
 							<label>제목</label>
-							<input type="text" name="evaluationTitle" class="form-control" maxlength="30">
+							<input type="text" name="evaluationTitle" id="evaluationTitle" class="form-control" maxlength="30">
 						</div>
 						<div class="form-group">
 							<label>내용</label>
-							<textarea name="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
+							<textarea name="evaluationContent" id="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-sm-3">
 								<label>종합</label>
-								<select name="totalScore" class="form-control">
+								<select name="totalScore" id="totalScore" class="form-control">
 									<option value="A" selected>A</option>
 									<option value="B">B</option>
 									<option value="C">C</option>
@@ -236,7 +230,7 @@
 							</div>
 							<div class="form-group col-sm-3">
 								<label>성적</label>
-								<select name="creditScore" class="form-control">
+								<select name="creditScore" id="creditScore" class="form-control">
 									<option value="A" selected>A</option>
 									<option value="B">B</option>
 									<option value="C">C</option>
@@ -246,7 +240,7 @@
 							</div>
 							<div class="form-group col-sm-3">
 								<label>널널</label>
-								<select name="comfortableScore" class="form-control">
+								<select name="comfortableScore" id="comfortableScore" class="form-control">
 									<option value="A" selected>A</option>
 									<option value="B">B</option>
 									<option value="C">C</option>
@@ -256,7 +250,7 @@
 							</div>
 							<div class="form-group col-sm-3">
 								<label>강의</label>
-								<select name="lectureScore" class="form-control">
+								<select name="lectureScore" id="lectureScore" class="form-control">
 									<option value="A" selected>A</option>
 									<option value="B">B</option>
 									<option value="C">C</option>
@@ -267,9 +261,8 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-							<button type="submit" class="btn btn-primary">등록하기</button>
+							<button onclick="register()" class="btn btn-primary">등록하기</button>
 						</div>
-					</form>
 				</div>
 			</div>
 		</div>
@@ -308,9 +301,9 @@
 		Copyright &copy; 2021이기주All Rights Reserved.
 	</footer>
 		
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
-			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" 
-			crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.6.0.js"
+  			integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  			crossorigin="anonymous">
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
 			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
@@ -321,24 +314,117 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
+		function cardDelete(id) {
+			if (confirm("삭제하시겠습니까?")) {
+				console.log(id);
+				var data = {id: id}
+				$.ajax({
+					type: "post",
+					url: "evaluationDeleteController",
+					data: JSON.stringify(data),
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					
+					success: function(json) {
+						if (json[0].resultCode == 'ok') {
+							location.reload();
+						} else {
+							alert('데이터 베이스 오류 입니다.');
+							location.reload();
+						}
+					},
+					error: function(json) {
+						alert('시스템 오류 입니다.')
+					}
+				});
+			}
+		}
+	</script>
+	<script type="text/javascript">
+		function like(id) {
+			var data = {id: id}
+			$.ajax({
+				type: "post",
+				url: "likecontroller",
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				
+				success: function(json) {
+					if (json[0].resultCode == 'ok') {
+						alert('추천 하였습니다.')
+						location.reload();
+					} else if (json[0].resultCode == 'hasLike'){
+						alert('이미 추천을 누른 글 입니다.')
+					} else {
+						alert('데이터 베이스 오류 입니다.');
+						location.reload();
+					}
+				},
+				error: function(json) {
+					alert('시스템 오류 입니다.')
+				}
+			});
+		}
+	</script>
+	<script type="text/javascript">
+	function register() {
+		var lectureName = document.getElementById("lectureName").value;	
+		var professorName = document.getElementById("professorName").value;	
+		var totalScore = document.getElementById("totalScore").value;	
+		var evaluationTitle = document.getElementById("evaluationTitle").value;	
+		var lectureYear = document.getElementById("lectureYear").value;	
+		var semesterDivide = document.getElementById("semesterDivide").value;	
+		var evaluationContent = document.getElementById("evaluationContent").value;	
+		var creditScore = document.getElementById("creditScore").value;	
+		var comfortableScore = document.getElementById("comfortableScore").value;	
+		var lectureScore = document.getElementById("lectureScore").value;	
+		var lectureDivide = document.getElementById("lectureDivide").value;
+		
+		var data = {
+				lectureName: lectureName,
+				professorName: professorName,
+				totalScore: totalScore,
+				evaluationTitle: evaluationTitle,
+				lectureYear: lectureYear,
+				semesterDivide: semesterDivide,
+				evaluationContent: evaluationContent,
+				creditScore: creditScore,
+				comfortableScore: comfortableScore,
+				lectureScore: lectureScore,
+				lectureDivide: lectureDivide
+			}
+		$.ajax({
+			type: "post",
+			url: "evaluationRegisterController",
+			data: JSON.stringify(data),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			
+			success: function(json) {
+				if (json[0].resultCode == 'ok') {
+					location.reload();
+				} else if (json[0].resultCode == 'isNull'){
+					alert('입력하지 않은 사항이 있습니다.')
+				} else {
+					alert('데이터 베이스 오류 입니다.');
+					location.reload();
+				}
+			},
+			error: function(json) {
+				alert('시스템 오류 입니다.')
+			}
+		});
+	}
+	
+	</script>
+	<script type="text/javascript">
 		function guest(){
 			alert('게스트계정은 사용할 수 없습니다.');
 		}
 	</script>	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

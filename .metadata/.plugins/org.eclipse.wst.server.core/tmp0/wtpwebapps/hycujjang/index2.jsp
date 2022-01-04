@@ -75,6 +75,30 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
+		window.onload = function() {
+			mobileCheck();
+		};
+		
+		function mobileCheck() {
+			var device = 'pc';
+			var uAgent = navigator.userAgent.toLowerCase(); 
+			var mobilePhones = new Array('iphone', 'ipod', 'ipad', 'android', 'blackberry', 'windows ce','nokia', 'webos', 'opera mini', 'sonyericsson', 'opera mobi', 'iemobile'); 
+			for (var i = 0; i < mobilePhones.length; i++){ 
+				if (uAgent.indexOf(mobilePhones[i]) != -1){ 
+					device = 'mobile';
+				} 
+			}
+			var data = {device: device}
+			$.ajax({
+				type: "post",
+				url: "deviceUpdate",
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+			});
+		}
+	</script>
+	<script type="text/javascript">
 		function login() {
 			var devices = mobileCheck();
 			var id = document.getElementById('id').value;
@@ -104,24 +128,11 @@
 					} else {
 						alert('입력 안 된 사항이 있습니다.')
 					}
-					
 				},
 				error: function(json) {
 					alert('시스템 오류 입니다.')
 				}
 			});
-		}
-	</script>
-	<script type="text/javascript">
-		function mobileCheck() {
-			var uAgent = navigator.userAgent.toLowerCase(); 
-			var mobilePhones = new Array('iphone', 'ipod', 'ipad', 'android', 'blackberry', 'windows ce','nokia', 'webos', 'opera mini', 'sonyericsson', 'opera mobi', 'iemobile'); 
-			for (var i = 0; i < mobilePhones.length; i++){ 
-				if (uAgent.indexOf(mobilePhones[i]) != -1){ 
-					return 'mobile';
-				} 
-			}
-			return 'pc';
 		}
 	</script>
 </body>

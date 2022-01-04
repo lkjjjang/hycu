@@ -1,0 +1,106 @@
+package com.hycujjang.controller.lectureboard.evaluation;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.Buffer;
+import java.util.HashMap;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.hycujjang.objectPack.evaluation.EvaluationDAO;
+import com.hycujjang.objectPack.evaluation.EvaluationDTO;
+
+@WebServlet("/evaluationRegisterController")
+public class EvaluationRegisterController extends HttpServlet{
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		BufferedReader br = request.getReader();
+		String requestJson = br.readLine();
+		String resultCode = null;
+		System.out.println(requestJson);
+		
+		HashMap<String, String> map = new HashMap<>();
+		map = getMap(requestJson);
+		if (map == null) {
+			resultCode = parseJson("isNull");
+			response.getWriter().write(resultCode);
+			return;
+		}
+		
+		String userID = (String) request.getSession().getAttribute("userID");
+		String lectureName = map.get("lectureName");
+		String professorName = map.get("professorName");
+		String lectureYear = map.get("lectureYear");
+		String semesterDivide = map.get("semesterDivide");
+		String lectureDivide = map.get("lectureDivide");
+		String evaluationTitle = map.get("evaluationTitle");
+		String evaluationContent = map.get("evaluationContent");
+		String totalScore = map.get("totalScore");
+		String creditScore = map.get("creditScore");
+		String comfortableScore = map.get("comfortableScore");
+		String lectureScore = map.get("lectureScore");
+		String evaluationID = map.get("evaluationID");
+		String regDivide = null;
+		
+		int evalID = Integer.parseInt(evaluationID);
+		int year = Integer.parseInt(lectureYear);
+		
+		if (evalID == 0) {
+			regDivide = "register";
+		} else {
+			regDivide = "update";
+		}
+		
+		EvaluationDAO evaluationDAO = new EvaluationDAO();
+		EvaluationDTO evaluationDTO = new EvaluationDTO(evalID, userID, lectureName, professorName, year, 
+				semesterDivide, lectureDivide, evaluationTitle, evaluationContent, 
+				totalScore, creditScore, comfortableScore, lectureScore, 0);
+		
+		System.out.println(evaluationDTO);
+		int result = 0;
+		if (regDivide.equals("register")) {
+			evaluationDAO.write(evaluationDTO);
+		} else {
+			evaluationDAO.update(evaluationDTO);
+		}
+		
+		if (result == -1) {
+			resultCode = parseJson("error");
+		} else {
+			resultCode = parseJson("ok");
+		}
+		
+		response.getWriter().write(resultCode);
+	}
+	
+	private HashMap<String, String> getMap(String json) {	
+		HashMap<String, String> result = new HashMap<String, String>();
+		String markRemove = json.replace("{", "").replace("}", "").replace("\"", "");
+		String[] split = markRemove.split(",");
+		
+		for (String cha: split) {
+			String[] sp = cha.split(":");
+			if (sp.length == 1) {
+				return null;
+			}
+			// 스플릿 하면서 value 가 없을떈 생성자체가 안되니 null체크 안해도 됨
+			result.put(sp[0], sp[1]);
+		}
+
+		return result;
+	}
+	
+	private String parseJson(String resultCode) {		
+		StringBuilder sb = new StringBuilder();
+		sb.append("[{\"resultCode\":\"");
+		sb.append(resultCode);
+		sb.append("\"}]");
+		
+		return sb.toString();
+	}
+}

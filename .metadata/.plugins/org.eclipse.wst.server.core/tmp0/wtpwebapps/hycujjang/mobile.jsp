@@ -55,6 +55,11 @@
 	</h1>
 		
 	<div class="container">
+		<div class="row">
+			<div class="col-12" style="text-align: right">
+				글쓰기			
+			</div>
+		</div>
 		<c:forEach var="freeBBS" items="${freeBBS}" begin="0" end="${freeBBSListPrintCount}">			
 			<div class="row" style="height: auto; width: 100%; border-bottom:1px solid silver; padding: 6px;"> 
 				<div class="col-12">

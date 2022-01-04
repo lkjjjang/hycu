@@ -1,13 +1,16 @@
 package com.hycujjang.controller.service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.hycujjang.objectPack.user.UserDAO;
 
@@ -21,7 +24,7 @@ public class IndexController extends HttpServlet{
 			UserDAO userDAO = new UserDAO();
 			if (!userDAO.hasEmailChecked(userID)) {
 				pageBack(response, "이메일 인증 후 사용 가능합니다.");
-			}	
+			}
 			response.sendRedirect("lectureBoardController?pageNumber=1");
 		} else {
 			response.sendRedirect("index2.jsp");

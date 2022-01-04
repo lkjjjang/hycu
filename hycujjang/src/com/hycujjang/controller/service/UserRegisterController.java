@@ -29,37 +29,18 @@ public class UserRegisterController extends HttpServlet {
 		BufferedReader br = request.getReader();
 		String requestJson = br.readLine();
 		HashMap<String, String> requestMap = jsonParse(requestJson);
-		if (requestMap == null) {
-			response.getWriter().write(getResultJson("null"));
-			return;
-		}
 		
 		String result = null;
 		if (requestMap.get("requestCode").equals("idCheck")) {
-			if (isWhiteSpace(requestMap.get("id"))) {
-				response.getWriter().write(getResultJson("null"));
-				return;
-			}
 			// 중복이면 false
 			if (idCheck(requestMap)) {
-				result = getResultJson("Available");
+				result = getResultJson("ok");
 			} else {
-				result = getResultJson("unAvailable");
+				result = getResultJson("error");
 			}
 			response.getWriter().write(result);
 			return;
 		} 
-		
-		int checkResult = inputCheck(requestMap);
-		if (checkResult != 1) {
-			if (checkResult == -1) {
-				result = getResultJson("null");
-			} else if (checkResult == -2) {
-				result = getResultJson("email");
-			}
-			response.getWriter().write(result);
-			return;
-		}
 		
 		String userID = requestMap.get("id");
 		String pass = requestMap.get("pass");
@@ -74,46 +55,11 @@ public class UserRegisterController extends HttpServlet {
 			user.join(userDTO);
 			HttpSession session = request.getSession();
 			session.setAttribute("userID", userID);
-			result = getResultJson("sendMailok");
+			result = getResultJson("ok");
 		} else {
-			result = getResultJson("sendMailError");
+			result = getResultJson("error");
 		}	
 		response.getWriter().write(result);
-	}
-	
-	
-	private int inputCheck(HashMap<String, String> map) {
-		String id = map.get("id").replace("\"", "");
-		String pass = map.get("pass").replace("\"", "");
-		String email = map.get("email").replace("\"", "");
-		
-		
-		if (id.equals("") || pass.equals("") || email.equals("")) {
-			return -1;
-		}
-		
-		// 학교 이메일 검사
-		/*
-		String[] mailCheck = email.split("@");
-		if (!mailCheck[1].equals("hycu.ac.kr")) {
-			return -2;
-		}*/
-		return 1;
-	}
-	
-	private boolean isWhiteSpace(String str) {
-		if (str.contains(" ")) {
-			return true;
-		}
-		
-		if (str.replace(" ", "").length() == 0) {
-			return true;
-		}
-		
-		if (str.trim().length() == 0) {
-			return true;
-		}
-		return false;
 	}
 	
 	private boolean idCheck(HashMap<String, String> map) {
@@ -127,7 +73,7 @@ public class UserRegisterController extends HttpServlet {
 	}
 	
 	private HashMap<String, String> jsonParse(String json) {
-		// 앞에서 넘겨준 데이터 형식 {id: commnetID, password: password}	
+		// 앞에서 넘겨준 데이터 형식 {"id":"1111111","pass":"11111111","email":"2021100346@hycu.ac.kr"}
 		HashMap<String, String> result = new HashMap<String, String>();
 		System.out.println(json);
 		String markRemove = json.replace("{", "").replace("}", "").replace("\"", "");
@@ -135,6 +81,8 @@ public class UserRegisterController extends HttpServlet {
 		
 		for (String cha: split) {
 			String[] sp = cha.split(":");
+			System.out.println("sp0 : " + sp[0]);
+			System.out.println("sp1 : " + sp[1]);
 			if (sp.length == 1) {
 				System.out.println("ddd");
 				return null;
@@ -143,13 +91,4 @@ public class UserRegisterController extends HttpServlet {
 		}
 		return result;
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
 }

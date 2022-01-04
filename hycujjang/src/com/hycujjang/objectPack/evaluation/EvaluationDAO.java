@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import com.hycujjang.controller.lectureboard.LectureBoardController;
+import com.hycujjang.objectPack.likey.LikeyDTO;
 import com.hycujjang.util.DatabaseUtil;
 
 public class EvaluationDAO {
@@ -63,7 +64,7 @@ public class EvaluationDAO {
 			pstmt.setString(10, evaluationDTO.getCreditScore().replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
 			pstmt.setString(11, evaluationDTO.getComfortableScore().replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
 			pstmt.setString(12, evaluationDTO.getLectureScore().replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
-			
+			System.out.println(SQL);
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -167,7 +168,7 @@ public class EvaluationDAO {
 		return -1; //데이터베이스 오류
 	}
 	
-	public int like(String evaluationID) {
+	public int like(LikeyDTO likeyDTO) {
 		String SQL = "UPDATE LECTURE_EVALUATION SET likeCount = likeCount + 1 WHERE evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -175,7 +176,7 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, Integer.parseInt(evaluationID));
+			pstmt.setInt(1, likeyDTO.getEvaluationID());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

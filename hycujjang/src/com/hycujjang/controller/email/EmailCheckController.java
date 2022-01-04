@@ -28,12 +28,6 @@ public class EmailCheckController extends HttpServlet {
 		String code = request.getParameter("code");
 		String userEmail = userDAO.getUserEmail(userID);
 		
-		if (userEmail == null) {
-			userDAO.delete(userID);
-			session.removeAttribute("userID");
-			pageBack(response, "데이터베이스 오류 입니다.");
-		}
-		
 		if (SHA256.getSHA256(userEmail).equals(code)) {
 			userDAO.setUserEmailChecked(userID);
 			pageBack(response, "인증에 성공했습니다.", "index.jsp");

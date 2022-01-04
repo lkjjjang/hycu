@@ -54,7 +54,7 @@
 				<label>아이디</label>
 				<div class="row">
 					<div class="col-md-10">
-						<input type="text" name="userID" id="id" class="form-control" placeholder="아이디를 입력하세요 (모든 게시글은 익명 입니다.)">
+						<input type="text" name="userID" id="id" class="form-control" onchange="idAvailableCheck()" placeholder="아이디를 입력하세요 (모든 게시글은 익명 입니다.)">
 					</div>
 					<div class="col-md-2">
 						<button class="btn btn-primary" onclick="idCheck()">확인</button>
@@ -95,7 +95,26 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
-		function sendController(data) {
+		var idAvailable = false;
+		function register() {
+			var id = document.getElementById("id").value;
+			var pass = document.getElementById("pass_1").value;
+			var email = document.getElementsByName('email')[0].value;
+			
+			if (!idAvailable) {
+				alert('아이디 중복체크 안되었습니다.');
+				return;
+			}
+			
+			if (!checkUserId(id) || !checkPassword(id, pass) || !checkMail(email)) {
+				return;
+			}
+			
+			var data = {'requestCode': 'register', 'id': id, 'pass': pass, 'email': email}
+			emailSend(data)
+		}
+		
+		function emailSend(data) {
 			var result;
 			$.ajax({
 				type: "post",
@@ -105,7 +124,31 @@
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
 				success: function(json) {
-					result = json;
+					if (json[0].resultCode == 'ok') {
+						alert('메일이 발송 되었습니다. 잠시만 기다려 주세요');
+						location.href="emailSendAction.jsp";
+					} else {
+						alert('시스템 오류 입니다. 처음부터 다시 진행 부탁드립니다.');
+						location.href="index.jsp";
+					}
+				},
+				error: function(json) {
+					alert('시스템 오류 입니다.')
+				}
+			});
+		}
+		
+		function idTest(data) {
+			var result;
+			$.ajax({
+				type: "post",
+				url: "userRegisterController",
+				data: JSON.stringify(data),
+				async: false,
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(json) {
+					result = json[0].resultCode
 				},
 				error: function(json) {
 					alert('시스템 오류 입니다.')
@@ -114,44 +157,44 @@
 			return result;
 		}
 		
-		function register() {
-			var data = {requestCode: 'register', 
-					id: document.getElementById("id").value,
-					pass: document.getElementById("pass_1").value,
-					email: document.getElementsByName('email')[0].value
-			}		
-			
-			var response = sendController(data);
-			if (response[0].resultCode == 'null') {
-				alert('입력 안 된 사항이 있습니다.');
-			} else if (response[0].resultCode == 'email') {
-				alert('한사대 이메일만 사용 가능합니다.');
-			} else {
-				location.href="emailSendAction.jsp";
-			}
-		}
-		
 		function idCheck() {
-			var data = {requestCode: 'idCheck', id: document.getElementById("id").value}	
-			var response = sendController(data);
-			if (response[0].resultCode == 'null') {
-				alert('공백은 사용 할수 없습니다.');
-			} else if (response[0].resultCode == 'Available') {
+			var id = document.getElementById("id").value;
+			if (id.length == 0 || id.length == "") {
+				alert('아이디 형식이 잘못되었습니다.');
+				return;
+			}
+			
+			var data = {requestCode: 'idCheck', id: id}	
+			var result = idTest(data);
+			if (result == 'ok') {
 				alert('사용 가능합니다.');
-			} else if (response[0].resultCode == 'unAvailable') {
+				idAvailable = true;
+			} else {
 				alert('사용중인 아이디 입니다.');
 			}
 		}
 		
+		function idAvailableCheck() {
+			var id = document.getElementById('id').value;
+			if (id.length < 6 || id.length > 12) {
+		        alert('아이디는 6글자 이상, 12글자 이하만 이용 가능합니다.');
+			}
+		}
+		
 		function isSame() {
+			var id = document.getElementById('id').value;
 			var pass1 = document.getElementById('pass_1').value;
+			if (id == pass1) {
+				alert('아이디와 비밀번호는 같을 수 없습니다!');
+			}
+			
 		    if (pass1.length < 6 || pass1.length > 16) {
-		        window.alert('비밀번호는 6글자 이상, 16글자 이하만 이용 가능합니다.');
+		        alert('비밀번호는 6글자 이상, 16글자 이하만 이용 가능합니다.');
 		        document.getElementById('pass_1').value=document.getElementById('pass_2').value='';
 		        document.getElementById('same').innerHTML='';
 		    }
-		    if(document.getElementById('pass_1').value!='' && document.getElementById('pass_2').value!='') {
-		        if(document.getElementById('pass_1').value==document.getElementById('pass_2').value) {
+		    if (document.getElementById('pass_1').value!='' && document.getElementById('pass_2').value!='') {
+		        if (document.getElementById('pass_1').value==document.getElementById('pass_2').value) {
 		            document.getElementById('same').innerHTML='비밀번호가 일치합니다.';
 		            document.getElementById('same').style.color='blue';
 		        }
@@ -161,6 +204,63 @@
 		        }
 		    }
 		}
+		
+		function checkExistData(value, dataName) {
+	        if (value == "") {
+	            alert(dataName + " 입력해주세요!");
+	            return false;
+	        }
+	        return true;
+	    }
+		
+		function checkUserId(id) {
+	        if (!checkExistData(id, "아이디를"))
+	            return false;
+	 
+	        var idRegExp = /^[a-zA-z0-9]{4,12}$/;
+	        if (!idRegExp.test(id)) {
+	            alert("아이디는 영문 대소문자와 숫자 6~12자리로 입력해야합니다!");
+	            form.userId.value = "";
+	            form.userId.focus();
+	            return false;
+	        }
+	        return true;
+	    }
+		
+		function checkPassword(id, password) {
+	        if (!checkExistData(password, "비밀번호를")) {
+	        	return false;
+	        }
+	        
+	        if (password.length < 6 || password.length > 16) {
+	        	 alert("비밀번호는 6글자 이상, 16글자 이하만 이용 가능합니다.");
+		         return false;
+	        }
+	 
+	        if (id == password) {
+	            alert("아이디와 비밀번호는 같을 수 없습니다!");
+	            return false;
+	        }
+	        return true;
+	    }
+		
+		function checkMail(mail) {
+	        if (!checkExistData(mail, "이메일을"))
+	            return false;
+	 
+	        var emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}[.]{1}[A-Za-z]{1,3}$/;
+	        if (!emailRegExp.test(mail)) {
+	            alert("이메일 형식이 올바르지 않습니다!");
+	            return false;
+	        }
+	        
+	        var mailSp = mail.split('@');
+	        if (mailSp[1] != 'hycu.ac.kr') {
+	        	alert("한사대 이메일만 사용 가능합니다.");
+	        	return false;
+	        }
+	        return true;
+	    }
 	</script>
 </body>
 </html>

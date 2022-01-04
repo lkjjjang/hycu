@@ -4,7 +4,6 @@
 <fullyQualifiedTypeName name="javax.mail.Transport"/>
 <fullyQualifiedTypeName name="com.hycujjang.controller.service.EmailSend"/>
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.user.UserDTO"/>
-<fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="com.hycujjang.enumCollection.UserRegisterEnum"/>
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.user.UserDAO"/>
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
@@ -12,10 +11,18 @@
 <fullyQualifiedTypeName name="com.hycujjang.controller.email.EmailSendController"/>
 <fullyQualifiedTypeName name="javax.servlet.ServletContext"/>
 <fullyQualifiedTypeName name="org.apache.coyote.http11.Http11AprProtocol"/>
-<fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
-<fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.freeBBS.BbsDAO"/>
 <fullyQualifiedTypeName name="java.lang.IncompatibleClassChangeError"/>
-<fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.freeBBS.BbsDTO"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.google.gson.reflect.TypeToken"/>
+<fullyQualifiedTypeName name="java.nio.Buffer"/>
+<fullyQualifiedTypeName name="java.io.BufferedReader"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.lang.Exception"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
+<fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
+<fullyQualifiedTypeName name="com.hycujjang.objectPack.evaluation.EvaluationDTO"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="com.hycujjang.objectPack.evaluation.EvaluationDAO"/>
 </qualifiedTypeNameHistroy>

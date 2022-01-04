@@ -39,6 +39,45 @@ public class EvaluationDTO {
 		this.lectureScore = lectureScore;
 		this.likeCount = likeCount;
 	}
+	public boolean isWhiteSpace() {
+		if (this.userID == null || this.userID.equals("")) {
+			return true;
+		}
+		if (this.lectureName == null || this.lectureName.equals("")) {
+			return true;
+		}
+		if (this.professorName == null || this.professorName.equals("")) {
+			return true;
+		}
+		if (this.semesterDivide == null || this.semesterDivide.equals("")) {
+			return true;
+		}
+		if (this.lectureDivide == null || this.lectureDivide.equals("")) {
+			return true;
+		}
+		if (this.evaluationTitle == null || this.evaluationTitle.equals("")) {
+			return true;
+		}
+		if (this.evaluationContent == null || this.evaluationContent.equals("")) {
+			return true;
+		}
+		if (this.totalScore == null || this.totalScore.equals("")) {
+			return true;
+		}
+		if (this.creditScore == null || this.creditScore.equals("")) {
+			return true;
+		}
+		if (this.comfortableScore == null || this.comfortableScore.equals("")) {
+			return true;
+		}
+		if (this.lectureScore == null || this.lectureScore.equals("")) {
+			return true;
+		}	
+		return false;
+	}
+	
+	
+	
 	public int getEvaluationID() {
 		return evaluationID;
 	}

@@ -46,14 +46,22 @@ public class FreeBoardController extends HttpServlet {
 			request.setAttribute("pageNumber", pageNumber);
 			request.setAttribute("freeBBSListPrintCount", FreeBoardController.freeBBSListPrintCount);
 			
-			String devices = (String) request.getSession().getAttribute("devices");
-			System.out.println(devices);
+			String devices = (String) request.getSession().getAttribute("devices");	
 			if (devices.equals("mobile")) {
 				request.getRequestDispatcher("mobile.jsp").forward(request, response);
 			} else {
 				request.getRequestDispatcher("freeBoard.jsp").forward(request, response);
 			}
 		}
+	}
+	
+	private String parseJson(String resultCode) {		
+		StringBuilder sb = new StringBuilder();
+		sb.append("[{\"resultCode\":\"");
+		sb.append(resultCode);
+		sb.append("\"}]");
+		
+		return sb.toString();
 	}
 	
 	private void regDateModify(ArrayList<BbsDTO> list) {
@@ -82,32 +90,6 @@ public class FreeBoardController extends HttpServlet {
 		}
 		
 		return result;
-	}
-	
-	private ArrayList<BbsDTO> getBbsList(HttpServletRequest request, HttpServletResponse response) {
-		int pageNumber = 1;
-		
-		if (request.getParameter("pageNumber") != null) {
-			try {
-				pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-			} catch (Exception e) {
-				System.out.println("검색 페이지 번호 오류");
-			}
-		}
-		
-		ArrayList<BbsDTO> list = new ArrayList<BbsDTO>();
-		BbsDAO bbsDAO = new BbsDAO();
-				
-		try {
-			list = bbsDAO.getList(pageNumber);
-			if (list == null) {
-				pageBack(response, "데이터베이스 오류 입니다.");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return list;
 	}
 	
 	private void pageBack(HttpServletResponse response, String alertMsg) throws IOException {

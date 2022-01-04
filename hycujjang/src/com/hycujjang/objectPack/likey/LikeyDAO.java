@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import com.hycujjang.util.DatabaseUtil;
 
 public class LikeyDAO {
-	public boolean likeCheck(String userID, String evaluationID) {
+	public boolean likeCheck(LikeyDTO likeyDTO) {
 		String SQL = "SELECT * FROM LECTURE_LIKEY WHERE userID = ? AND evaluationID = ?";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -15,8 +15,8 @@ public class LikeyDAO {
 		try {
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, userID);
-			pstmt.setString(2, evaluationID);			
+			pstmt.setString(1, likeyDTO.getUserID());
+			pstmt.setInt(2, likeyDTO.getEvaluationID());			
 			rs = pstmt.executeQuery();
 		
 			return rs.next() ? true : false;
@@ -28,7 +28,7 @@ public class LikeyDAO {
 		return false;
 	}
 	
-	public int like(String userID, String evaluationID) {
+	public int like(LikeyDTO likeyDTO) {
 		String SQL = "INSERT INTO LECTURE_LIKEY VALUES (?, ?)";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -37,8 +37,8 @@ public class LikeyDAO {
 		try {
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, userID);
-			pstmt.setString(2, evaluationID);
+			pstmt.setString(1, likeyDTO.getUserID());
+			pstmt.setInt(2, likeyDTO.getEvaluationID());
 			// executeUpdate 실행성공시 업데이트한 갯수를 반환
 			// 이상황에선 1개만 추가 하기 때문에 1을 반환
 			return pstmt.executeUpdate();
