@@ -98,19 +98,19 @@
 							<c:set var="writerID" value="${evaluationList.userID}"></c:set>
 							<c:if test="${sessionID == writerID}">
 								<a onclick="cardDelete(${evaluationList.evaluationID}); return false;" href="#">삭제</a>
-									<input type="hidden" name="lectureName" value="${evaluationList.lectureName}">
-									<input type="hidden" name="professorName" value="${evaluationList.professorName}">
-									<input type="hidden" name="totalScore" value="${evaluationList.totalScore}">
-									<input type="hidden" name="evaluationTitle" value="${evaluationList.evaluationTitle}">
-									<input type="hidden" name="lectureYear" value="${evaluationList.lectureYear}">
-									<input type="hidden" name="semesterDivide" value="${evaluationList.semesterDivide}">
-									<input type="hidden" name="evaluationContent" value="${evaluationList.evaluationContent}">
-									<input type="hidden" name="evaluationID" value="${evaluationList.evaluationID}">
-									<input type="hidden" name="creditScore" value="${evaluationList.creditScore}">
-									<input type="hidden" name="comfortableScore" value="${evaluationList.comfortableScore}">
-									<input type="hidden" name="lectureScore" value="${evaluationList.lectureScore}">
-									<input type="hidden" name="lectureDivide" value="${evaluationList.lectureDivide}">
-								<a type="submit" href="#registerModal">수정</a>
+									<input type="hidden" name="lectureName" id="lectureName_${evaluationList.evaluationID}" value="${evaluationList.lectureName}">
+									<input type="hidden" name="professorName" id="professorName_${evaluationList.evaluationID}" value="${evaluationList.professorName}">
+									<input type="hidden" name="totalScore" id="totalScore_${evaluationList.evaluationID}" value="${evaluationList.totalScore}">
+									<input type="hidden" name="evaluationTitle" id="evaluationTitle_${evaluationList.evaluationID}" value="${evaluationList.evaluationTitle}">
+									<input type="hidden" name="lectureYear" id="lectureYear_${evaluationList.evaluationID}" value="${evaluationList.lectureYear}">
+									<input type="hidden" name="semesterDivide" id="semesterDivide_${evaluationList.evaluationID}" value="${evaluationList.semesterDivide}">
+									<input type="hidden" name="evaluationContent" id="evaluationContent_${evaluationList.evaluationID}" value="${evaluationList.evaluationContent}">
+									<input type="hidden" name="evaluationID" id="evaluationID_${evaluationList.evaluationID}" value="${evaluationList.evaluationID}">
+									<input type="hidden" name="creditScore" id="creditScore_${evaluationList.evaluationID}" value="${evaluationList.creditScore}">
+									<input type="hidden" name="comfortableScore" id="comfortableScore_${evaluationList.evaluationID}" value="${evaluationList.comfortableScore}">
+									<input type="hidden" name="lectureScore" id="lectureScore_${evaluationList.evaluationID}" value="${evaluationList.lectureScore}">
+									<input type="hidden" name="lectureDivide" id="lectureDivide_${evaluationList.evaluationID}" value="${evaluationList.lectureDivide}">
+								<a onclick="modify(${evaluationList.evaluationID})" href="#">수정</a>
 							</c:if>
 						</div>
 					</div>
@@ -165,108 +165,232 @@
 					</button>
 				</div>
 				<div class="modal-body">
-						<div class="form-row">
-							<div class="form-group col-sm-6">
-								<label>강의명</label>
-								<input type="text" name="lectureName" id="lectureName" class="form-control" maxlength="20">
-							</div>
-							<div class="form-group col-sm-6">
-								<label>교수명</label>
-								<input type="text" name="professorName" id="professorName" class="form-control" maxlength="20">
-							</div>
+					<div class="form-row">
+						<div class="form-group col-sm-6">
+							<label>강의명</label>
+							<input type="text" name="lectureName" id="lectureName" class="form-control" maxlength="20">
 						</div>
-						<div class="form-row">
-							<div class="form-group col-sm-4">
-								<label>수강 연도</label>
-								<select name="lectureYear" id="lectureYear" class="form-control">
-									<option value="2017">2017</option>
-									<option value="2018">2018</option>
-									<option value="2019">2019</option>
-									<option value="2020">2020</option>
-									<option value="2021">2021</option>
-									<option value="2022" selected>2022</option>
-									<option value="2023">2023</option>
-									<option value="2023">2024</option>
-									<option value="2023">2025</option>
-									<option value="2023">2026</option>
-								</select>
-							</div>
-							<div class="form-group col-sm-4">
-								<label>수강 학기</label>
-								<select name="semesterDivide" id="semesterDivide" class="form-control">
-									<option value="1학기" selected>1학기</option>
-									<option value="여름학기">여름학기</option>
-									<option value="2학기">2학기</option>
-									<option value="겨울학기">겨울학기</option>
-								</select>
-							</div>
-							<div class="form-group col-sm-4">
-								<label>강의 구분</label>
-								<select name="lectureDivide" id="lectureDivide" class="form-control">
-									<option value="전공" selected>전공</option>
-									<option value="교양">교양</option>
-									<option value="기타">기타</option>
-								</select>
-							</div>
+						<div class="form-group col-sm-6">
+							<label>교수명</label>
+							<input type="text" name="professorName" id="professorName" class="form-control" maxlength="20">
 						</div>
-						<div class="form-group">
-							<label>제목</label>
-							<input type="text" name="evaluationTitle" id="evaluationTitle" class="form-control" maxlength="30">
+					</div>
+					<div class="form-row">
+						<div class="form-group col-sm-4">
+							<label>수강 연도</label>
+							<select name="lectureYear" id="lectureYear" class="form-control">
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+								<option value="2021">2021</option>
+								<option value="2022" selected>2022</option>
+								<option value="2023">2023</option>
+								<option value="2023">2024</option>
+								<option value="2023">2025</option>
+								<option value="2023">2026</option>
+							</select>
 						</div>
-						<div class="form-group">
-							<label>내용</label>
-							<textarea name="evaluationContent" id="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
+						<div class="form-group col-sm-4">
+							<label>수강 학기</label>
+							<select name="semesterDivide" id="semesterDivide" class="form-control">
+								<option value="1학기" selected>1학기</option>
+								<option value="여름학기">여름학기</option>
+								<option value="2학기">2학기</option>
+								<option value="겨울학기">겨울학기</option>
+							</select>
 						</div>
-						<div class="form-row">
-							<div class="form-group col-sm-3">
-								<label>종합</label>
-								<select name="totalScore" id="totalScore" class="form-control">
-									<option value="A" selected>A</option>
-									<option value="B">B</option>
-									<option value="C">C</option>
-									<option value="D">D</option>
-									<option value="F">F</option>
-								</select>
-							</div>
-							<div class="form-group col-sm-3">
-								<label>성적</label>
-								<select name="creditScore" id="creditScore" class="form-control">
-									<option value="A" selected>A</option>
-									<option value="B">B</option>
-									<option value="C">C</option>
-									<option value="D">D</option>
-									<option value="F">F</option>
-								</select>
-							</div>
-							<div class="form-group col-sm-3">
-								<label>널널</label>
-								<select name="comfortableScore" id="comfortableScore" class="form-control">
-									<option value="A" selected>A</option>
-									<option value="B">B</option>
-									<option value="C">C</option>
-									<option value="D">D</option>
-									<option value="F">F</option>
-								</select>
-							</div>
-							<div class="form-group col-sm-3">
-								<label>강의</label>
-								<select name="lectureScore" id="lectureScore" class="form-control">
-									<option value="A" selected>A</option>
-									<option value="B">B</option>
-									<option value="C">C</option>
-									<option value="D">D</option>
-									<option value="F">F</option>
-								</select>
-							</div>
+						<div class="form-group col-sm-4">
+							<label>강의 구분</label>
+							<select name="lectureDivide" id="lectureDivide" class="form-control">
+								<option value="전공" selected>전공</option>
+								<option value="교양">교양</option>
+								<option value="기타">기타</option>
+							</select>
 						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-							<button onclick="register()" class="btn btn-primary">등록하기</button>
+					</div>
+					<div class="form-group">
+						<label>제목</label>
+						<input type="text" name="evaluationTitle" id="evaluationTitle" class="form-control" maxlength="30">
+					</div>
+					<div class="form-group">
+						<label>내용</label>
+						<textarea name="evaluationContent" id="evaluationContent" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-sm-3">
+							<label>종합</label>
+							<select name="totalScore" id="totalScore" class="form-control">
+								<option value="A" selected>A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="F">F</option>
+							</select>
 						</div>
+						<div class="form-group col-sm-3">
+							<label>성적</label>
+							<select name="creditScore" id="creditScore" class="form-control">
+								<option value="A" selected>A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="F">F</option>
+							</select>
+						</div>
+						<div class="form-group col-sm-3">
+							<label>널널</label>
+							<select name="comfortableScore" id="comfortableScore" class="form-control">
+								<option value="A" selected>A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="F">F</option>
+							</select>
+						</div>
+						<div class="form-group col-sm-3">
+							<label>강의</label>
+							<select name="lectureScore" id="lectureScore" class="form-control">
+								<option value="A" selected>A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="F">F</option>
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button onclick="register()" class="btn btn-primary">등록하기</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal">평가 등록</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-row">
+						<div class="form-group col-sm-6">
+							<label>강의명</label>
+							<input type="text" name="lectureName1" id="lectureName1" class="form-control" maxlength="20">
+						</div>
+						<div class="form-group col-sm-6">
+							<label>교수명</label>
+							<input type="text" name="professorName1" id="professorName1" class="form-control" maxlength="20">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-sm-4">
+							<label>수강 연도</label>
+							<select name="lectureYear1" id="lectureYear1" class="form-control">
+								<option value="2017">2017</option>
+								<option value="2018">2018</option>
+								<option value="2019">2019</option>
+								<option value="2020">2020</option>
+								<option value="2021">2021</option>
+								<option value="2022">2022</option>
+								<option value="2023">2023</option>
+								<option value="2023">2024</option>
+								<option value="2023">2025</option>
+								<option value="2023">2026</option>
+							</select>
+						</div>
+						<div class="form-group col-sm-4">
+							<label>수강 학기</label>
+							<select name="semesterDivide1" id="semesterDivide1" class="form-control">
+								<option value="1학기" selected>1학기</option>
+								<option value="여름학기">여름학기</option>
+								<option value="2학기">2학기</option>
+								<option value="겨울학기">겨울학기</option>
+							</select>
+						</div>
+						<div class="form-group col-sm-4">
+							<label>강의 구분</label>
+							<select name="lectureDivide1" id="lectureDivide1" class="form-control">
+								<option value="전공" selected>전공</option>
+								<option value="교양">교양</option>
+								<option value="기타">기타</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>제목</label>
+						<input type="text" name="evaluationTitle1" id="evaluationTitle1" class="form-control" maxlength="30">
+					</div>
+					<div class="form-group">
+						<label>내용</label>
+						<textarea name="evaluationContent1" id="evaluationContent1" class="form-control" maxlength="2048" style="height: 180px;"></textarea>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-sm-3">
+							<label>종합</label>
+							<select name="totalScore1" id="totalScore1" class="form-control">
+								<option value="A" selected>A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="F">F</option>
+							</select>
+						</div>
+						<div class="form-group col-sm-3">
+							<label>성적</label>
+							<select name="creditScore1" id="creditScore1" class="form-control">
+								<option value="A" selected>A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="F">F</option>
+							</select>
+						</div>
+						<div class="form-group col-sm-3">
+							<label>널널</label>
+							<select name="comfortableScore1" id="comfortableScore1" class="form-control">
+								<option value="A" selected>A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="F">F</option>
+							</select>
+						</div>
+						<div class="form-group col-sm-3">
+							<label>강의</label>
+							<select name="lectureScore1" id="lectureScore1" class="form-control">
+								<option value="A" selected>A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="F">F</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-sm-6">
+							<input type="hidden" name="evaluationID1" id="evaluationID1" class="form-control" maxlength="20">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+						<button onclick="updateReg()" class="btn btn-primary">등록하기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
 	
 	
 	<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
@@ -312,6 +436,90 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
 			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
 			crossorigin="anonymous">
+	</script>
+	<script type="text/javascript">
+		function modify(id) {
+			var evaluationID = id;
+			var evaluationContent1 = document.getElementById('evaluationContent_'+ id +'').value;
+			var lectureName1 = document.getElementById('lectureName_'+ id +'').value;	
+			var professorName1 = document.getElementById('professorName_'+ id +'').value;	
+			var totalScore1 = document.getElementById('totalScore_'+ id +'').value;	
+			var evaluationTitle1 = document.getElementById('evaluationTitle_'+ id +'').value;	
+			var lectureYear1 = document.getElementById('lectureYear_'+ id +'').value;	
+			var semesterDivide1 = document.getElementById('semesterDivide_'+ id +'').value;	
+			var creditScore1 = document.getElementById('creditScore_'+ id +'').value;	
+			var comfortableScore1 = document.getElementById('comfortableScore_'+ id +'').value;	
+			var lectureScore1 = document.getElementById('lectureScore_'+ id +'').value;	
+			var lectureDivide1 = document.getElementById('lectureDivide_'+ id +'').value;
+			
+			$(".modal-body #evaluationID1").val(evaluationID);
+			$(".modal-body #lectureName1").val(lectureName1);
+			$(".modal-body #professorName1").val(professorName1);
+			$(".modal-body #totalScore1").val(totalScore1);
+			$(".modal-body #evaluationTitle1").val(evaluationTitle1);
+			$(".modal-body #lectureYear1").val(lectureYear1);
+			$(".modal-body #semesterDivide1").val(semesterDivide1);
+			$(".modal-body #creditScore1").val(creditScore1);
+			$(".modal-body #comfortableScore1").val(comfortableScore1);
+			$(".modal-body #lectureScore1").val(lectureScore1);
+			$(".modal-body #lectureDivide1").val(lectureDivide1);
+			$(".modal-body #evaluationContent1").val(evaluationContent1.replaceAll('<br>', '\n'));
+			$('#updateModal').modal('show');
+		}
+		
+		function updateReg() {	
+			var evaluationID1 = document.getElementById("evaluationID1").value;	
+			var lectureName1 = document.getElementById("lectureName1").value;	
+			var professorName1 = document.getElementById("professorName1").value;	
+			var totalScore1 = document.getElementById("totalScore1").value;	
+			var evaluationTitle1 = document.getElementById("evaluationTitle1").value;	
+			var lectureYear1 = document.getElementById("lectureYear1").value;	
+			var semesterDivide1 = document.getElementById("semesterDivide1").value;	
+			var creditScore1 = document.getElementById("creditScore1").value;	
+			var comfortableScore1 = document.getElementById("comfortableScore1").value;	
+			var lectureScore1 = document.getElementById("lectureScore1").value;	
+			var lectureDivide1 = document.getElementById("lectureDivide1").value;	
+			var evaluationContent1 = document.getElementById("evaluationContent1").value;	
+			
+			var data = {
+					evaluationID: evaluationID1,
+					lectureName: lectureName1,
+					professorName: professorName1,
+					totalScore: totalScore1,
+					evaluationTitle: evaluationTitle1,
+					lectureYear: lectureYear1,
+					semesterDivide: semesterDivide1,
+					creditScore: creditScore1,
+					comfortableScore: comfortableScore1,
+					lectureScore: lectureScore1,
+					lectureDivide: lectureDivide1,
+					evaluationContent: evaluationContent1
+				}
+			console.log(data);
+			$.ajax({
+				type: "post",
+				url: "evaluationRegisterController",
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				
+				success: function(json) {
+					if (json[0].resultCode == 'ok') {
+						location.reload();
+					} else if (json[0].resultCode == 'isNull'){
+						alert('입력하지 않은 사항이 있습니다.')
+					} else {
+						alert('데이터 베이스 오류 입니다.');
+						location.reload();
+					}
+				},
+				error: function(json) {
+					alert('시스템 오류 입니다.')
+				}
+			});
+		}
+		
+		
 	</script>
 	<script type="text/javascript">
 		function cardDelete(id) {
@@ -368,55 +576,55 @@
 		}
 	</script>
 	<script type="text/javascript">
-	function register() {
-		var lectureName = document.getElementById("lectureName").value;	
-		var professorName = document.getElementById("professorName").value;	
-		var totalScore = document.getElementById("totalScore").value;	
-		var evaluationTitle = document.getElementById("evaluationTitle").value;	
-		var lectureYear = document.getElementById("lectureYear").value;	
-		var semesterDivide = document.getElementById("semesterDivide").value;	
-		var evaluationContent = document.getElementById("evaluationContent").value;	
-		var creditScore = document.getElementById("creditScore").value;	
-		var comfortableScore = document.getElementById("comfortableScore").value;	
-		var lectureScore = document.getElementById("lectureScore").value;	
-		var lectureDivide = document.getElementById("lectureDivide").value;
-		
-		var data = {
-				lectureName: lectureName,
-				professorName: professorName,
-				totalScore: totalScore,
-				evaluationTitle: evaluationTitle,
-				lectureYear: lectureYear,
-				semesterDivide: semesterDivide,
-				evaluationContent: evaluationContent,
-				creditScore: creditScore,
-				comfortableScore: comfortableScore,
-				lectureScore: lectureScore,
-				lectureDivide: lectureDivide
-			}
-		$.ajax({
-			type: "post",
-			url: "evaluationRegisterController",
-			data: JSON.stringify(data),
-			contentType: "application/json; charset=utf-8",
-			dataType: "json",
+		function register() {
+			var lectureName = document.getElementById("lectureName").value;	
+			var professorName = document.getElementById("professorName").value;	
+			var totalScore = document.getElementById("totalScore").value;	
+			var evaluationTitle = document.getElementById("evaluationTitle").value;	
+			var lectureYear = document.getElementById("lectureYear").value;	
+			var semesterDivide = document.getElementById("semesterDivide").value;	
+			var creditScore = document.getElementById("creditScore").value;	
+			var comfortableScore = document.getElementById("comfortableScore").value;	
+			var lectureScore = document.getElementById("lectureScore").value;	
+			var lectureDivide = document.getElementById("lectureDivide").value;
+			var evaluationContent = document.getElementById("evaluationContent").value;	
 			
-			success: function(json) {
-				if (json[0].resultCode == 'ok') {
-					location.reload();
-				} else if (json[0].resultCode == 'isNull'){
-					alert('입력하지 않은 사항이 있습니다.')
-				} else {
-					alert('데이터 베이스 오류 입니다.');
-					location.reload();
+			var data = {
+					evaluationID: 0,
+					lectureName: lectureName,
+					professorName: professorName,
+					totalScore: totalScore,
+					evaluationTitle: evaluationTitle,
+					lectureYear: lectureYear,
+					semesterDivide: semesterDivide,
+					creditScore: creditScore,
+					comfortableScore: comfortableScore,
+					lectureScore: lectureScore,
+					lectureDivide: lectureDivide,
+					evaluationContent: evaluationContent,
 				}
-			},
-			error: function(json) {
-				alert('시스템 오류 입니다.')
-			}
-		});
-	}
-	
+			$.ajax({
+				type: "post",
+				url: "evaluationRegisterController",
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				
+				success: function(json) {
+					if (json[0].resultCode == 'ok') {
+						location.reload();
+					} else if (json[0].resultCode == 'isNull'){
+						alert('입력하지 않은 사항이 있습니다.')
+					} else {
+						alert('데이터 베이스 오류 입니다.');
+						location.reload();
+					}
+				},
+				error: function(json) {
+					alert('시스템 오류 입니다.')
+				}
+			});
+		}
 	</script>
 	<script type="text/javascript">
 		function guest(){

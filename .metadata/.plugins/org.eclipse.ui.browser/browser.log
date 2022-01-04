@@ -157,3 +157,12 @@
 1월 04, 2022 19:35:16.32 [13832:12816:0104/193516.323:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
 1월 04, 2022 19:35:16.32 [13832:12816:0104/193516.326:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
 1월 04, 2022 19:35:16.34 [13832:18304:0104/193516.342:ERROR:device_event_log_impl.cc(214)] [19:35:16.343] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+1월 04, 2022 22:41:48.94 [13832:7380:0104/224148.948:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+1월 04, 2022 22:41:48.99 [13832:7380:0104/224148.991:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+1월 04, 2022 22:41:49.43 [13832:18304:0104/224149.435:ERROR:device_event_log_impl.cc(214)] [22:41:49.435] USB: usb_service_win.cc:261 Failed to get device driver name: 요소가 없습니다. (0x490)
+1월 04, 2022 22:41:50.42 [13832:7380:0104/224150.421:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+1월 04, 2022 23:21:44.58 [13988:1504:0104/232144.589:ERROR:chrome_browser_main_extra_parts_metrics.cc(226)] crbug.com/1216328: Checking Bluetooth availability started. Please report if there is no report that this ends.
+1월 04, 2022 23:21:44.58 [13988:1504:0104/232144.589:ERROR:chrome_browser_main_extra_parts_metrics.cc(229)] crbug.com/1216328: Checking Bluetooth availability ended.
+1월 04, 2022 23:21:44.58 [13988:1504:0104/232144.589:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
+1월 04, 2022 23:21:44.59 [13988:1504:0104/232144.591:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
+1월 04, 2022 23:21:44.60 [13988:3472:0104/232144.604:ERROR:device_event_log_impl.cc(214)] [23:21:44.604] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
