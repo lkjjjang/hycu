@@ -185,38 +185,38 @@
 	
 	<div class="container">
 		<table class="table">
-				<thead>
-					<tr>
-						<th colspan="2"><h5>댓글 작성 하기</h5></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<input class="form-control" type="text" id="writeID" name="writeID" placeholder="아이디" maxlength="20">
-						</td>
-						<td>
-							<input class="form-control" type="password" id="password" name="password" placeholder="비밀번호" maxlength="20">
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<textarea class="form-control" id="comment" name="comment" placeholder="댓글을 입력하세요" maxlength="100"></textarea>
-							<div id="text_count">(0 / 100)</div>
-							<br>
-							<div style="text-align: center;">
-								<input type="hidden" id="bbsID" value="${detail.bbsID}">
-								<c:if test="${userID == 'guest'}">
-									<button class="btn btn-primary" onclick="guest()">댓글등록</button>
-								</c:if>
-								<c:if test="${userID != 'guest'}">
-									<button class="btn btn-primary" onclick="commentRegister()">댓글등록</button>
-								</c:if>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<thead>
+				<tr>
+					<th colspan="2"><h5>댓글 작성 하기</h5></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<input class="form-control" type="text" id="writeID" name="writeID" placeholder="아이디" maxlength="20">
+					</td>
+					<td>
+						<input class="form-control" type="password" id="password" name="password" placeholder="비밀번호" maxlength="20">
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<textarea class="form-control" id="comment" name="comment" placeholder="댓글을 입력하세요" maxlength="100"></textarea>
+						<div id="text_count">(0 / 100)</div>
+						<br>
+						<div style="text-align: center;">
+							<input type="hidden" id="bbsID" value="${detail.bbsID}">
+							<c:if test="${userID == 'guest'}">
+								<button class="btn btn-primary" onclick="guest()">댓글등록</button>
+							</c:if>
+							<c:if test="${userID != 'guest'}">
+								<button class="btn btn-primary" onclick="commentRegister()">댓글등록</button>
+							</c:if>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 	
 	

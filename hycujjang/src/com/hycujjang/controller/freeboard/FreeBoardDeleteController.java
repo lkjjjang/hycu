@@ -21,13 +21,15 @@ import com.hycujjang.objectPack.vote.VoteDAO;
 public class FreeBoardDeleteController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 일반 유저 {bbsID: bbsID, password: password}
 		String userID = (String) request.getSession().getAttribute("userID");
 		if (userID == null) {
 			pageBack(response, "로그인후 사용 가능합니다.");
 		} 
 		
 		BufferedReader br = request.getReader();
-		String requestData = br.readLine();		
+		String requestData = br.readLine();	
+		System.out.println(requestData);
 		if (userID.equals("admin")) {
 			deleteAll(requestData);
 			String resultJson = getJson("ok");
@@ -39,19 +41,19 @@ public class FreeBoardDeleteController extends HttpServlet{
 			// bbsID로 패스워드 받아와 비교후 작업
 			BbsDAO BbsDAO = new BbsDAO();
 			String inputPassword = requestMap.get("password");
-			String bbsID = requestMap.get("id");
+			String bbsID = requestMap.get("bbsID");
 			String bbsPassword = BbsDAO.getContentPassword(bbsID);	
 
 			String resultCode = null;
 			if (bbsPassword.equals(inputPassword)) {
 				// 게시글, 댓글, 대댓글, 추천, 파일 삭제
 				if (isDeleteAll(bbsID)) {
-					resultCode = "OK";
+					resultCode = "ok";
 				} else {
-					resultCode = "ERROR";
+					resultCode = "error";
 				}
 			} else {
-				resultCode = "WRONG_PASS";
+				resultCode = "wrongPass";
 			}
 				
 			String resultJson = getJson(resultCode);

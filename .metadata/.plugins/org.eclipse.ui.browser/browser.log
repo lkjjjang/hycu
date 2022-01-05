@@ -166,3 +166,25 @@
 1월 04, 2022 23:21:44.58 [13988:1504:0104/232144.589:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
 1월 04, 2022 23:21:44.59 [13988:1504:0104/232144.591:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
 1월 04, 2022 23:21:44.60 [13988:3472:0104/232144.604:ERROR:device_event_log_impl.cc(214)] [23:21:44.604] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+
+1월 05, 2022 11:22:31.30 NEW SESSION
+1월 05, 2022 11:22:31.30 [17520:14100:0105/112231.298:ERROR:chrome_browser_main_extra_parts_metrics.cc(226)] crbug.com/1216328: Checking Bluetooth availability started. Please report if there is no report that this ends.
+1월 05, 2022 11:22:31.30 [17520:14100:0105/112231.298:ERROR:chrome_browser_main_extra_parts_metrics.cc(229)] crbug.com/1216328: Checking Bluetooth availability ended.
+1월 05, 2022 11:22:31.30 [17520:14100:0105/112231.298:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
+1월 05, 2022 11:22:31.30 [17520:14100:0105/112231.301:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
+1월 05, 2022 11:22:31.33 [17520:9664:0105/112231.329:ERROR:device_event_log_impl.cc(214)] [11:22:31.330] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+1월 05, 2022 11:24:09.34 [17520:9664:0105/112409.339:ERROR:device_event_log_impl.cc(214)] [11:24:09.340] USB: usb_device_handle_win.cc:1085 Transfer failed: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+
+1월 05, 2022 17:49:55.72 NEW SESSION
+1월 05, 2022 17:49:55.72 [14428:14220:0105/174955.724:ERROR:chrome_browser_main_extra_parts_metrics.cc(226)] crbug.com/1216328: Checking Bluetooth availability started. Please report if there is no report that this ends.
+1월 05, 2022 17:49:55.72 [14428:14220:0105/174955.724:ERROR:chrome_browser_main_extra_parts_metrics.cc(229)] crbug.com/1216328: Checking Bluetooth availability ended.
+1월 05, 2022 17:49:55.72 [14428:14220:0105/174955.724:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
+1월 05, 2022 17:49:55.72 [14428:14220:0105/174955.726:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
+1월 05, 2022 17:49:55.74 [14428:19300:0105/174955.740:ERROR:device_event_log_impl.cc(214)] [17:49:55.740] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+1월 05, 2022 18:58:18.29 [14428:19300:0105/185818.295:ERROR:interface_endpoint_client.cc(658)] Message 0 rejected by interface blink.mojom.WidgetHost
+1월 05, 2022 20:49:35.49 [14428:19300:0105/204935.497:ERROR:device_event_log_impl.cc(214)] [20:49:35.497] USB: usb_device_handle_win.cc:1085 Transfer failed: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+1월 06, 2022 01:03:51.05 [14428:13772:0106/010351.056:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+1월 06, 2022 01:03:51.09 [14428:13772:0106/010351.096:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+1월 06, 2022 01:03:51.66 [14428:19300:0106/010351.662:ERROR:device_event_log_impl.cc(214)] [01:03:51.662] USB: usb_service_win.cc:261 Failed to get device driver name: 요소가 없습니다. (0x490)
+1월 06, 2022 01:03:52.57 [14428:13772:0106/010352.569:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
+1월 06, 2022 01:14:19.36 [14428:19300:0106/011419.361:ERROR:device_event_log_impl.cc(214)] [01:14:19.361] USB: usb_device_handle_win.cc:1085 Transfer failed: 요청을 취소했습니다. (0x4D3)

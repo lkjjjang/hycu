@@ -55,7 +55,13 @@ public class FreeBoardDetailController extends HttpServlet{
 		request.setAttribute("freeBoardDetail", bbsDTO);
 		request.setAttribute("comments", commentList);
 		request.setAttribute("commentCount", commentCount);
-		request.getRequestDispatcher("view.jsp").forward(request, response);
+		
+		String devices = (String) request.getSession().getAttribute("devices");	
+		if (devices.equals("mobile")) {
+			request.getRequestDispatcher("viewMobile.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("view.jsp").forward(request, response);
+		}
 	}
 	
 	private ArrayList<ReplyDTO> getReplyList(int bbsID) {

@@ -42,8 +42,14 @@
 			</ul>
 		</div>	
 	</nav>
-	<img src="images/hycu1.jpg" style="display: block; margin: 0 auto;">
+	
 	<section class="container mt-3" style="max-width: 560px;">
+		<div class="row">
+			<div class="col-12" style="text-align: center;">
+				<img src="images/hycu1.jpg" class="img-fluid">
+			</div>
+		</div>
+		
 		<div class="form-group">
 			<label>아이디</label>
 			<input type="text" name="userID" id="id" class="form-control">

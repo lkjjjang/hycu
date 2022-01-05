@@ -45,9 +45,9 @@
 							<td colspan="2"><textarea id="summernote" name="content" class="summernote" maxlength="2048"></textarea></td>
 						</tr>
 						<tr>
-							<td colspan="2">
+							<td colspan="2" style="text-align: right;" >
 								<input type="hidden" id="userID" name="userID" value="${userID}">
-								<input type="submit" value="등록">
+								<input type="submit" class="btn btn-primary" value="등록">
 							</td>
 						</tr>						
 					</tbody>					

@@ -57,7 +57,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12" style="text-align: right">
-				글쓰기			
+				<a href="write.jsp" class="btn btn-primary">글쓰기</a>
 			</div>
 		</div>
 		<c:forEach var="freeBBS" items="${freeBBS}" begin="0" end="${freeBBSListPrintCount}">			

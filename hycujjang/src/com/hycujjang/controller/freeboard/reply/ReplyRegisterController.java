@@ -32,9 +32,9 @@ public class ReplyRegisterController extends HttpServlet{
 		ReplyDTO replyDTO = gson.fromJson(requestData, ReplyDTO.class);
 		
 		// 입력값 검사
-		if (replyDTO.getNickName().equals("") || replyDTO.getPassword().equals("") 
-				|| replyDTO.getReplyComment().equals("")) {
-			response.getWriter().write("error");
+		if (replyDTO.getNickName().equals("") || replyDTO.getPassword().equals("") || replyDTO.getReplyComment().equals("")
+				|| replyDTO.getNickName() == null || replyDTO.getPassword() == null || replyDTO.getReplyComment() == null) {
+			response.getWriter().write(parseJson("isNull"));
 			return;
 		}
 		
@@ -42,67 +42,22 @@ public class ReplyRegisterController extends HttpServlet{
 		ReplyDAO replyDAO = new ReplyDAO();
 		int result = replyDAO.write(replyDTO);
 		if (result != 1) {
-			response.getWriter().write("error");
+			response.getWriter().write(parseJson("error"));
 			return;
 		}
 		BbsDAO.bbsCommentCountUp(replyDTO.getBbsID());
 		
-		// 댓글목록 가져옴	
-		CommentDAO commentDAO = new CommentDAO();
-		ArrayList<CommentDTO> commentList = new ArrayList<CommentDTO>();
-		commentList = commentDAO.getList(replyDTO.getBbsID());
-		commentRegDateModify(commentList);
-		
-		// 대댓글목록 가져옴
-		ArrayList<ReplyDTO> replyList = new ArrayList<ReplyDTO>();
-		replyList = replyDAO.getList(replyDTO.getBbsID());
-		replyRegDateModify(replyList);
-			
-		// 댓글목록에 대댓글 삽입
-		for (CommentDTO comment: commentList) {
-			for (ReplyDTO reply: replyList) {
-				if (comment.getCommentID() == reply.getCommentID()) {
-					comment.addReplyList(reply);
-				}
-			}
-		}
-		
-		// dto개체를 json으로 변환
-		String jsonResult = gson.toJson(commentList);
 		// 요청에 응답해줌
-		response.getWriter().write(jsonResult);
+		response.getWriter().write(parseJson("ok"));
 	}
 	
-	private void commentRegDateModify(ArrayList<CommentDTO> comments) {
-		// 작성일자 '일자'가 다르면 년,월,일 출력 같으면 시,분 출력
-		Date nowTime = new Date();
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-
-		for (CommentDTO dto: comments) {
-			String[] dtoDate = dto.getRegDate().split(" ");
-			
-			if (dtoDate[0].equals(sf.format(nowTime))) {
-				dto.setRegDate(dtoDate[1].substring(0, 5));
-			} else {
-				dto.setRegDate(dtoDate[0]);
-			}
-		}
-	}
-	
-	private void replyRegDateModify(ArrayList<ReplyDTO> list) {
-		// 작성일자 '일자'가 다르면 년,월,일 출력 같으면 시,분 출력
-		Date nowTime = new Date();
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-
-		for (ReplyDTO dto: list) {
-			String[] dtoDate = dto.getRegDate().split(" ");
-			
-			if (dtoDate[0].equals(sf.format(nowTime))) {
-				dto.setRegDate(dtoDate[1].substring(0, 5));
-			} else {
-				dto.setRegDate(dtoDate[0]);
-			}
-		}
+	private String parseJson(String resultCode) {		
+		StringBuilder sb = new StringBuilder();
+		sb.append("[{\"resultCode\":\"");
+		sb.append(resultCode);
+		sb.append("\"}]");
+		
+		return sb.toString();
 	}
 }
 
