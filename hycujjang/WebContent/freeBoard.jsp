@@ -48,42 +48,41 @@
 	
 	<div class="container">
 		<h1>
-    		<a class="ed link-primary text-bold title-underline" href="freeBoardController?pageNumber=1">자유게시판</a>
+    		<a class="ed link-primary text-bold title-underline" href="freeBoardController?pageNumber=1"><span class="text-dark">자유게시판</span></a>
   		</h1>	
 			<table class="table table-hover">
-				<colgroup>
-					<col width="10%"/>
-					<col width="45%"/>
-					<col width="15%"/>
-					<col width="15%"/>
-					<col width="15%"/>
-				</colgroup>
 				<thead style="text-align: center;">			
-					<tr>
-						<th style="padding: 6px;">번호</th>
-						<th style="padding: 6px;">제목</th>
-						<th style="padding: 6px;">작성자</th>
-						<th style="padding: 6px;">조회수</th>
-						<th style="padding: 6px;">작성일</th>					
+					<tr class="row">
+						<th class="col-1">번호</th>
+						<th class="col-6">제목</th>
+						<th class="col-2">작성자</th>
+						<th class="col-1">조회수</th>
+						<th class="col-2">작성일</th>					
 					</tr>				
 				</thead>
 				<tbody>
 					<c:forEach var="freeBBS" items="${freeBBS}" begin="0" end="${freeBBSListPrintCount}">
-						<tr>
-							<td style="text-align: center; padding: 6px;">
+						<tr class="row">
+							<td class="col-1" style="text-align: center;">
 								<c:if test="${userID == 'admin'}">
 									<input type="checkbox" name="delCheck_id" id="delCheck_id" value="${freeBBS.bbsID}">
 								</c:if>
 								${freeBBS.bbsID} 
 							</td>
-							<td style="padding: 6px;">
-								<a href="freeBoardDetailController?id=${freeBBS.bbsID}">${freeBBS.bbsTitle}</a>
-								<c:if test="${freeBBS.commentCount != 0}">[${freeBBS.commentCount}]</c:if>	
-								<c:if test="${freeBBS.useImage == 1}"><img src="images/imageIcon.png"></c:if>						
+							<td class="col-6" style="display: block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+								<a class="text-dark" href="freeBoardDetailController?id=${freeBBS.bbsID}" style="display:block; width:100%; height:100%">
+									${freeBBS.bbsTitle}
+									<c:if test="${freeBBS.commentCount != 0}">
+										<span style="color: #00bfff;">[${freeBBS.commentCount}]</span>
+									</c:if>	
+									<c:if test="${freeBBS.useImage == 1}">
+										<img src="images/imageIcon.png">
+									</c:if>	
+								</a>					
 							</td>
-							<td style="text-align: center; padding: 6px;">${freeBBS.nickName}</td>
-							<td style="text-align: center; padding: 6px;">${freeBBS.bbsHit}</td>
-							<td style="text-align: center; padding: 6px;">${freeBBS.bbsDate}</td>
+							<td class="col-2" style="text-align: center;">${freeBBS.nickName}</td>
+							<td class="col-1" style="text-align: center;">${freeBBS.bbsHit}</td>
+							<td class="col-2" style="text-align: center;">${freeBBS.bbsDate}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

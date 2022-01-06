@@ -188,3 +188,13 @@
 1월 06, 2022 01:03:51.66 [14428:19300:0106/010351.662:ERROR:device_event_log_impl.cc(214)] [01:03:51.662] USB: usb_service_win.cc:261 Failed to get device driver name: 요소가 없습니다. (0x490)
 1월 06, 2022 01:03:52.57 [14428:13772:0106/010352.569:ERROR:connection_factory_impl.cc(425)] Failed to connect to MCS endpoint with error -105
 1월 06, 2022 01:14:19.36 [14428:19300:0106/011419.361:ERROR:device_event_log_impl.cc(214)] [01:14:19.361] USB: usb_device_handle_win.cc:1085 Transfer failed: 요청을 취소했습니다. (0x4D3)
+
+1월 06, 2022 17:45:44.29 NEW SESSION
+1월 06, 2022 17:45:44.29 [10432:1364:0106/174544.295:ERROR:chrome_browser_main_extra_parts_metrics.cc(226)] crbug.com/1216328: Checking Bluetooth availability started. Please report if there is no report that this ends.
+1월 06, 2022 17:45:44.29 [10432:1364:0106/174544.295:ERROR:chrome_browser_main_extra_parts_metrics.cc(229)] crbug.com/1216328: Checking Bluetooth availability ended.
+1월 06, 2022 17:45:44.29 [10432:1364:0106/174544.295:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
+1월 06, 2022 17:45:44.29 [10432:1364:0106/174544.298:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
+1월 06, 2022 17:45:44.32 [10432:4144:0106/174544.320:ERROR:device_event_log_impl.cc(214)] [17:45:44.320] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+1월 06, 2022 17:47:58.11 [10432:4144:0106/174758.116:ERROR:device_event_log_impl.cc(214)] [17:47:58.115] USB: usb_device_handle_win.cc:1085 Transfer failed: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+1월 06, 2022 17:49:37.05 [10432:4144:0106/174937.050:ERROR:device_event_log_impl.cc(214)] [17:49:37.051] USB: usb_device_handle_win.cc:1085 Transfer failed: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
+1월 06, 2022 17:49:40.58 [10432:4144:0106/174940.584:ERROR:device_event_log_impl.cc(214)] [17:49:40.584] USB: usb_device_handle_win.cc:1085 Transfer failed: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)

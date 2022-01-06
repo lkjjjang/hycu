@@ -22,6 +22,7 @@ public class ReplyDeleteController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// {replyID: replyID, password: pass}
 		BufferedReader br = request.getReader();
 		String requestData = br.readLine();
 		HashMap<String, String> requestMap = new HashMap<String, String>();
@@ -29,31 +30,24 @@ public class ReplyDeleteController extends HttpServlet {
 		
 		// replyID로 패스워드 받아와 비교후 작업
 		String inputPassword = requestMap.get("password");
-		String replyID = requestMap.get("id");
-		String bbsPassword = this.replyDAO.getPassword(replyID);
+		String replyID = requestMap.get("replyID");
+		String replyPassword = this.replyDAO.getPassword(replyID);
 		this.bbsID = this.replyDAO.getBbsID(Integer.parseInt(replyID));
-		
-		ResultCode resultCode = null;		
-		if (bbsPassword.equals(inputPassword)) {
-			resultCode = delete(replyID);
-			if (resultCode == ResultCode.ERROR) {
-				String resultJson = parseJson(resultCode.toString());
-				response.getWriter().write(resultJson);
+				
+		if (replyPassword.equals(inputPassword)) {
+			if (delete(replyID) == ResultCode.ERROR) {
+				response.getWriter().write(parseJson("error"));
 				return;
 			}
 		} else {
-			resultCode = ResultCode.WRONG_PASS;
-			String resultJson = parseJson(resultCode.toString());
-			response.getWriter().write(resultJson);
+			response.getWriter().write(parseJson("wrongPass"));
 			return;
 		}
 		
-		
-		int totalCommentCount = getCommentCount();
 		// 게시글 commentCount 수정
+		int totalCommentCount = getCommentCount();
 		setBbsCommentCount(totalCommentCount);
-		String resultJson = parseJson(resultCode.toString(), totalCommentCount);
-		response.getWriter().write(resultJson);
+		response.getWriter().write(parseJson("ok"));
 	}
 	
 	private void setBbsCommentCount(int count) {
@@ -77,18 +71,6 @@ public class ReplyDeleteController extends HttpServlet {
 		}
 		
 		return ResultCode.OK;
-	}
-	
-	private String parseJson(String resultCode, int commentCount) {		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("[{\"resultCode\":\"");
-		sb.append(resultCode);
-		sb.append("\"},");
-		sb.append("{\"commentCount\":\"");
-		sb.append(commentCount);
-		sb.append("\"}]");
-		return sb.toString();
 	}
 
 	private String parseJson(String resultCode) {		

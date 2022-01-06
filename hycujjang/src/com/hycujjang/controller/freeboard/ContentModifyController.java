@@ -1,7 +1,9 @@
 package com.hycujjang.controller.freeboard;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,7 @@ import com.hycujjang.objectPack.freeBBS.BbsDTO;
 
 @WebServlet("/contentModifyController")
 public class ContentModifyController extends HttpServlet{
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String str = request.getParameter("id");

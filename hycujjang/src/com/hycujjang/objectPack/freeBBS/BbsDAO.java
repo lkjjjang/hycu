@@ -86,6 +86,29 @@ public class BbsDAO {
 		return -1; // 데이터베이스 오류
 	}
 	
+	public int contentUpdate(BbsDTO bbsDTO) {
+		String SQL = "UPDATE FREE_BBS SET bbsTitle = ?, password = ?, bbsContente = ? WHERE bbsID = ?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseUtil.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, bbsDTO.getBbsTitle());
+			pstmt.setString(2, bbsDTO.getPassword());
+			pstmt.setString(3, bbsDTO.getBbsContente());
+			pstmt.setInt(4, bbsDTO.getBbsID());
+			
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			instanseClose(conn, pstmt, rs);
+		}
+		
+		return -1; // 데이터베이스 오류
+	}
+	
 	
 	public int update(int bbsID) {
 		String SQL = "UPDATE FREE_BBS SET bbsUpvote = bbsUpvote + 1 WHERE bbsID = ?";

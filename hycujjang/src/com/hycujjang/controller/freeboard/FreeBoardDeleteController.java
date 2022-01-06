@@ -14,11 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.hycujjang.objectPack.comment.CommentDAO;
 import com.hycujjang.objectPack.file.FileDAO;
 import com.hycujjang.objectPack.freeBBS.BbsDAO;
+import com.hycujjang.objectPack.freeBBS.BbsDTO;
 import com.hycujjang.objectPack.reply.ReplyDAO;
 import com.hycujjang.objectPack.vote.VoteDAO;
 
 @WebServlet("/freeBoardDeleteController")
 public class FreeBoardDeleteController extends HttpServlet{
+	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 일반 유저 {bbsID: bbsID, password: password}
@@ -62,7 +64,6 @@ public class FreeBoardDeleteController extends HttpServlet{
 	}
 	
 	private void deleteAll(String jsonStr) {
-		System.out.println(jsonStr);
 		String[] idList = jsonStr.replace(":", "").replace("i", "").replace("d", "").replace("\"", "").replace("{", "").replace("}", "").replace("[", "").replace("]", "").split(",");
 
 		BbsDAO bbsDAO = new BbsDAO();

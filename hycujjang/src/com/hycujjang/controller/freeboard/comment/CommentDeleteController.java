@@ -23,39 +23,33 @@ public class CommentDeleteController extends HttpServlet{
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// {commentID: commentID, password: password} 넘어오는 형태
 		BufferedReader br = request.getReader();
 		String requestData = br.readLine();
 		HashMap<String, String> requestMap = new HashMap<String, String>();
 		requestMap = jsonParse(requestData);
 		
-		// commentID로 패스워드 받아와 비교후 작업
-		// CommentDAO commentDAO = new CommentDAO();
+		// 하위 댓글까지 삭제 해줘야함
 		String inputPassword = requestMap.get("password");
-		String commentID = requestMap.get("id");
-		String bbsPassword = this.commentDAO.getPassword(commentID);
+		String commentID = requestMap.get("commentID");
+		String commentPassword = this.commentDAO.getPassword(commentID);
 		this.bbsID = this.commentDAO.getBbsID(Integer.parseInt(commentID));
 		
-		ResultCode resultCode = null;		
-		if (bbsPassword.equals(inputPassword)) {
-			resultCode = deleteAll(commentID);
-			if (resultCode == ResultCode.ERROR) {
-				String resultJson = parseJson(resultCode.toString());
-				response.getWriter().write(resultJson);
+		if (commentPassword.equals(inputPassword)) {
+			if (deleteAll(commentID) == ResultCode.ERROR) {
+				response.getWriter().write(parseJson("error"));
 				return;
 			}
 		} else {
-			resultCode = ResultCode.WRONG_PASS;
-			String resultJson = parseJson(resultCode.toString());
-			response.getWriter().write(resultJson);
+			response.getWriter().write(parseJson("wrongPass"));
 			return;
 		}
 		
-		
-		int totalCommentCount = getCommentCount();
-		// 게시글 commentCount 수정
-		setBbsCommentCount(totalCommentCount);
-		String resultJson = parseJson(resultCode.toString(), totalCommentCount);
-		response.getWriter().write(resultJson);
+		// ResultCode.OK 인 상태
+		// 위에서 댓글, 대댓글 삭제후 
+		// 게시글 commentCount 수정(댓글 테이블과 게시글 테이블이 따로 존재하지만 게시글 테이블에 댓글 갯수를 직접 입력 해둠)
+		setBbsCommentCount(getCommentCount());
+		response.getWriter().write(parseJson("ok"));
 	}
 	
 	private void setBbsCommentCount(int count) {
@@ -80,18 +74,6 @@ public class CommentDeleteController extends HttpServlet{
 		
 		return ResultCode.OK;
 	}
-	
-	private String parseJson(String resultCode, int commentCount) {		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("[{\"resultCode\":\"");
-		sb.append(resultCode);
-		sb.append("\"},");
-		sb.append("{\"commentCount\":\"");
-		sb.append(commentCount);
-		sb.append("\"}]");
-		return sb.toString();
-	}
 
 	private String parseJson(String resultCode) {		
 		StringBuilder sb = new StringBuilder();
@@ -103,7 +85,7 @@ public class CommentDeleteController extends HttpServlet{
 	}
 	
 	private HashMap<String, String> jsonParse(String json) {
-		// 앞에서 넘겨준 데이터 형식 {id: commnetID, password: password}		
+		// 앞에서 넘겨준 데이터 형식 {commnetID: commnetID, password: password}		
 		HashMap<String, String> result = new HashMap<String, String>();
 		String markRemove = json.replace("{", "").replace("}", "").replace("\"", "");
 		String[] split = markRemove.split(",");

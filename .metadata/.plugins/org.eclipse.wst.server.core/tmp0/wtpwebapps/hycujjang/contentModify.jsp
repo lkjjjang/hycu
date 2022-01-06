@@ -26,7 +26,7 @@
 	<div class="container">
 		수정하기
 		<div>
-			<form method="post" action="freeBoardRegisterController">
+			<form method="post" action="freeBoardUpdateController">
 				<table class="table">
 					<thead>
 						<tr>
@@ -35,8 +35,12 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="text" value="${content.nickName}" class="form-control" placeholder="닉네임" name="nickName" maxlength="10"></td>
-							<td><input type="password" value="${content.password}" class="form-control" placeholder="비밀번호" name="password" maxlength="10"></td>
+							<td>
+								<label>아이디는 변경 할 수 없습니다.</label>
+							</td>
+							<td>
+								<input type="password" value="${content.password}" class="form-control" placeholder="비밀번호" name="password" maxlength="10">			
+							</td>
 						</tr>
 						<tr>
 							<td colspan="2">
@@ -45,6 +49,8 @@
 						</tr>
 						<tr>
 							<td colspan="2">
+								<input type="hidden" value="${content.bbsID}" class="form-control" placeholder="닉네임" name="bbsID" maxlength="10">
+								<input type="hidden" value="${content.nickName}" class="form-control" placeholder="닉네임" name="nickName" maxlength="10">
 								<textarea id="summernote" name="content" class="summernote" maxlength="2048">${content.bbsContente}</textarea>
 							</td>
 						</tr>

@@ -74,10 +74,10 @@
 					<tr>
 						<td style="text-align: left;">
 							<div>
-								<span style="font-weight: bold;">작성자  </span>${detail.nickName}<br/>
+								<span style="font-weight: bold;">작성자&nbsp;&nbsp;</span>${detail.nickName}<br/>
 							</div>
 							<div>
-								<span style="font-weight: bold;">작성일자  </span>${detail.nickName}<br/>
+								<span style="font-weight: bold;">작성일자 &nbsp;</span>${detail.bbsDate}<br/>
 							</div>
 						</td>
 					</tr>
@@ -87,11 +87,9 @@
 					<tr id="upvote_bbsID">
 						<td colspan="3" style="text-align: center;">
 							<c:if test="${userID == 'guest'}">
-								<!-- ${userID} 로그인시 세션에 저장해둠 -->
 								<button onclick="guest()" class="btn btn-primary">${detail.bbsUpvote} 추천</button>
 							</c:if>
 							<c:if test="${userID != 'guest'}">
-								<!-- ${userID} 로그인시 세션에 저장해둠 -->
 								<button onclick="upvoteUpdate(${detail.bbsID}, ${userID})" class="btn btn-primary">${detail.bbsUpvote} 추천</button>
 							</c:if>
 						</td>
@@ -136,7 +134,7 @@
 			</div>
 			<div class="row pad">
 				<div class="col">
-					<a href="javascript:doDisplay(dispID_${comments.commentID});">${comments.comment}</a>
+					<a class="text-dark" href="javascript:doDisplay(dispID_${comments.commentID});">${comments.comment}</a>
 				</div>
 			</div>
 			<!-- 대댓글 입력창 -->
@@ -178,7 +176,7 @@
 				</div>
 				<div class="row">
 					<div class="col offset-1 pad">
-						<span style="background-color: lavender;">@${comments.writeID}</span> ${reply.replyComment}
+						<span style="background-color: lavender;">@${comments.writeID}</span>&nbsp;&nbsp;${reply.replyComment}
 					</div>
 				</div>
 			</c:forEach>
@@ -226,13 +224,14 @@
 		</table>
 	</div>
 	
-	<div id="msgArea" style="display:none; position:absolute; width:200px; height:100px; background-color: #E0FFFF">
+	<div id="passPopup" style="display:none; position:absolute; width:200px; height:100px; background-color: #E0FFFF">
 		<div style="text-align: center;">
 			비밀번호를 입력 하세요
 			<input type="password" id="contentPassword" style="width:150px; height:30px; font-size:30px;">
+			<input type="hidden" id="popType">
 		</div>
 		<div style="text-align: center;">
-			<span><button class="btn btn-primary" style="font-size:15px;" onclick="contentModify(contentPassword)">확인</button></span>
+			<span><button class="btn btn-primary" style="font-size:15px;" onclick="passPopupValid(popType, contentPassword)">확인</button></span>
 			<span><button class="btn btn-primary" style="font-size:15px;" onclick="popclose()">취소</button></span>
 		</div>
 	</div>
@@ -253,13 +252,57 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
-		function contentModify(pass) {
+		function passPopupValid(popType, pass) {
 			var pass = pass.value;
 			if (pass.length == 0) {
 				alert('비밀번호를 입력 하세요');
 				return;
 			}
 			
+			var bbsID = document.getElementById("bbsID").value;
+			// 댓글, 대댓글은 뒤에 넘버가 따라와서 정규식으로 구분함
+			var commentDelete = /commentDelete/;
+			var replyDelete = /replyDelete/;
+			
+			if (popType.value == 'contentModify') {
+				goContentModify(bbsID, pass);
+			} else if (popType.value == 'contentDelete') {
+				goContentDelete(bbsID, pass);
+			} else if (commentDelete.test(popType.value)) {
+				goCommentDelete(popType, pass);
+			} else if (replyDelete.test(popType.value)) {
+				goReplyDelete(popType, pass);
+			}
+		}
+		
+		function goContentModify(bbsID, pass) {
+			var bbsID = document.getElementById("bbsID").value;
+			var data = {bbsID: bbsID, password: pass}
+			console.log(data);
+			$.ajax({
+				type: "post",
+				url: "contentPassCheck",
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				
+				success: function(json) {
+					if (json[0].resultCode == 'ok') {
+						location.href = 'contentModifyController?id='+ bbsID +'';
+					} else if (json[0].resultCode == 'wrongPass'){
+						alert('비밀번호가 잘못 되었습니다.')
+					} else {
+						alert('데이터베이스 오류 입니다.');
+					}
+				},
+				error: function(json) {
+					alert('시스템 오류 입니다.')
+					location.href = '/index.jsp';
+				}
+			});
+		}
+		
+		function goContentDelete(bbsID, pass) {
 			var bbsID = document.getElementById("bbsID").value;
 			var data = {bbsID: bbsID, password: pass}
 			console.log(data);
@@ -272,10 +315,51 @@
 				
 				success: function(json) {
 					if (json[0].resultCode == 'ok') {
-						alert('삭제 되었습니다.')
-						location.href = '/freeBoardController?pageNumber=1';
+						alert('삭제되었습니다.');
+						location.href = 'freeBoardController?pageNumber=1';
+					} else if (json[0].resultCode == 'wrongPass') {
+						alert('비밀번호가 잘못 되었습니다.');
+					} else {
+						alert('데이터베이스 오류 입니다.');
+					}
+				},
+				error: function(json) {
+					alert('시스템 오류 입니다.')
+					location.href = '/index.jsp';
+				}
+			});
+		}
+		
+		function goReplyDelete(popType, pass) {
+			var replyIDSp = {};
+			replyIDSp = popType.value.split("_");
+			var replyID = replyIDSp[1];
+			var data = {replyID: replyID, password: pass};
+			commentReplyAjax(data, 'replyDeleteController');
+		}
+		
+		function goCommentDelete(popType, pass) {
+			var commentIDSp = {};
+			commentIDSp = popType.value.split("_");
+			var commentID = commentIDSp[1];
+			var data = {commentID: commentID, password: pass};
+			commentReplyAjax(data, 'commentDeleteController');
+		}
+		
+		function commentReplyAjax(data, url) {
+			$.ajax({
+				type: "post",
+				url: url,
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				
+				success: function(json) {
+					if (json[0].resultCode == 'ok') {
+						popclose();
+						$("#commentList").load(location.href + " #commentList");
 					} else if (json[0].resultCode == 'wrongPass'){
-						alert('비밀번호가 잘못 되었습니다.')
+						alert('비밀번호가 잘못 되었습니다.');
 					} else {
 						alert('데이터베이스 오류 입니다.');
 					}
@@ -292,33 +376,38 @@
 		function commentShowPop(tagID) {
 			var id = tagID.id;
 			var buttonLocation = $('#'+ id +'').offset();
-			popup(buttonLocation);
+			popup(buttonLocation, tagID);
 		}
 		// 버튼 위치 절대 경로 페이지 0,0 부터 절대값으로 좌표 가져옴
 		function replyShowPop(tagID) {
 			var id = tagID.id;
 			var buttonLocation = $('#'+ id +'').offset();
-			popup(buttonLocation);
+			popup(buttonLocation, tagID);
 		}
 		// 버튼 위치 상대 경로 페이지 0,0 부터 절대값으로 좌표 가져옴
 		function showPop(tagID) {
 			var id = tagID.id
 			var buttonLocation = $('#'+ id +'').position(); // 버튼의 위치에 레이어를 띄우고자 할 경우, 위치 정보 가져옴
-			popup(buttonLocation);
+			popup(buttonLocation, tagID);
 		}
 		
-		function popup(buttonLocation) {
+		function popup(buttonLocation, tagID) {
 			var popX = buttonLocation.left - 200;
 			var popY = buttonLocation.top - 100;
-			var lay_pop = $('#msgArea');			
+			var lay_pop = $('#passPopup');			
 			lay_pop.css('left', (popX) + 'px'); // 레이어 위치 지정
-			lay_pop.css('top', (popY) + 'px');   
+			lay_pop.css('top', (popY) + 'px');  
+			
+			var popType = document.getElementById("popType");	
+			popType.value = tagID.id;
 			lay_pop.fadeIn();
 			lay_pop.focus();
 		}
 		
 		function popclose() {
-			var lay_pop = $('#msgArea');
+			var lay_pop = $('#passPopup');
+			var userInputPass = document.getElementById("contentPassword");
+			userInputPass.value = "";
 			lay_pop.fadeOut();
 		}
 	</script>
@@ -353,7 +442,6 @@
 		function replyWriteWindow(id) {
 			$("textarea[id^='reply_text_"+ id +"']").bind("change keyup input", function(event) {
 				$("div[id^='reply_text_count_"+ id +"']").html("("+$(this).val().length+" / 100)");
-				
 				if($(this).val().length > 100) {
 					$(this).val($(this).val().substring(0, 100));
 					$("div[id^='reply_text_count_"+ id +"']").html("(100 / 100)");
@@ -362,7 +450,7 @@
 		}
 	</script>
 	<script type="text/javascript">
-	// 게시글 추천
+		// 게시글 추천
 		function upvoteUpdate(bbsID, userID) {
 			var data = {bbsID: bbsID, userID: userID}
 			$.ajax({
@@ -374,13 +462,13 @@
 				
 				success: function(json) {
 					if (json[0].resultCode == 'ok') {
-						upvotePrint(json, bbsID);
+						upvotePrint(json, bbsID)
 					} else if (json[0].resultCode == 'no') {
-						alert('추천은 한번만 가능 합니다.')
-						upvotePrint(json, bbsID);
+						alert('추천은 한번만 가능 합니다.');
+						upvotePrint(json, bbsID)
 					} else {
-						alert('데이터베이스 오류 입니다.')
-						upvotePrint(json, bbsID);
+						alert('데이터베이스 오류 입니다.');
+						upvotePrint(json, bbsID)
 					}
 				},
 				error: function(json) {
@@ -388,6 +476,7 @@
 				}
 			});
 		}
+		// 부분 새로고침 하면 너무 느려서 간단한곳은 직접 작성
 		function upvotePrint(json, bbsID) {
 			var upvote = document.getElementById("upvote_bbsID");	
 			upvote.innerHTML = '<td colspan="3" style="text-align: center;">' +
@@ -396,75 +485,8 @@
 							   '</td>'
 		}
 	</script>
-	<script type="text/javascript"> 
-		$("button[id^='delID_']").click(function(envet){   
-			var x = event.clientX - 250;    
-			var	y = event.clientY;		
-  			openForm(x, y, this);	  			
-  		});
-		
-		function modifyMsg(msg){
-			alert(msg);
-		}
-		
-		function goModify(bbsID) {
-			location.href = 'contentModifyController?id='+ bbsID +'';
-		}
-		
-		// 댓글 삭제 버튼 클릭시 자식창에서 보내주는 메시지를 띄움
-		function delMsg(msg, resultCode, commentCount){
-			alert(msg);
-			if (resultCode == 'OK') {
-				var bbsID = $('#bbsID').val();				
-				pageReload(bbsID);
-			}
-		}
-		
-		function bbsDelMsg(msg, code){
-			alert(msg);	
-			if (code == "OK") {
-				location.href = 'freeBoardController?pageNumber=1';
-			}
-		}
-	</script>
 	<script type="text/javascript">
-	// 대댓글
-		function replyRegister(nick, pass, content, tagHideID) {
-			var data = {
-					commentID: tagHideID.value,
-					bbsID: $('#bbsID').val(),
-					nickName: nick.value,
-					password: pass.value,
-					replyComment: content.value
-				}
-			
-				$.ajax({
-					type: "post",
-					url: "replyRegisterController",
-					data: JSON.stringify(data),
-					contentType: "application/json; charset=utf-8",
-					dataType: "json",
-					
-					success: function(json) {
-						// 작성완료시 대댓글창 없앰
-						doDisplay(tagHideID);
-						console.log(json);
-						if (json[0].resultCode == 'isNull') {
-							alert('빈칸없이 작성 해야 합니다.')
-						} else if (json[0].resultCode == 'error'){
-							alert('데이터베이스 오류 입니다.')
-						} else {
-							$("#commentList").load(window.location.href + "#commentList");
-						}
-					},
-					error: function(json) {
-						alert('빈칸없이 작성해야 합니다.')
-					}
-				});
-		}
-	</script>
-	<script type="text/javascript">
-	// 댓글
+		// 댓글
 		function commentRegister() {
 			var data = {
 				writeID: $("#writeID").val(),
@@ -472,10 +494,30 @@
 				bbsID: $("#bbsID").val(),
 				comment: $("#comment").val()
 			}
-			console.log(data);
+			var url = 'commentRegisterController';
+			sendDataToServer(data, url);
+			writeID: $("#writeID").val("");
+			password: $("#password").val("");
+			comment: $("#comment").val("");
+		}
+		
+		// 대댓글
+		function replyRegister(nick, pass, content, tagHideID) {
+			var data = {
+					commentID: tagHideID.value,
+					bbsID: $('#bbsID').val(),
+					nickName: nick.value,
+					password: pass.value,
+					replyComment: content.value
+			}
+			var url = 'replyRegisterController'
+			sendDataToServer(data, url);
+		}
+		
+		function sendDataToServer(data, url) {
 			$.ajax({
 				type: "post",
-				url: "commentRegisterController",
+				url: url,
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
@@ -486,22 +528,15 @@
 					} else if (json[0].resultCode == 'error'){
 						alert('데이터베이스 오류 입니다.')
 					} else {
-						$("#commentList").load(window.location.href + "#commentList");
+						$("#commentList").load(location.href + " #commentList");
 					}
 				},
 				error: function(json) {
-					alert('시스템 오류 입니다.')
+					alert('시스템 오류입니다.')
 				}
 			});
 		}
 	</script>
-	<script type="text/javascript">
-		function openForm(x, y, tagID) {
-			var options = 'width=200, height=100, top='+ y +', left='+ x +', resizable=no, scrollbars=no, location=no'; 
-			window.open('./delForm.jsp?id=' + (tagID.id) + '', 'delForm', options);
-		}
-	</script>
-
 </body>
 </html>
 

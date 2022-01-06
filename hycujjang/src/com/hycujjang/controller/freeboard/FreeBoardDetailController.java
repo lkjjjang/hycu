@@ -39,6 +39,7 @@ public class FreeBoardDetailController extends HttpServlet{
 		
 		// 글 내용 생성		
 		bbsDTO = bbsDAO.getFreeBoardDetail(bbsID);
+		regDateModify(bbsDTO);
 
 		// 댓글목록 생성
 		ArrayList<CommentDTO> commentList = new ArrayList<CommentDTO>();
@@ -89,6 +90,20 @@ public class FreeBoardDetailController extends HttpServlet{
 					comment.addReplyList(reply);
 				}
 			}
+		}
+	}
+	
+	private void regDateModify(BbsDTO bbsDTO) {
+		// 작성일자 '년,월,일'이 다르면 년,월,일 출력 같으면 시,분 출력
+		Date nowTime = new Date();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		// db 저장형식 2022-01-06 17:53:29
+		String[] dtoDate = bbsDTO.getBbsDate().split(" ");
+		if (dtoDate[0].equals(sf.format(nowTime))) {
+			bbsDTO.setBbsDate(dtoDate[1].substring(0, 5));
+		} else {
+			bbsDTO.setBbsDate(dtoDate[0]);
 		}
 	}
 	

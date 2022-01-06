@@ -48,27 +48,19 @@ public class FreeBoardController extends HttpServlet {
 			
 			String devices = (String) request.getSession().getAttribute("devices");	
 			if (devices.equals("mobile")) {
-				request.getRequestDispatcher("mobile.jsp").forward(request, response);
+				request.getRequestDispatcher("freeBoardMobile.jsp").forward(request, response);
 			} else {
 				request.getRequestDispatcher("freeBoard.jsp").forward(request, response);
 			}
 		}
 	}
 	
-	private String parseJson(String resultCode) {		
-		StringBuilder sb = new StringBuilder();
-		sb.append("[{\"resultCode\":\"");
-		sb.append(resultCode);
-		sb.append("\"}]");
-		
-		return sb.toString();
-	}
-	
 	private void regDateModify(ArrayList<BbsDTO> list) {
-		// 작성일자 '일자'가 다르면 년,월,일 출력 같으면 시,분 출력
+		// 작성일자 '년,월,일'이 다르면 년,월,일 출력 같으면 시,분 출력
 		Date nowTime = new Date();
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-
+		
+		// db 저장형식 2022-01-06 17:53:29
 		for (BbsDTO dto: list) {
 			String[] dtoDate = dto.getBbsDate().split(" ");
 			
