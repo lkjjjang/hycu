@@ -38,8 +38,14 @@ public class CommentRegisterController extends HttpServlet {
 		}
 
 		// 아이피 생성
-		commentDTO.setIp(getClientIP(request));
-
+		String test = getClientIP(request);
+		String[] ipNums = test.split("\\.");
+		if (ipNums.length == 4) {
+			commentDTO.setIp(ipNums[2] + "." + ipNums[3]);
+		} else {
+			commentDTO.setIp("0.0");
+		}
+		
 		// 댓글테이블에 저장
 		CommentDAO commentDAO = new CommentDAO();
 		int result = commentDAO.write(commentDTO);

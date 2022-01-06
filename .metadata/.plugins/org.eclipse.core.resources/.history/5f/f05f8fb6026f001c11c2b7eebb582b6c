@@ -1,0 +1,17 @@
+package com.hycujjang.util;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+
+public class Gmail extends Authenticator {
+	PasswordAuthentication pa;
+	
+    public Gmail() {
+        pa = new PasswordAuthentication("lkjjjang1985@gmail.com","sivbnyzlpvkrlrtg");
+    }
+
+	public PasswordAuthentication getPasswordAuthentication() {
+		return pa;
+	}
+}
+

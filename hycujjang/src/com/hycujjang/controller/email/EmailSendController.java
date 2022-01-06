@@ -27,12 +27,11 @@ public class EmailSendController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("dddddd");
 		UserDAO userDAO = new UserDAO();	
 		String userID = request.getParameter("userID");
 		PrintWriter script = response.getWriter();
 		
-		String host = "http://localhost:8080/";
+		String host = "http://hycujjang.com/";
 		String from = "lkjjjang1985@gmail.com";
 		String to = userDAO.getUserEmail(userID);
 		String subject = "강의평가를 위한 이메일 인증 메일입니다.";

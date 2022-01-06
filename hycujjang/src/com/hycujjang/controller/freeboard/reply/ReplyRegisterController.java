@@ -38,6 +38,14 @@ public class ReplyRegisterController extends HttpServlet{
 			return;
 		}
 		
+		// 아이피 생성 4등분된 아이피중 뒤 2원소
+		String[] ipNums = getClientIP(request).split("\\.");
+		if (ipNums.length == 4) {
+			replyDTO.setIp(ipNums[2] + "." + ipNums[3]);
+		} else {
+			replyDTO.setIp("0.0");
+		}
+		
 		// 대댓글테이블에 저장
 		ReplyDAO replyDAO = new ReplyDAO();
 		int result = replyDAO.write(replyDTO);
@@ -45,6 +53,8 @@ public class ReplyRegisterController extends HttpServlet{
 			response.getWriter().write(parseJson("error"));
 			return;
 		}
+		System.out.println("reply : " + replyDTO);
+		
 		BbsDAO.bbsCommentCountUp(replyDTO.getBbsID());
 		
 		// 요청에 응답해줌
@@ -58,6 +68,20 @@ public class ReplyRegisterController extends HttpServlet{
 		sb.append("\"}]");
 		
 		return sb.toString();
+	}
+	
+	private String getClientIP(HttpServletRequest request) {
+		String ip = request.getHeader("X-FORWARDED-FOR");
+		if (ip == null || ip.length() == 0) {
+			ip = request.getHeader("Procy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
 	}
 }
 

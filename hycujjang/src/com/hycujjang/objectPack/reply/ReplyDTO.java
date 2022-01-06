@@ -8,13 +8,25 @@ public class ReplyDTO {
 	private String password;
 	private String replyComment;
 	private String regDate;
+	private String ip;
 	
 	public ReplyDTO() {
 		
 	}
 	
+	public ReplyDTO(int replyID, int commentID, int bbsID, String nickName, String password, String replyComment,
+			String regDate, String ip) {
+		this.replyID = replyID;
+		this.commentID = commentID;
+		this.bbsID = bbsID;
+		this.nickName = nickName;
+		this.password = password;
+		this.replyComment = replyComment;
+		this.regDate = regDate;
+		this.ip = ip;
+	}
+	
 	public ReplyDTO(int commentID, int bbsID, String nickName, String password, String replyComment) {
-		super();
 		this.commentID = commentID;
 		this.bbsID = bbsID;
 		this.nickName = nickName;
@@ -24,7 +36,6 @@ public class ReplyDTO {
 
 	public ReplyDTO(int replyID, int commentID, int bbsID, String nickName, String password,
 			String replyComment, String regDate) {
-		super();
 		this.replyID = replyID;
 		this.commentID = commentID;
 		this.bbsID = bbsID;
@@ -32,6 +43,14 @@ public class ReplyDTO {
 		this.password = password;
 		this.replyComment = replyComment;
 		this.regDate = regDate;
+	}
+	
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 	public int getBbsID() {
@@ -93,6 +112,8 @@ public class ReplyDTO {
 	@Override
 	public String toString() {
 		return "ReplyDTO [replyID=" + replyID + ", commentID=" + commentID + ", bbsID=" + bbsID + ", nickName="
-				+ nickName + ", password=" + password + ", replyComment=" + replyComment + ", regDate=" + regDate + "]";
+				+ nickName + ", password=" + password + ", replyComment=" + replyComment + ", regDate=" + regDate
+				+ ", ip=" + ip + "]";
 	}
+	
 }

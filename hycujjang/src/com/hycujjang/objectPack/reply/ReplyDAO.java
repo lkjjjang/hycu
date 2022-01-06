@@ -164,7 +164,7 @@ public class ReplyDAO {
 		return -1; // 데이터베이스 오류
 	}
 	public int write(ReplyDTO replyDTO) {
-		String SQL = "INSERT INTO FREE_BBS_REPLY(commentID, bbsID, nickName, password, replyComment) VALUES(?, ?, ?, ?, ?)";
+		String SQL = "INSERT INTO FREE_BBS_REPLY(commentID, bbsID, nickName, password, replyComment, ip) VALUES(?, ?, ?, ?, ?, ?)";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -176,6 +176,7 @@ public class ReplyDAO {
 			pstmt.setString(3, replyDTO.getNickName().replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
 			pstmt.setString(4, replyDTO.getPassword().replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
 			pstmt.setString(5, replyDTO.getReplyComment().replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(6, replyDTO.getIp());
 			
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -208,7 +209,8 @@ public class ReplyDAO {
 						rs.getString(4),
 						rs.getString(5),
 						rs.getString(6),
-						rs.getString(7)
+						rs.getString(7),
+						rs.getString(8)
 						);
 				list.add(replyDTO);
 			}

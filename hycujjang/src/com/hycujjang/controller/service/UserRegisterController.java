@@ -81,10 +81,7 @@ public class UserRegisterController extends HttpServlet {
 		
 		for (String cha: split) {
 			String[] sp = cha.split(":");
-			System.out.println("sp0 : " + sp[0]);
-			System.out.println("sp1 : " + sp[1]);
 			if (sp.length == 1) {
-				System.out.println("ddd");
 				return null;
 			}
 			result.put(sp[0], sp[1]);

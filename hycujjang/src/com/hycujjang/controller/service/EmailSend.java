@@ -21,17 +21,18 @@ public class EmailSend {
 	}
 		
 	public int send() {
-		String host = "http://localhost:8080/";
-		String from = "lkjjjang1985@gmail.com";
+		String host = "http://hycujjang.com/";
+		//String from = "lkjjjang1985@gmail.com";
+		String from = "lkjjjang@jsplkjjjang85.cafe24.com";
 		String to = this.email;
 		String subject = "강의평가를 위한 이메일 인증 메일입니다.";
 		String content = "다음 링크에 접속하여 이메일 인증을 진행하세요." +
 			"<a href='" + host + "emailCheckAction?code=" + SHA256.getSHA256(to) + ""
 					+ "&id=" + to + "'>이메일 인증하기</a>";
-	
 		Properties p = new Properties();
 		p.put("mail.smtp.starttls.enable", "true");
-		p.put("mail.smtp.host", "smtp.gmail.com");
+		//p.put("mail.smtp.host", "smtp.gmail.com");
+		p.put("mail.smtp.host", "smtp.cafe24.com");
 		p.put("mail.smtp.auth", "true");	
 		p.put("mail.smtp.port", "587");
 		

@@ -127,7 +127,7 @@
 			<input type="hidden" id="dispID_${comments.commentID}" value="${comments.commentID}">
 			<input type="hidden" id="commentWriter_${comments.commentID}" value="${comments.writeID}">
 			<div class="row bg-light">
-				<div class="col-6 pad" style="text-align: left;">${comments.writeID}</div>
+				<div class="col-6 pad" style="text-align: left;">${comments.writeID}<span style="font-size: 10px;">&nbsp;(${comments.ip})</span></div>
 				<div class="col-6 pad" style="text-align: right;">${comments.regDate} 
 					<a href="#" id="commentDelete_${comments.commentID}" onclick="commentShowPop(this); return false;"><img src="images/del.png" width="15" height="15"></a>
 				</div>
@@ -169,7 +169,7 @@
 			
 			<c:forEach var="reply" varStatus="status" items="${comments.replyList}">
 				<div class="row">
-					<div class="col-6 offset-1 bg-light pad" style="text-align: left;">${reply.nickName}</div>
+					<div class="col-6 offset-1 bg-light pad" style="text-align: left;">${reply.nickName}<span style="font-size: 10px;">&nbsp;(${reply.ip})</span></div>
 					<div class="col-5 bg-light pad" style="text-align: right;">${reply.regDate}
 						<a href="#" id="replyDelete_${reply.replyID}" onclick="replyShowPop(this); return false;"><img src="images/del.png" width="15" height="15"></a>
 					</div>
