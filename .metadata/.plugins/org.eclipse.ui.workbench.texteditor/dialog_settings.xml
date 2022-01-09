@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="commentShowPop" key="selection"/>
+		<item value="text_count" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="text_count"/>
+			<item value="comment_text_count"/>
+			<item value="popup"/>
+			<item value="showPop"/>
+			<item value="deleteAll"/>
+			<item value="select"/>
+			<item value="admin"/>
+			<item value="guest()"/>
+			<item value="guest"/>
+			<item value="guestWrite()"/>
+			<item value="글쓰기"/>
 			<item value="commentShowPop"/>
 			<item value="contentModify"/>
 			<item value="passPopup"/>
 			<item value="upvote"/>
-			<item value="commentList"/>
-			<item value="commentRegister"/>
-			<item value="contentModifyC"/>
-			<item value="test.value"/>
-			<item value="commentDelete_"/>
-			<item value="btn_pos"/>
-			<item value="추천"/>
-			<item value="dispID_"/>
-			<item value="commentPrint"/>
-			<item value="writeID"/>
-			<item value="commentRegister()"/>
 		</list>
 		<list key="replacehistory">
 		</list>

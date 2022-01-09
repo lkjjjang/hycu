@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.hycujjang.controller.email.EmailSend;
 import com.hycujjang.enumCollection.UserRegisterEnum;
 import com.hycujjang.objectPack.user.UserDAO;
 import com.hycujjang.objectPack.user.UserDTO;
@@ -43,7 +44,7 @@ public class UserRegisterController extends HttpServlet {
 		} 
 		
 		String userID = requestMap.get("id");
-		String pass = requestMap.get("pass");
+		String pass = SHA256.getSHA256(requestMap.get("pass"));
 		String email = requestMap.get("email");
 		
 		UserDAO user = new UserDAO();

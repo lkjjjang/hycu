@@ -1,18 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.net.URLEncoder" %>
+<%@ page import="java.io.PrintWriter" %>
+
 <!DOCTYPE html>
 <html>
 <head>
+
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>한양사이버대 강의평가</title>
-	<!-- 부트스트랩 CSS 추가하기 -->
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> 
-	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> 
-	
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+	<!-- include libraries(jQuery, bootstrap) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 	<script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 	
 </head>
@@ -26,7 +32,7 @@
 	<div class="container">
 		글쓰기
 		<div>
-			<form method="post" action="freeBoardRegisterController">
+			<form method="post" action="freeBoardRegister">
 				<table class="table">
 					<thead>
 						<tr>
@@ -52,6 +58,7 @@
 						</tr>						
 					</tbody>					
 				</table>
+				<div id="reply_text_count">(0 / 100)</div>
 			</form>
 		</div>
 	</div>
@@ -116,7 +123,7 @@
 		        processData: false,
 		        //dataType: "json", // 서버에서 보내주는 데이터를 받는 유형 (서버에서 설정한 유형과 같아야한다)
 		        //enctype: "multipart/form-data",
-		        // success함수는 기본적으로 3개의 인자를 받지만 응답코드 하나만 인자로 사용해도 무방
+		        //success함수는 기본적으로 3개의 인자를 받지만 응답코드 하나만 인자로 사용해도 무방
 				success : function(response) {
 					if (response[0].resultCode == 'capacityFull') {
 						console.log(response[1].msg);
@@ -124,7 +131,6 @@
 					} else {
 						$('#summernote').summernote('insertImage', response);
 					}
-					
 				},
 				error : function(error) {
 			        alert('시스템 오류');

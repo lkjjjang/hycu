@@ -31,7 +31,7 @@
 					<a class="nav-link" href="lectureBoardController?pageNumber=1">강의평가</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="freeBoardController?pageNumber=1">자유게시판</a>
+					<a class="nav-link" href="freeBoardListController?pageNumber=1">자유게시판</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" href="index.jsp">
@@ -93,23 +93,32 @@
 							<span style="color: green;">(추천: ${evaluationList.likeCount})</span>
 						</div>
 						<div class="col-md-3 text-right">
-							<a onclick="like(${evaluationList.evaluationID}); return false;" href="#">추천</a>
+							<c:if test="${userID != 'guest'}">
+								<a onclick="like(${evaluationList.evaluationID}); return false;" href="#">추천</a>
+							</c:if>
+							<c:if test="${userID == 'guest'}">
+								<a onclick="guest(); return false;" href="#">추천</a>
+							</c:if>
 							<c:set var="sessionID" value="${userID}"></c:set>
 							<c:set var="writerID" value="${evaluationList.userID}"></c:set>
+								<input type="hidden" name="lectureName" id="lectureName_${evaluationList.evaluationID}" value="${evaluationList.lectureName}">
+								<input type="hidden" name="professorName" id="professorName_${evaluationList.evaluationID}" value="${evaluationList.professorName}">
+								<input type="hidden" name="totalScore" id="totalScore_${evaluationList.evaluationID}" value="${evaluationList.totalScore}">
+								<input type="hidden" name="evaluationTitle" id="evaluationTitle_${evaluationList.evaluationID}" value="${evaluationList.evaluationTitle}">
+								<input type="hidden" name="lectureYear" id="lectureYear_${evaluationList.evaluationID}" value="${evaluationList.lectureYear}">
+								<input type="hidden" name="semesterDivide" id="semesterDivide_${evaluationList.evaluationID}" value="${evaluationList.semesterDivide}">
+								<input type="hidden" name="evaluationContent" id="evaluationContent_${evaluationList.evaluationID}" value="${evaluationList.evaluationContent}">
+								<input type="hidden" name="evaluationID" id="evaluationID_${evaluationList.evaluationID}" value="${evaluationList.evaluationID}">
+								<input type="hidden" name="creditScore" id="creditScore_${evaluationList.evaluationID}" value="${evaluationList.creditScore}">
+								<input type="hidden" name="comfortableScore" id="comfortableScore_${evaluationList.evaluationID}" value="${evaluationList.comfortableScore}">
+								<input type="hidden" name="lectureScore" id="lectureScore_${evaluationList.evaluationID}" value="${evaluationList.lectureScore}">
+								<input type="hidden" name="lectureDivide" id="lectureDivide_${evaluationList.evaluationID}" value="${evaluationList.lectureDivide}">
 							<c:if test="${sessionID == writerID}">
 								<a onclick="cardDelete(${evaluationList.evaluationID}); return false;" href="#">삭제</a>
-									<input type="hidden" name="lectureName" id="lectureName_${evaluationList.evaluationID}" value="${evaluationList.lectureName}">
-									<input type="hidden" name="professorName" id="professorName_${evaluationList.evaluationID}" value="${evaluationList.professorName}">
-									<input type="hidden" name="totalScore" id="totalScore_${evaluationList.evaluationID}" value="${evaluationList.totalScore}">
-									<input type="hidden" name="evaluationTitle" id="evaluationTitle_${evaluationList.evaluationID}" value="${evaluationList.evaluationTitle}">
-									<input type="hidden" name="lectureYear" id="lectureYear_${evaluationList.evaluationID}" value="${evaluationList.lectureYear}">
-									<input type="hidden" name="semesterDivide" id="semesterDivide_${evaluationList.evaluationID}" value="${evaluationList.semesterDivide}">
-									<input type="hidden" name="evaluationContent" id="evaluationContent_${evaluationList.evaluationID}" value="${evaluationList.evaluationContent}">
-									<input type="hidden" name="evaluationID" id="evaluationID_${evaluationList.evaluationID}" value="${evaluationList.evaluationID}">
-									<input type="hidden" name="creditScore" id="creditScore_${evaluationList.evaluationID}" value="${evaluationList.creditScore}">
-									<input type="hidden" name="comfortableScore" id="comfortableScore_${evaluationList.evaluationID}" value="${evaluationList.comfortableScore}">
-									<input type="hidden" name="lectureScore" id="lectureScore_${evaluationList.evaluationID}" value="${evaluationList.lectureScore}">
-									<input type="hidden" name="lectureDivide" id="lectureDivide_${evaluationList.evaluationID}" value="${evaluationList.lectureDivide}">
+								<a onclick="modify(${evaluationList.evaluationID})" href="#">수정</a>
+							</c:if>
+							<c:if test="${sessionID == 'admin'}">
+								<a onclick="cardDelete(${evaluationList.evaluationID}); return false;" href="#">삭제</a>
 								<a onclick="modify(${evaluationList.evaluationID})" href="#">수정</a>
 							</c:if>
 						</div>
@@ -438,6 +447,11 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
+		function guest() {
+			alert('게스트 계정은 사용 할 수 없습니다.');
+		}
+	</script>
+	<script type="text/javascript">
 		function modify(id) {
 			var evaluationID = id;
 			var evaluationContent1 = document.getElementById('evaluationContent_'+ id +'').value;
@@ -624,11 +638,6 @@
 					alert('시스템 오류 입니다.')
 				}
 			});
-		}
-	</script>
-	<script type="text/javascript">
-		function guest(){
-			alert('게스트계정은 사용할 수 없습니다.');
 		}
 	</script>	
 </body>

@@ -66,12 +66,8 @@ public class VoteController extends HttpServlet{
 			return ResultCode.NO;
 		}
 		
-		// 추천시 FREE_BBS 테이블에 추천수 증가
 		int upResult = voteDAO.upvote(voteDTO);
 		if (upResult == 1) {
-			BbsDAO bbsDAO = new BbsDAO();
-			int bbsID = Integer.parseInt(voteDTO.getBbsID());
-			bbsDAO.update(bbsID);
 			return ResultCode.OK;
 		} else {
 			return ResultCode.ERROR;

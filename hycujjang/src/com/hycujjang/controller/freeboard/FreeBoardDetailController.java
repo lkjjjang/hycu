@@ -15,6 +15,7 @@ import com.hycujjang.objectPack.comment.CommentDAO;
 import com.hycujjang.objectPack.comment.CommentDTO;
 import com.hycujjang.objectPack.freeBBS.BbsDAO;
 import com.hycujjang.objectPack.freeBBS.BbsDTO;
+import com.hycujjang.objectPack.freeBBS.ViewBbsDTO;
 import com.hycujjang.objectPack.reply.ReplyDAO;
 import com.hycujjang.objectPack.reply.ReplyDTO;
 
@@ -32,7 +33,7 @@ public class FreeBoardDetailController extends HttpServlet{
 		}
 		
 		BbsDAO bbsDAO = new BbsDAO();
-		BbsDTO bbsDTO = new BbsDTO();
+		ViewBbsDTO bbsDTO = new ViewBbsDTO();
 		
 		// 조회수 증가
 		bbsDAO.hitUpdate(bbsID);
@@ -56,9 +57,7 @@ public class FreeBoardDetailController extends HttpServlet{
 		request.setAttribute("freeBoardDetail", bbsDTO);
 		request.setAttribute("comments", commentList);
 		request.setAttribute("commentCount", commentCount);
-		for (CommentDTO s: commentList) {
-			System.out.println(s);
-		}
+		
 		String devices = (String) request.getSession().getAttribute("devices");	
 		if (devices.equals("mobile")) {
 			request.getRequestDispatcher("viewMobile.jsp").forward(request, response);
@@ -95,7 +94,7 @@ public class FreeBoardDetailController extends HttpServlet{
 		}
 	}
 	
-	private void regDateModify(BbsDTO bbsDTO) {
+	private void regDateModify(ViewBbsDTO bbsDTO) {
 		// 작성일자 '년,월,일'이 다르면 년,월,일 출력 같으면 시,분 출력
 		Date nowTime = new Date();
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");

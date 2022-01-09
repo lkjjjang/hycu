@@ -28,7 +28,7 @@
 					<a class="nav-link" href="lectureBoardController?pageNumber=1">강의평가</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="freeBoradController?pageNumber=1">자유게시판</a>
+					<a class="nav-link" href="freeBoradListController?pageNumber=1">자유게시판</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" href="index.jsp">
@@ -176,6 +176,7 @@
 		
 		function idAvailableCheck() {
 			var id = document.getElementById('id').value;
+			
 			if (id.length < 6 || id.length > 12) {
 		        alert('아이디는 6글자 이상, 12글자 이하만 이용 가능합니다.');
 			}

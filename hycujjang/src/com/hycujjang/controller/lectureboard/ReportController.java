@@ -42,17 +42,10 @@ public class ReportController extends HttpServlet{
 		
 		if (reportTitle == null || reportContent == null
 				|| reportTitle.equals("") || reportContent.equals("")) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('입력이 안된 사항이 있습니다.');");
-			script.println("history.back();");
-			script.println("</script>");
-			script.close();
+			pageBack(response, "입력이 안된 사항이 있습니다.");
 		}
 		
-		String host = "http://localhost:18080/Lecture_Evalution/";
-		String from = "lkjjjang1985@gmail.com";
-		// 관리자 이메일 주소
+		String from = "lkjjjang@hycujjang.com";
 		String to = "lkjjjang@naver.com";
 		String subject = "강의평가 사이트에서 접수된 신고 메일 입니다.";
 		String content = "신고자: " + userID +
@@ -60,16 +53,11 @@ public class ReportController extends HttpServlet{
 						 "<br>내용: " + reportContent;
 			
 		Properties p = new Properties();
-		
-		p.put("mail.smtp.user", from);
-		p.put("mail.smtp.host", "smtp.gmail.com");
-		p.put("mail.smtp.port", "465");
-		p.put("mail.smtp.startssl.enable", "true");
-		p.put("mail.smtp.auth", "true");
-		p.put("mail.smtp.debug", "true");
-		p.put("mail.smtp.socketFactory.port", "465");
-		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		p.put("mail.smtp.socketFactory.fallback", "false");
+		p.put("mail.smtp.starttls.enable", "true");
+		//p.put("mail.smtp.host", "smtp.gmail.com");
+		p.put("mail.smtp.host", "smtp.cafe24.com");
+		p.put("mail.smtp.auth", "true");	
+		p.put("mail.smtp.port", "587");
 		
 		try {
 			Authenticator auth = new Gmail();
@@ -89,21 +77,27 @@ public class ReportController extends HttpServlet{
 			Transport.send(msg);
 			
 		} catch (Exception e) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('오류가 발생했습니다.');");
-			script.println("history.back();");
-			script.println("</script>");
-			script.close();
+			pageBack(response, "시스템 오류 입니다.");
 		}
 		// 문제 없이 신고된 상태
+		pageBack(response, "정상적으로 신고 되었습니다.", "lectureBoardController?pageNumber=1");
+	}
+	
+	private void pageBack(HttpServletResponse response, String alertMsg, String url) throws IOException {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
-		script.println("alert('정상적으로 신고 되었습니다.');");
-		script.println("history.back();");
+		script.println("alert('" + alertMsg + "');");
+		script.println("location.href = '"+ url +"'");
 		script.println("</script>");
 		script.close();
-		
-		
+	}
+	
+	private void pageBack(HttpServletResponse response, String alertMsg) throws IOException {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('" + alertMsg + "');");
+		script.println("location.href = 'index2.jsp'");
+		script.println("</script>");
+		script.close();
 	}
 }

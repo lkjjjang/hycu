@@ -7,7 +7,6 @@
 <fullyQualifiedTypeName name="com.hycujjang.enumCollection.UserRegisterEnum"/>
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.user.UserDAO"/>
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
-<fullyQualifiedTypeName name="com.hycujjang.util.SHA256"/>
 <fullyQualifiedTypeName name="com.hycujjang.controller.email.EmailSendController"/>
 <fullyQualifiedTypeName name="javax.servlet.ServletContext"/>
 <fullyQualifiedTypeName name="org.apache.coyote.http11.Http11AprProtocol"/>
@@ -26,4 +25,6 @@
 <fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
 <fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="com.hycujjang.util.SHA256"/>
+<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
 </qualifiedTypeNameHistroy>

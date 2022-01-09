@@ -32,6 +32,12 @@
 			overflow:hidden !important; 
 			touch-action:none;
 		}
+		.bp {
+			height: auto; 
+			width: 100%; 
+			border-bottom:1px solid silver; 
+			padding: 6px;
+		}
 	</style>
 </head>
 <body>
@@ -47,7 +53,7 @@
 					<a class="nav-link" href="lectureBoardController?pageNumber=1">강의평가</a>
 				</li>
 				<li class="nav-item active">
-					<a class="nav-link" href="freeBoardController?pageNumber=1">자유게시판</a>
+					<a class="nav-link" href="freeBoardListController?pageNumber=1">자유게시판</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" href="index.jsp">
@@ -62,59 +68,52 @@
 	</nav>
 	
 	<div class="container">
-		<div>
-			<c:set var="detail" value="${freeBoardDetail}"></c:set>
-			<table class="table" style="text-align: left;">
-				<thead>
-					<tr>
-						<th colspan="3"><h1>${detail.bbsTitle}</h1></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style="text-align: left;">
-							<div>
-								<span style="font-weight: bold;">작성자&nbsp;&nbsp;</span>${detail.nickName}<br/>
-							</div>
-							<div>
-								<span style="font-weight: bold;">작성일자 &nbsp;</span>${detail.bbsDate}<br/>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3" style="text-align: left; height: 300px;">${detail.bbsContente}</td>
-					</tr>
-					<tr id="upvote_bbsID">
-						<td colspan="3" style="text-align: center;">
-							<c:if test="${userID == 'guest'}">
-								<button onclick="guest()" class="btn btn-primary">${detail.bbsUpvote} 추천</button>
-							</c:if>
-							<c:if test="${userID != 'guest'}">
-								<button onclick="upvoteUpdate(${detail.bbsID}, ${userID})" class="btn btn-primary">${detail.bbsUpvote} 추천</button>
-							</c:if>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<c:set var="detail" value="${freeBoardDetail}"></c:set>
+		<div class="row">
+			<div class="col-12">
+				<div class="bp">
+					<h1>${detail.bbsTitle}</h1>
+				</div>
+			</div>
 		</div>
-		<c:if test="${userID == 'guest'}">
-			<div style="text-align: right;">
-				<button class="btn btn-outline-secondary" onclick="guest()">수정</button>
-				<button class="btn btn-outline-secondary" onclick="guest()">삭제</button>
+		<div class="row">
+			<div class="col-12">
+				<div class="bp">
+					<span style="font-weight: bold;">작성자&nbsp;</span>${detail.nickName}<br>
+					<span style="font-weight: bold;">작성일자 &nbsp;</span>${detail.bbsDate}
+				</div>
 			</div>
-		</c:if>
-		<c:if test="${userID != 'guest'}">
-			<div style="text-align: right;">
-				<button class="btn btn-outline-secondary" id="contentModify" onclick="showPop(this)">수정</button>
-				<button class="btn btn-outline-secondary" id="contentDelete" onclick="showPop(this)">삭제</button>
+		</div>
+		<div class="row">
+			<div class="col-12 pad">${detail.bbsContente}</div>
+		</div>
+		<div class="row">
+			<div class="col-12" style="text-align: center;">
+				<c:if test="${userID == 'guest'}">
+					<!-- ${userID} 로그인시 세션에 저장해둠 -->
+					<button onclick="guest()" class="btn btn-primary">${detail.upvote_count} 추천</button><p>
+				</c:if>
+				<c:if test="${userID != 'guest'}">
+					<!-- ${userID} 로그인시 세션에 저장해둠 -->
+					<button onclick="upvoteUpdate(${detail.bbsID}, ${userID})" class="btn btn-primary">${detail.upvote_count} 추천</button><p>
+				</c:if>
 			</div>
-		</c:if>
+		</div>
+		<div class="row">
+			<div class="col-12" style="text-align: right;">
+				<c:if test="${userID == 'guest'}">
+					<button class="btn btn-outline-secondary" onclick="guest()">수정</button>
+					<button class="btn btn-outline-secondary" onclick="guest()">삭제</button>
+				</c:if>
+				<c:if test="${userID != 'guest'}">
+					<button class="btn btn-outline-secondary" id="contentModify" onclick="showPop(this)">수정</button>
+					<button class="btn btn-outline-secondary" id="contentDelete" onclick="showPop(this)">삭제</button>				
+				</c:if>
+			</div>
+		</div>
 	</div>
-	
+
 	<br>
-	<br>
-	<br>
-	
 	<div class="container" id="commentList">
 		<div class="row">
 			<div class="col-12">
@@ -129,12 +128,12 @@
 			<div class="row bg-light">
 				<div class="col-6 pad" style="text-align: left;">${comments.writeID}<span style="font-size: 10px;">&nbsp;(${comments.ip})</span></div>
 				<div class="col-6 pad" style="text-align: right;">${comments.regDate} 
-					<a href="#" id="commentDelete_${comments.commentID}" onclick="commentShowPop(this); return false;"><img src="images/del.png" width="15" height="15"></a>
+					<a href="#" id="commentDelete_${comments.commentID}" onclick="showPop(this); return false;"><img src="images/del.png" width="15" height="15"></a>
 				</div>
 			</div>
 			<div class="row pad">
-				<div class="col">
-					<a class="text-dark" href="javascript:doDisplay(dispID_${comments.commentID});">${comments.comment}</a>
+				<div class="col" onclick="javascript:doDisplay(dispID_${comments.commentID});">
+					${comments.comment}<p>
 				</div>
 			</div>
 			<!-- 대댓글 입력창 -->
@@ -171,12 +170,12 @@
 				<div class="row">
 					<div class="col-6 offset-1 bg-light pad" style="text-align: left;">${reply.nickName}<span style="font-size: 10px;">&nbsp;(${reply.ip})</span></div>
 					<div class="col-5 bg-light pad" style="text-align: right;">${reply.regDate}
-						<a href="#" id="replyDelete_${reply.replyID}" onclick="replyShowPop(this); return false;"><img src="images/del.png" width="15" height="15"></a>
+						<a href="#" id="replyDelete_${reply.replyID}" onclick="showPop(this); return false;"><img src="images/del.png" width="15" height="15"></a>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col offset-1 pad">
-						<span style="background-color: lavender;">@${comments.writeID}</span>&nbsp;&nbsp;${reply.replyComment}
+						<span style="background-color: lavender;">@${comments.writeID}</span>&nbsp;&nbsp;${reply.replyComment}<p>
 					</div>
 				</div>
 			</c:forEach>
@@ -187,22 +186,15 @@
 	<br>
 	<br>
 	
-
 	<div class="container">
 		<table class="table">
 			<thead>
-				<tr>
-					<th colspan="2"><h5>댓글 작성 하기</h5></th>
-				</tr>
+				<tr><th colspan="2"><h5>댓글 작성 하기</h5></th></tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>
-						<input class="form-control" type="text" id="writeID" name="writeID" placeholder="아이디" maxlength="20">
-					</td>
-					<td>
-						<input class="form-control" type="password" id="password" name="password" placeholder="비밀번호" maxlength="20">
-					</td>
+					<td><input class="form-control" type="text" id="writeID" name="writeID" placeholder="아이디" maxlength="20"></td>
+					<td><input class="form-control" type="password" id="password" name="password" placeholder="비밀번호" maxlength="20"></td>
 				</tr>
 				<tr>
 					<td colspan="2">
@@ -231,7 +223,12 @@
 			<input type="hidden" id="popType">
 		</div>
 		<div style="text-align: center;">
-			<span><button class="btn btn-primary" style="font-size:15px;" onclick="passPopupValid(popType, contentPassword)">확인</button></span>
+			<c:if test="${userID == 'guest'}">
+				<span><button class="btn btn-primary" style="font-size:15px;" onclick="guest()">확인</button></span>
+			</c:if>
+			<c:if test="${userID != 'guest'}">
+				<span><button class="btn btn-primary" style="font-size:15px;" onclick="passPopupValid(popType, contentPassword)">확인</button></span>
+			</c:if>
 			<span><button class="btn btn-primary" style="font-size:15px;" onclick="popclose()">취소</button></span>
 		</div>
 	</div>
@@ -289,14 +286,14 @@
 				success: function(json) {
 					if (json[0].resultCode == 'ok') {
 						location.href = 'contentModifyController?id='+ bbsID +'';
-					} else if (json[0].resultCode == 'wrongPass'){
-						alert('비밀번호가 잘못 되었습니다.')
+					} else if (json[0].resultCode == 'wrongPass') {
+						alert('비밀번호가 잘못 되었습니다.');
 					} else {
 						alert('데이터베이스 오류 입니다.');
 					}
 				},
 				error: function(json) {
-					alert('시스템 오류 입니다.')
+					alert('시스템 오류 입니다.');
 					location.href = '/index.jsp';
 				}
 			});
@@ -308,7 +305,7 @@
 			console.log(data);
 			$.ajax({
 				type: "post",
-				url: "freeBoardDeleteController",
+				url: "freeBoardDelete",
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
@@ -316,7 +313,7 @@
 				success: function(json) {
 					if (json[0].resultCode == 'ok') {
 						alert('삭제되었습니다.');
-						location.href = 'freeBoardController?pageNumber=1';
+						location.href = 'freeBoardListController?pageNumber=1';
 					} else if (json[0].resultCode == 'wrongPass') {
 						alert('비밀번호가 잘못 되었습니다.');
 					} else {
@@ -324,7 +321,7 @@
 					}
 				},
 				error: function(json) {
-					alert('시스템 오류 입니다.')
+					alert('시스템 오류 입니다.');
 					location.href = '/index.jsp';
 				}
 			});
@@ -358,14 +355,14 @@
 					if (json[0].resultCode == 'ok') {
 						popclose();
 						$("#commentList").load(location.href + " #commentList");
-					} else if (json[0].resultCode == 'wrongPass'){
+					} else if (json[0].resultCode == 'wrongPass') {
 						alert('비밀번호가 잘못 되었습니다.');
 					} else {
 						alert('데이터베이스 오류 입니다.');
 					}
 				},
 				error: function(json) {
-					alert('시스템 오류 입니다.')
+					alert('시스템 오류 입니다.');
 					location.href = '/index.jsp';
 				}
 			});
@@ -373,27 +370,25 @@
 	</script>
 	<script type="text/javascript">
 		// 버튼 위치 절대 경로 페이지 0,0 부터 절대값으로 좌표 가져옴
-		function commentShowPop(tagID) {
+		function showPop(tagID) {
 			var id = tagID.id;
 			var buttonLocation = $('#'+ id +'').offset();
 			popup(buttonLocation, tagID);
 		}
-		// 버튼 위치 절대 경로 페이지 0,0 부터 절대값으로 좌표 가져옴
-		function replyShowPop(tagID) {
-			var id = tagID.id;
-			var buttonLocation = $('#'+ id +'').offset();
-			popup(buttonLocation, tagID);
-		}
-		// 버튼 위치 상대 경로 페이지 0,0 부터 절대값으로 좌표 가져옴
+		
+		/*
+		고전된 위치일때는 상대 경로 페이지 0,0 부터 절대값으로 좌표 가져옴
 		function showPop(tagID) {
 			var id = tagID.id
 			var buttonLocation = $('#'+ id +'').position(); // 버튼의 위치에 레이어를 띄우고자 할 경우, 위치 정보 가져옴
 			popup(buttonLocation, tagID);
-		}
+		}*/
 		
 		function popup(buttonLocation, tagID) {
 			var popX = buttonLocation.left - 200;
 			var popY = buttonLocation.top - 100;
+			console.log(popX);
+			console.log(popY);
 			var lay_pop = $('#passPopup');			
 			lay_pop.css('left', (popX) + 'px'); // 레이어 위치 지정
 			lay_pop.css('top', (popY) + 'px');  
@@ -428,10 +423,10 @@
 			});
 		});
 		
-		function doDisplay(id){
+		function doDisplay(id) {
 			var id = id.value;
 			var con = document.getElementById('riply_' + id + '');
-			if (con.style.display=='none'){
+			if (con.style.display=='none') {
 				con.style.display = '';
 				replyWriteWindow(id);
 			} else {
@@ -465,14 +460,14 @@
 						upvotePrint(json, bbsID)
 					} else if (json[0].resultCode == 'no') {
 						alert('추천은 한번만 가능 합니다.');
-						upvotePrint(json, bbsID)
+						upvotePrint(json, bbsID);
 					} else {
 						alert('데이터베이스 오류 입니다.');
-						upvotePrint(json, bbsID)
+						upvotePrint(json, bbsID);
 					}
 				},
 				error: function(json) {
-					alert('시스템 오류 입니다.')
+					alert('시스템 오류 입니다.');
 				}
 			});
 		}
@@ -482,7 +477,7 @@
 			upvote.innerHTML = '<td colspan="3" style="text-align: center;">' +
 								   	'<button onclick="upvoteUpdate('+ bbsID +', '+ ${userID} +')" class="btn btn-primary">' +
 								   	json[0].upvoteCount + ' 추천</button>' +
-							   '</td>'
+							   '</td>';
 		}
 	</script>
 	<script type="text/javascript">
@@ -510,7 +505,7 @@
 					password: pass.value,
 					replyComment: content.value
 			}
-			var url = 'replyRegisterController'
+			var url = 'replyRegisterController';
 			sendDataToServer(data, url);
 		}
 		
@@ -525,14 +520,14 @@
 				success: function(json) {
 					if (json[0].resultCode == 'isNull') {
 						alert('빈칸없이 작성 해야 합니다.')
-					} else if (json[0].resultCode == 'error'){
+					} else if (json[0].resultCode == 'error') {
 						alert('데이터베이스 오류 입니다.')
 					} else {
 						$("#commentList").load(location.href + " #commentList");
 					}
 				},
 				error: function(json) {
-					alert('시스템 오류입니다.')
+					alert('시스템 오류입니다.');
 				}
 			});
 		}

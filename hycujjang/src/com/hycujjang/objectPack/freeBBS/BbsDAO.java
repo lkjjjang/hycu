@@ -5,19 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import com.hycujjang.controller.freeboard.FreeBoardController;
+import com.hycujjang.controller.freeboard.FreeBoardListController;
 import com.hycujjang.util.DatabaseUtil;
 
 public class BbsDAO {
-	public BbsDTO getFreeBoardDetail(int bbsID) {		
+	public BbsDTO getFreeBoardModifyDetail(int bbsID) {		
 		BbsDTO result = null;
 		String SQL = "";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
 		try {		
-			SQL = "SELECT * FROM FREE_BBS WHERE bbsID = ?";
+			SQL = "SELECT bbsID, nickName, password, bbsTitle, bbsContente FROM FREE_BBS WHERE bbsID = ?";
 			
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
@@ -30,12 +29,7 @@ public class BbsDAO {
 						rs.getString(2).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
 						rs.getString(3).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
 						rs.getString(4).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
-						rs.getString(5).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
-						rs.getString(6).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
-						rs.getInt(7),
-						rs.getInt(8),
-						rs.getInt(9),
-						rs.getInt(10)
+						rs.getString(5).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n")
 						);
 			}
 		} catch (Exception e) {
@@ -47,23 +41,37 @@ public class BbsDAO {
 		return result;
 	}
 	
-	public int updateUseImage(int bbsID) {
-		String SQL = "UPDATE FREE_BBS SET useImage = 1 WHERE bbsID = ?";
+	public ViewBbsDTO getFreeBoardDetail(int bbsID) {		
+		ViewBbsDTO result = null;
+		String SQL = "";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try {
+		try {		
+			SQL = "SELECT * FROM VIEW_FREE_BBS_DETAIL WHERE bbsID = ?";
+			
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, bbsID);
+			rs = pstmt.executeQuery();
 			
-			return pstmt.executeUpdate();
+			while (rs.next()) {
+				result = new ViewBbsDTO(
+						rs.getInt(1),
+						rs.getString(2).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
+						rs.getString(3).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
+						rs.getString(4).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
+						rs.getString(5).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
+						rs.getInt(6)
+						);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			instanseClose(conn, pstmt, rs);
 		}
-		return -1; // 데이터베이스 오류
+		
+		return result;
 	}
 	
 	public int hitUpdate(int bbsID) {
@@ -109,30 +117,8 @@ public class BbsDAO {
 		return -1; // 데이터베이스 오류
 	}
 	
-	
-	public int update(int bbsID) {
-		String SQL = "UPDATE FREE_BBS SET bbsUpvote = bbsUpvote + 1 WHERE bbsID = ?";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DatabaseUtil.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, bbsID);
-			
-			return pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			instanseClose(conn, pstmt, rs);
-		}
-		
-		return -1; // 데이터베이스 오류
-	}
-	
-	
 	public int write(BbsDTO bbsDTO) {
-		String SQL = "INSERT INTO FREE_BBS VALUES (NULL, ?, ?, NOW(), ?, ?, 0, 0, 0, 0)";
+		String SQL = "INSERT INTO FREE_BBS VALUES (NULL, ?, ?, NOW(), ?, ?, 0)";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -183,34 +169,31 @@ public class BbsDAO {
 		return -1;
 	}
 	
-	public ArrayList<BbsDTO> getList(int pageNumber) {		
-		ArrayList<BbsDTO> list = new ArrayList<>();
+	public ArrayList<ViewBbsDTO> getList(int pageNumber) {		
+		ArrayList<ViewBbsDTO> list = new ArrayList<>();
 		String SQL = "";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		int minColNum = (pageNumber - 1) * FreeBoardController.freeBBSListPrintCount;
-		int colCount = FreeBoardController.freeBBSListPrintCount;
-		
+		int minColNum = (pageNumber - 1) * FreeBoardListController.freeBBSListPrintCount;
+		int colCount = FreeBoardListController.freeBBSListPrintCount;
 		try {		
-			SQL = "SELECT * FROM FREE_BBS ORDER BY bbsID DESC LIMIT " + minColNum + ", " + colCount;
+			SQL = "SELECT bbsID, nickName, bbsDate, bbsTitle, bbsHit, cmt_count, used_file "
+					+ "FROM VIEW_FREE_BBS_LIST ORDER BY bbsID DESC LIMIT " + minColNum + ", " + colCount;
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				BbsDTO bbs = new BbsDTO(
+				ViewBbsDTO bbs = new ViewBbsDTO(
 						rs.getInt(1),
 						rs.getString(2),
 						rs.getString(3),
 						rs.getString(4),
-						rs.getString(5),
-						rs.getString(6),
-						rs.getInt(7),
-						rs.getInt(8),
-						rs.getInt(9),
-						rs.getInt(10)
+						rs.getInt(5),
+						rs.getInt(6),
+						rs.getInt(7)
 						);
 				list.add(bbs);
 			}
@@ -247,83 +230,6 @@ public class BbsDAO {
 			instanseClose(conn, pstmt, rs);
 		}
 		return result; //-1일 경우 데이터베이스 오류
-	}
-	
-	public int getListCount() {
-		String SQL = null;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			SQL = "SELECT COUNT(*) FROM FREE_BBS";
-			
-			conn = DatabaseUtil.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				return Integer.parseInt(rs.getString(1));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			instanseClose(conn, pstmt, rs);
-		}
-		return -1; //데이터베이스 오류
-	}
-	
-	public int voteCheck(int bbsID) {
-		String SQL = "SELECT * FROM FREE_BBS_VOTE ";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DatabaseUtil.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, bbsID);
-			return pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			instanseClose(conn, pstmt, rs);
-		}
-		return -1; //데이터베이스 오류
-	}
-	
-	public int upvote(String bbsID) {
-		String SQL = "UPDATE FREE_BBS SET bbsUpvote = bbsUpvote + 1 WHERE bbsID = ?";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DatabaseUtil.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, bbsID);
-			return pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			instanseClose(conn, pstmt, rs);
-		}
-		return -1; //데이터베이스 오류
-	}
-	
-	public int downvote(String bbsID) {
-		String SQL = "UPDATE FREE_BBS SET downvote = downvote + 1 WHERE bbsID = ?";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DatabaseUtil.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, bbsID);
-			return pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			instanseClose(conn, pstmt, rs);
-		}
-		return -1; //데이터베이스 오류
 	}
 	
 	public int delete(String bbsID) {
@@ -390,42 +296,6 @@ public class BbsDAO {
 		}
 		
 		return null; // 존재하지 않는 아이디
-	}
-	
-	public void setCommentCountUpdate(int count, int bbsID) {
-		String SQL = "UPDATE FREE_BBS SET commentCount = ? WHERE bbsID = ?";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DatabaseUtil.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, count);
-			pstmt.setInt(2, bbsID);
-				
-			pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			instanseClose(conn, pstmt, rs);
-		}
-	}
-	
-	public static void bbsCommentCountUp(int bbsID) {
-		String SQL = "UPDATE FREE_BBS SET commentCount = commentCount + 1 WHERE bbsID = ?";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DatabaseUtil.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, bbsID);
-			pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			instanseClose(conn, pstmt, rs);
-		}
 	}
 	
 	private static void instanseClose(Connection conn, PreparedStatement pstmt, ResultSet rs) {

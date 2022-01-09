@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.hycujjang.objectPack.user.UserDAO;
+import com.hycujjang.util.SHA256;
 
 @WebServlet("/loginController")
 public class LoginController extends HttpServlet {
@@ -30,7 +31,7 @@ public class LoginController extends HttpServlet {
 		}
 		
 		String userID = requestMap.get("id");
-		String userPassword = requestMap.get("password");
+		String userPassword = SHA256.getSHA256(requestMap.get("password"));
 		String resultJson = null;
 		
 		// 실제 로그인구현부분 

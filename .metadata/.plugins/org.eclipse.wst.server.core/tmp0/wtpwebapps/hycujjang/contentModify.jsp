@@ -26,7 +26,7 @@
 	<div class="container">
 		수정하기
 		<div>
-			<form method="post" action="freeBoardUpdateController">
+			<form method="post" action="freeBoardUpdate">
 				<table class="table">
 					<thead>
 						<tr>

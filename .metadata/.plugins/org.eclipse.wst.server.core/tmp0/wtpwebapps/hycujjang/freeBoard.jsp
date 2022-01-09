@@ -5,6 +5,7 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -32,7 +33,7 @@
 					<a class="nav-link" href="lectureBoardController?pageNumber=1">강의평가</a>
 				</li>
 				<li class="nav-item active">
-					<a class="nav-link" href="freeBoardController?pageNumber=1">자유게시판</a>
+					<a class="nav-link" href="freeBoardListController?pageNumber=1">자유게시판</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" href="index.jsp">
@@ -48,7 +49,7 @@
 	
 	<div class="container">
 		<h1>
-    		<a class="ed link-primary text-bold title-underline" href="freeBoardController?pageNumber=1"><span class="text-dark">자유게시판</span></a>
+    		<a class="ed link-primary text-bold title-underline" href="freeBoardListController?pageNumber=1"><span class="text-dark">자유게시판</span></a>
   		</h1>	
 			<table class="table table-hover">
 				<thead style="text-align: center;">			
@@ -64,21 +65,29 @@
 					<c:forEach var="freeBBS" items="${freeBBS}" begin="0" end="${freeBBSListPrintCount}">
 						<tr class="row">
 							<td class="col-1" style="text-align: center;">
+							<!--bbsID, nickName, bbsDate, bbsTitle, bbsHit, cmt_count, used_file --> 
 								<c:if test="${userID == 'admin'}">
 									<input type="checkbox" name="delCheck_id" id="delCheck_id" value="${freeBBS.bbsID}">
 								</c:if>
 								${freeBBS.bbsID} 
 							</td>
-							<td class="col-6" style="display: block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-								<a class="text-dark" href="freeBoardDetailController?id=${freeBBS.bbsID}" style="display:block; width:100%; height:100%">
-									${freeBBS.bbsTitle}
-									<c:if test="${freeBBS.commentCount != 0}">
-										<span style="color: #00bfff;">[${freeBBS.commentCount}]</span>
-									</c:if>	
-									<c:if test="${freeBBS.useImage == 1}">
-										<img src="images/imageIcon.png">
-									</c:if>	
-								</a>					
+							<td class="col-6">
+								<c:if test="${fn:length(freeBBS.bbsTitle) > 30}">
+									<a class="text-dark" href="freeBoardDetailController?id=${freeBBS.bbsID}">
+										${fn:substring(freeBBS.bbsTitle, 0, 30)}...
+									</a>
+								</c:if>
+								<c:if test="${fn:length(freeBBS.bbsTitle) <= 30}">
+									<a class="text-dark" href="freeBoardDetailController?id=${freeBBS.bbsID}">
+										${freeBBS.bbsTitle}
+									</a>
+								</c:if>
+								<c:if test="${freeBBS.cmt_count != 0}">
+									<span style="color: #00bfff;">[${freeBBS.cmt_count}]</span>
+								</c:if>	
+								<c:if test="${freeBBS.used_file != 0}">
+									<img src="images/imageIcon.png">
+								</c:if>				
 							</td>
 							<td class="col-2" style="text-align: center;">${freeBBS.nickName}</td>
 							<td class="col-1" style="text-align: center;">${freeBBS.bbsHit}</td>
@@ -96,7 +105,7 @@
 		<c:if test="${userID != 'admin'}">
 			<c:if test="${userID == 'guest'}">
 				<div style="text-align: right;">
-					<button onclick="guestWrite()" class="btn btn-primary">글쓰기</button>
+					<button onclick="guest()" class="btn btn-primary">글쓰기</button>
 				</div>
 			</c:if>
 			<c:if test="${userID != 'guest'}">
@@ -118,16 +127,16 @@
 					<li class="page-item"><a class="page-link" onclick="alert('이전 페이지가 없습니다.');">이전</a></li>
 				</c:if>
 				<c:if test="${param.pageNumber != 1}">
-					<li class="page-item"><a class="page-link" href="freeBoardController?pageNumber=${param.pageNumber - 1}">이전</a></li>
+					<li class="page-item"><a class="page-link" href="freeBoardListController?pageNumber=${param.pageNumber - 1}">이전</a></li>
 				</c:if>
 				
 				<c:forEach var="i" begin="0" end="4">
 					<c:if test="${(startNum + i) <= lastNum}">
 						<c:if test="${param.pageNumber == (startNum + i)}">
-							<li class="page-item active"><a class="page-link" href="freeBoardController?pageNumber=${startNum + i}">${startNum + i}</a></li>
+							<li class="page-item active"><a class="page-link" href="freeBoardListController?pageNumber=${startNum + i}">${startNum + i}</a></li>
 						</c:if>
 						<c:if test="${param.pageNumber != (startNum + i)}">
-							<li class="page-item"><a class="page-link" href="freeBoardController?pageNumber=${startNum + i}">${startNum + i}</a></li>
+							<li class="page-item"><a class="page-link" href="freeBoardListController?pageNumber=${startNum + i}">${startNum + i}</a></li>
 						</c:if>
 					</c:if>
 				</c:forEach>
@@ -136,7 +145,7 @@
 					<li class="page-item"><a class="page-link" onclick="alert('다음 페이지가 없습니다.');">다음</a></li>
 				</c:if>
 				<c:if test="${param.pageNumber != lastNum}">
-					<li class="page-item"><a class="page-link" href="freeBoardController?pageNumber=${param.pageNumber + 1}">다음</a></li>
+					<li class="page-item"><a class="page-link" href="freeBoardListController?pageNumber=${param.pageNumber + 1}">다음</a></li>
 				</c:if>
 			</ul>
 		</div>		
@@ -158,7 +167,7 @@
 			crossorigin="anonymous">
 	</script>
 	<script type="text/javascript">
-		function guestWrite() {
+		function guest() {
 			alert('게스트 계정은 글작성이 불가능 합니다.');
 		}
 	</script>

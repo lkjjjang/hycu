@@ -53,9 +53,6 @@ public class ReplyRegisterController extends HttpServlet{
 			response.getWriter().write(parseJson("error"));
 			return;
 		}
-		System.out.println("reply : " + replyDTO);
-		
-		BbsDAO.bbsCommentCountUp(replyDTO.getBbsID());
 		
 		// 요청에 응답해줌
 		response.getWriter().write(parseJson("ok"));

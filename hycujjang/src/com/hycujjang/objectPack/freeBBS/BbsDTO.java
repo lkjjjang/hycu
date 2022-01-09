@@ -22,6 +22,14 @@ public class BbsDTO {
 		this.password = password;
 	}
 	
+	public BbsDTO(int bbsID, String nickName, String title, String password, String bbsContente) {
+		this.bbsID = bbsID;
+		this.nickName = nickName;
+		this.bbsTitle = title;
+		this.bbsContente = bbsContente;
+		this.password = password;
+	}
+	
 	public BbsDTO(int bbsID, String nickName, String password, String bbsDate, String bbsTitle, String bbsContente,
 			int bbsHit, int bbsUpvote, int commentCount, int useImage) {
 		super();

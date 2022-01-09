@@ -17,9 +17,6 @@ import com.hycujjang.objectPack.reply.ReplyDAO;
 
 @WebServlet("/commentDeleteController")
 public class CommentDeleteController extends HttpServlet{
-	private CommentDAO commentDAO = new CommentDAO();
-	private ReplyDAO replyDAO = new ReplyDAO();
-	private int bbsID;
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,47 +25,28 @@ public class CommentDeleteController extends HttpServlet{
 		String requestData = br.readLine();
 		HashMap<String, String> requestMap = new HashMap<String, String>();
 		requestMap = jsonParse(requestData);
+		CommentDAO commentDAO = new CommentDAO();
 		
-		// 하위 댓글까지 삭제 해줘야함
 		String inputPassword = requestMap.get("password");
 		String commentID = requestMap.get("commentID");
-		String commentPassword = this.commentDAO.getPassword(commentID);
-		this.bbsID = this.commentDAO.getBbsID(Integer.parseInt(commentID));
+		String commentPassword = commentDAO.getPassword(commentID);
 		
 		if (commentPassword.equals(inputPassword)) {
-			if (deleteAll(commentID) == ResultCode.ERROR) {
+			if (deleteAll(commentID) == ResultCode.OK) {
+				response.getWriter().write(parseJson("ok"));
+			} else {
 				response.getWriter().write(parseJson("error"));
-				return;
 			}
 		} else {
 			response.getWriter().write(parseJson("wrongPass"));
-			return;
 		}
-		
-		// ResultCode.OK 인 상태
-		// 위에서 댓글, 대댓글 삭제후 
-		// 게시글 commentCount 수정(댓글 테이블과 게시글 테이블이 따로 존재하지만 게시글 테이블에 댓글 갯수를 직접 입력 해둠)
-		setBbsCommentCount(getCommentCount());
-		response.getWriter().write(parseJson("ok"));
-	}
-	
-	private void setBbsCommentCount(int count) {
-		BbsDAO bbsDAO = new BbsDAO();
-		bbsDAO.setCommentCountUpdate(count, this.bbsID);
-	}
-	
-	private int getCommentCount() {
-		int commentCount = this.commentDAO.getCommentCount(this.bbsID);
-		int replyCount = this.replyDAO.getReplyCount(this.bbsID);
-		
-		return commentCount + replyCount;
 	}
 	
 	private ResultCode deleteAll(String commentID) {
-		int comment = this.commentDAO.delete(commentID);
-		int reply = this.replyDAO.deletebyComment(commentID);
+		CommentDAO commentDAO = new CommentDAO();
+		int comment = commentDAO.delete(commentID);
 		
-		if (comment == -1 || reply == -1) {
+		if (comment == -1) {
 			return ResultCode.ERROR;
 		}
 		

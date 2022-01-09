@@ -17,8 +17,6 @@ import com.hycujjang.objectPack.reply.ReplyDAO;
 
 @WebServlet("/replyDeleteController")
 public class ReplyDeleteController extends HttpServlet {
-	private ReplyDAO replyDAO = new ReplyDAO();
-	private int bbsID;
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,44 +25,26 @@ public class ReplyDeleteController extends HttpServlet {
 		String requestData = br.readLine();
 		HashMap<String, String> requestMap = new HashMap<String, String>();
 		requestMap = jsonParse(requestData);
+		ReplyDAO replyDAO = new ReplyDAO();
 		
-		// replyID로 패스워드 받아와 비교후 작업
 		String inputPassword = requestMap.get("password");
 		String replyID = requestMap.get("replyID");
-		String replyPassword = this.replyDAO.getPassword(replyID);
-		this.bbsID = this.replyDAO.getBbsID(Integer.parseInt(replyID));
+		String replyPassword = replyDAO.getPassword(replyID);
 				
 		if (replyPassword.equals(inputPassword)) {
-			if (delete(replyID) == ResultCode.ERROR) {
+			if (delete(replyID) == ResultCode.OK) {
+				response.getWriter().write(parseJson("ok"));
+			} else {
 				response.getWriter().write(parseJson("error"));
-				return;
 			}
 		} else {
 			response.getWriter().write(parseJson("wrongPass"));
-			return;
 		}
-		
-		// 게시글 commentCount 수정
-		int totalCommentCount = getCommentCount();
-		setBbsCommentCount(totalCommentCount);
-		response.getWriter().write(parseJson("ok"));
-	}
-	
-	private void setBbsCommentCount(int count) {
-		BbsDAO bbsDAO = new BbsDAO();
-		bbsDAO.setCommentCountUpdate(count, this.bbsID);
-	}
-	
-	private int getCommentCount() {
-		CommentDAO commentDAO = new CommentDAO();
-		int commentCount = commentDAO.getCommentCount(this.bbsID);
-		int replyCount = this.replyDAO.getReplyCount(this.bbsID);
-		
-		return commentCount + replyCount;
 	}
 	
 	private ResultCode delete(String commentID) {
-		int reply = this.replyDAO.delete(commentID);
+		ReplyDAO replyDAO = new ReplyDAO();
+		int reply = replyDAO.delete(commentID);
 		
 		if (reply == -1) {
 			return ResultCode.ERROR;
