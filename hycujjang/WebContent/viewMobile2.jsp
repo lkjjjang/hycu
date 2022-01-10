@@ -41,7 +41,13 @@
 	</style>
 </head>
 <body>
-
+<script type="text/javascript">
+	window.onload = function() { 
+		if(document.location.protocol == 'http:'){
+		//document.location.href = document.location.href.replace('http:', 'https:');
+		}
+	}
+</script>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="index.jsp">한양사이버대 강의평가</a>	
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
@@ -53,7 +59,7 @@
 					<a class="nav-link" href="lectureBoardController?pageNumber=1">강의평가</a>
 				</li>
 				<li class="nav-item active">
-					<a class="nav-link" href="freeBoardController?pageNumber=1">자유게시판</a>
+					<a class="nav-link" href="devStoryListController?pageNumber=1">자유게시판</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" href="index.jsp">

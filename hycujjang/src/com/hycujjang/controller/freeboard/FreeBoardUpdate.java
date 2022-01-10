@@ -79,7 +79,7 @@ public class FreeBoardUpdate extends HttpServlet {
 			pageBack(response, "작성한 글 등록에 실패 했습니다.");
 		} else {
 			//정상적으로 등록 되었습니다.
-			pageBack(response, "정상적으로 등록 되었습니다.", "freeBoardController?pageNumber=1");
+			pageBack(response, "정상적으로 등록 되었습니다.", "freeBoardListController?pageNumber=1");
 		}
 	}
 	

@@ -21,7 +21,7 @@ public class EmailSend {
 	}
 		
 	public int send() {
-		String host = "http://hycujjang.com/";
+		String host = "https://hycujjang.com/";
 		//String from = "lkjjjang1985@gmail.com";
 		String from = "lkjjjang@hycujjang.com";
 		String to = this.email;

@@ -16,6 +16,13 @@
 	
 </head>
 <body>
+<script>
+	window.onload = function() { 
+		if(document.location.protocol == 'http:'){
+		//document.location.href = document.location.href.replace('http:', 'https:');
+		}
+	}
+</script>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand">강의평가 웹 사이트</a>	
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
@@ -27,7 +34,10 @@
 					<a class="nav-link">강의평가</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link">잡담게시판</a>
+					<a class="nav-link">자유게시판</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link">제작이야기</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" id="dropdown" data-toggle="dropdown" href="index.jsp">

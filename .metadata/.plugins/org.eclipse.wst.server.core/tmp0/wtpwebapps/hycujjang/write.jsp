@@ -23,6 +23,13 @@
 	
 </head>
 <body>
+<script type="text/javascript">
+	window.onload = function() { 
+		if(document.location.protocol == 'http:'){
+		//document.location.href = document.location.href.replace('http:', 'https:');
+		}
+	}
+</script>
 	<br>
 	<br>
 	<br>
@@ -58,7 +65,6 @@
 						</tr>						
 					</tbody>					
 				</table>
-				<div id="reply_text_count">(0 / 100)</div>
 			</form>
 		</div>
 	</div>

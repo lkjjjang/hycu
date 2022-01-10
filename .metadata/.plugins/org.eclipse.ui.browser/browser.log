@@ -271,3 +271,25 @@
 1월 09, 2022 15:20:48.98 [15796:16476:0109/152048.982:ERROR:CONSOLE(1)] "Incompatible embedder: method Host.InspectorFrontendHost.getSyncInformation is missing. Using stub instead.", source: devtools://devtools/remote/serve_rev/@14266b606ece9dbe9c0e7b6ff1c1bdf71d0aba41/core/host/host.js (1)
 1월 09, 2022 16:30:51.80 [15796:16476:0109/163051.799:ERROR:device_event_log_impl.cc(214)] [16:30:51.799] USB: usb_device_handle_win.cc:1085 Transfer failed: 시스템에 부착된 장치가 작동하지 않습니다. (0x1F)
 1월 09, 2022 17:07:20.73 [15796:16476:0109/170720.736:ERROR:device_event_log_impl.cc(214)] [17:07:20.735] USB: usb_service_win.cc:261 Failed to get device driver name: 요소가 없습니다. (0x490)
+
+1월 10, 2022 13:54:17.42 NEW SESSION
+1월 10, 2022 13:54:17.42 [16708:10744:0110/135417.419:ERROR:chrome_browser_main_extra_parts_metrics.cc(226)] crbug.com/1216328: Checking Bluetooth availability started. Please report if there is no report that this ends.
+1월 10, 2022 13:54:17.42 [16708:10744:0110/135417.419:ERROR:chrome_browser_main_extra_parts_metrics.cc(229)] crbug.com/1216328: Checking Bluetooth availability ended.
+1월 10, 2022 13:54:17.42 [16708:10744:0110/135417.419:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
+1월 10, 2022 13:54:17.42 [16708:10744:0110/135417.422:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
+1월 10, 2022 13:54:17.43 [16708:2932:0110/135417.431:ERROR:device_event_log_impl.cc(214)] [13:54:17.430] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+1월 10, 2022 13:56:04.37 [16708:2932:0110/135604.372:ERROR:interface_endpoint_client.cc(658)] Message 5 rejected by interface blink.mojom.WidgetHost
+1월 10, 2022 13:56:04.37 [16708:2932:0110/135604.373:ERROR:interface_endpoint_client.cc(658)] Message 4 rejected by interface blink.mojom.WidgetHost
+1월 10, 2022 13:56:04.37 [16708:2932:0110/135604.374:ERROR:interface_endpoint_client.cc(658)] Message 3 rejected by interface blink.mojom.Widget
+1월 10, 2022 14:00:30.40 [4740:19012:0110/140030.401:ERROR:chrome_browser_main_extra_parts_metrics.cc(226)] crbug.com/1216328: Checking Bluetooth availability started. Please report if there is no report that this ends.
+1월 10, 2022 14:00:30.40 [4740:19012:0110/140030.401:ERROR:chrome_browser_main_extra_parts_metrics.cc(229)] crbug.com/1216328: Checking Bluetooth availability ended.
+1월 10, 2022 14:00:30.40 [4740:19012:0110/140030.401:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
+1월 10, 2022 14:00:30.40 [4740:19012:0110/140030.404:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
+1월 10, 2022 14:00:30.41 [4740:9624:0110/140030.414:ERROR:device_event_log_impl.cc(214)] [14:00:30.414] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+
+1월 10, 2022 14:12:13.73 NEW SESSION
+1월 10, 2022 14:12:13.73 [10852:16816:0110/141213.736:ERROR:chrome_browser_main_extra_parts_metrics.cc(226)] crbug.com/1216328: Checking Bluetooth availability started. Please report if there is no report that this ends.
+1월 10, 2022 14:12:13.73 [10852:16816:0110/141213.736:ERROR:chrome_browser_main_extra_parts_metrics.cc(229)] crbug.com/1216328: Checking Bluetooth availability ended.
+1월 10, 2022 14:12:13.73 [10852:16816:0110/141213.736:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
+1월 10, 2022 14:12:13.73 [10852:16816:0110/141213.739:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
+1월 10, 2022 14:12:13.75 [10852:17636:0110/141213.751:ERROR:device_event_log_impl.cc(214)] [14:12:13.751] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
