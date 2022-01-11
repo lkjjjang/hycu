@@ -1,9 +1,0 @@
-package com.hycujjang.controller.lectureboard.evaluation;
-
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-
-@WebServlet("evaluationRegisterController")
-public class Test extends HttpServlet {
-
-}

@@ -17,13 +17,6 @@
 	
 </head>
 <body>
-<script>
-	window.onload = function() { 
-		if(document.location.protocol == 'http:'){
-		//document.location.href = document.location.href.replace('http:', 'https:');
-		}
-	}
-</script>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="lectureBoardController?pageNumber=1">한양사이버대 강의평가</a>	
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
@@ -92,6 +85,9 @@
 	</script>
 	<script type="text/javascript">
 		window.onload = function() {
+			if(document.location.protocol == 'http:'){
+			//document.location.href = document.location.href.replace('http:', 'https:');
+			}
 			mobileCheck();
 		};
 		

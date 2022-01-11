@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.hycujjang.objectPack.user.UserDAO" %>
+<%@ page import="com.hycujjang.service.objectPack.user.UserDAO" %>
 <%@ page import="com.hycujjang.util.SHA256" %>
 <%@ page import="java.io.PrintWriter" %>
 

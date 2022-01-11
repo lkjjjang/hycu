@@ -13,7 +13,6 @@
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.freeBBS.BbsDAO"/>
 <fullyQualifiedTypeName name="java.lang.IncompatibleClassChangeError"/>
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.freeBBS.BbsDTO"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.google.gson.reflect.TypeToken"/>
 <fullyQualifiedTypeName name="java.nio.Buffer"/>
 <fullyQualifiedTypeName name="java.lang.Exception"/>
@@ -22,13 +21,19 @@
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.likey.LikeyDTO"/>
-<fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
-<fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
-<fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="com.hycujjang.util.SHA256"/>
 <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.freeBBS.ViewBbsDTO"/>
 <fullyQualifiedTypeName name="com.hycujjang.objectPack.comment.CommentDAO"/>
 <fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.ViewDevBoardDTO"/>
+<fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevBoardDTO"/>
 <fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevBoardDAO"/>
+<fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevReplyDTO"/>
+<fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevCommentDTO"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServlet"/>
+<fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
+<fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevCommentDAO"/>
+<fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevReplyDAO"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
 </qualifiedTypeNameHistroy>
