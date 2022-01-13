@@ -41,7 +41,7 @@ public class DevStoryListController extends HttpServlet {
 		request.setAttribute("devStory", list);
 		request.setAttribute("listCount", listCount);
 		request.setAttribute("pageNumber", pageNumber);
-		request.setAttribute("DevListPrintCount", DevStoryListController.freeBBSListPrintCount);
+		request.setAttribute("devListPrintCount", DevStoryListController.freeBBSListPrintCount);
 		
 		String devices = (String) request.getSession().getAttribute("devices");	
 		if (devices.equals("mobile")) {

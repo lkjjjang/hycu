@@ -32,6 +32,12 @@
 			overflow:hidden !important; 
 			touch-action:none;
 		}
+		.bp {
+			height: auto; 
+			width: 100%; 
+			border-bottom:1px solid silver; 
+			padding: 6px;
+		}
 	</style>
 </head>
 <body>
@@ -71,34 +77,24 @@
 	</nav>
 	
 	<div class="container">
-		<div>
-			<c:set var="detail" value="${devStoryDetail}"></c:set>
-			<table class="table" style="text-align: left;">
-				<thead>
-					<tr>
-						<th colspan="3"><h1>${detail.boardTitle}</h1></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style="text-align: left;">
-							<span style="font-weight: bold;">작성자  </span>관리자
-						</td>
-						<td colspan="2" style="text-align: right;">
-							<span style="font-weight: bold;">작성일자  </span>${detail.boardRegDate}
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3" style="text-align: left; height: 300px;">
-							${detail.boardContent}
-						</td>
-					</tr>
-				</tbody>
-			</table>
+		<c:set var="detail" value="${devStoryDetail}"></c:set>
+		<div class="row">
+			<div class="col-12">
+				<div class="bp">
+					<h1>${detail.boardTitle}</h1>
+				</div>
+			</div>
 		</div>
-		<div style="text-align: right;">
-			<button class="btn btn-outline-secondary" id="contentModify" onclick="showPop(this)">수정</button>
-			<button class="btn btn-outline-secondary" id="contentDelete" onclick="showPop(this)">삭제</button>
+		<div class="row">
+			<div class="col-12">
+				<div class="bp">
+					<span style="font-weight: bold;">작성자&nbsp;</span>관리자<br>
+					<span style="font-weight: bold;">작성일자 &nbsp;</span>${detail.boardRegDate}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 pad">${detail.boardContent}</div>
 		</div>
 	</div>
 	

@@ -2,12 +2,13 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="lectureName" key="selection"/>
+		<item value="changeFileName" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="changeFileName"/>
 			<item value="lectureName"/>
 			<item value="registerModal"/>
 			<item value="System"/>
@@ -22,7 +23,6 @@
 			<item value="bbsTitle"/>
 			<item value="CommentDTO"/>
 			<item value="addReplyList"/>
-			<item value="freeBoardController"/>
 		</list>
 		<list key="replacehistory">
 		</list>

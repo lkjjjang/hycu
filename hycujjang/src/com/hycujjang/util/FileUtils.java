@@ -45,12 +45,21 @@ public class FileUtils {
 			if (!src.equals(rootPath)) {
 				continue;
 			}
-			// 이걸 쪼갬 src="/tempImg/1111\KakaoTalk_20210423_000414767.jpg"
+			// 이걸 쪼갬 src="/tempImg/admin\image(3).png"><br></p>
 			String ori = oriFile.get(fileIndex);
 			int start = rootLength + 1;		
 			int end = rootLength + ori.length() + 1;
 			if (ori.equals(content[i].substring(start, end))) {
-				content[i] = "src=\"/upload/" + getTodayDate() + File.separator + reName.get(fileIndex++) + "\"";
+				// 두번째 쌍따옴표를 기준으로 앞부분은 교체 뒷부분은 그대로 붙여넣어 문장완성
+				int secondDot = content[i].indexOf("\"", 5);
+				String gubunSecond = content[i].substring(secondDot);
+				StringBuilder tempSb = new StringBuilder(content[i].length() * 2);
+				tempSb.append("src=\"/upload/");
+				tempSb.append(getTodayDate());
+				tempSb.append(File.separator);
+				tempSb.append(reName.get(fileIndex++));
+				tempSb.append(gubunSecond);
+				content[i] = tempSb.toString();
 			}
 		}
 		
@@ -147,7 +156,7 @@ public class FileUtils {
 			// src="/tempImg/1111\KakaoTalk_20210423_000414767(1).jpg"></p><p>&nbsp;
 			// 이 형태를 쪼갠후 파일명 추출 위형태가 랜덤으로 들어옴
 			int start = rootLength + userID.length() + 1;		
-			int end = content[i].lastIndexOf('"');
+			int end = content[i].indexOf("\"", 5);
 			String tempName = content[i].substring(start, end);
 			result.add(tempName);
 		}

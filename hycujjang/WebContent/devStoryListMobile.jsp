@@ -52,10 +52,10 @@
 				<li class="nav-item">
 					<a class="nav-link" href="lectureBoardController?pageNumber=1">강의평가</a>
 				</li>
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" href="freeBoardListController?pageNumber=1">자유게시판</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item active">
 					<a class="nav-link" href="devStoryListController?pageNumber=1">제작이야기</a>
 				</li>
 				<li class="nav-item dropdown">
@@ -71,30 +71,12 @@
 	</nav>
 	
 	<h1 style="padding: 6px;">
-   		<a class="ed link-primary text-bold title-underline" href="freeBoardListController?pageNumber=1"><span class="text-dark">제작이야기</span></a>
+   		<a class="ed link-primary text-bold title-underline" href="devStoryListController?pageNumber=1"><span class="text-dark">제작이야기</span></a>
 	</h1>
 	
 	<div class="container">
-		<c:if test="${userID == 'admin'}">
-			<div id="checkList" style="text-align: right;">
-				<button class="btn btn-primary" id="selectAll" onclick="select(this)">전체선택</button>
-				<button class="btn btn-danger" id="deleteAll" onclick="deleteAll()">선택삭제</button>
-			</div>	
-		</c:if>
-		<c:if test="${userID != 'admin'}">
-			<c:if test="${userID == 'guest'}">
-				<div style="text-align: right;">
-					<button onclick="guest()" class="btn btn-primary">글쓰기</button>
-				</div>
-			</c:if>
-			<c:if test="${userID != 'guest'}">
-				<div style="text-align: right;">
-					<a href="devStoryWrite.jsp" class="btn btn-primary">글쓰기</a>
-				</div>
-			</c:if>
-		</c:if>
 		<br>
-		<c:forEach var="devStory" items="${devStory}" begin="0" end="${DevListPrintCount}">	
+		<c:forEach var="devStory" items="${devStory}" begin="0" end="${devListPrintCount}">	
 			<c:if test="${userID != 'admin'}">	
 				<div style="width: 100%; padding: 3px;"></div>
 				<div class="row" onclick="location.href='devStoryDetailController?id=${devStory.boardID}';"> 

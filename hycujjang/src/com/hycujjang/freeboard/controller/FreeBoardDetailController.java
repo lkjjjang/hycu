@@ -1,6 +1,7 @@
 package com.hycujjang.freeboard.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.hycujjang.freeboard.objectPack.comment.CommentDAO;
 import com.hycujjang.freeboard.objectPack.comment.CommentDTO;
 import com.hycujjang.freeboard.objectPack.freeBBS.BbsDAO;
-import com.hycujjang.freeboard.objectPack.freeBBS.BbsDTO;
 import com.hycujjang.freeboard.objectPack.freeBBS.ViewBbsDTO;
 import com.hycujjang.freeboard.objectPack.reply.ReplyDAO;
 import com.hycujjang.freeboard.objectPack.reply.ReplyDTO;
@@ -23,6 +23,12 @@ import com.hycujjang.freeboard.objectPack.reply.ReplyDTO;
 public class FreeBoardDetailController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String sessionID = (String) request.getSession().getAttribute("userID");
+		if (sessionID == null) {
+			pageBack(response, "잘못된 접근 입니다.");
+			return;
+		}
+		
 		int bbsID = 0;		
 		if (request.getParameter("id") != null) {
 			try {
@@ -41,7 +47,7 @@ public class FreeBoardDetailController extends HttpServlet{
 		// 글 내용 생성		
 		viewBbsDTO = bbsDAO.getFreeBoardDetail(bbsID);
 		regDateModify(viewBbsDTO);
-		System.out.println(viewBbsDTO);
+		
 		// 댓글목록 생성
 		ArrayList<CommentDTO> commentList = new ArrayList<CommentDTO>();
 		commentList = getCommentList(bbsID);
@@ -64,6 +70,15 @@ public class FreeBoardDetailController extends HttpServlet{
 		} else {
 			request.getRequestDispatcher("view.jsp").forward(request, response);
 		}
+	}
+	
+	private void pageBack(HttpServletResponse response, String alertMsg) throws IOException {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('" + alertMsg + "');");
+		script.println("location.href = 'index2.jsp'");
+		script.println("</script>");
+		script.close();
 	}
 	
 	private ArrayList<ReplyDTO> getReplyList(int bbsID) {

@@ -73,28 +73,18 @@ public class FreeBoardRegister extends HttpServlet{
 		FileUtils fileUtils = new FileUtils();
 		// 본문에서 사용된 파일 리스트
 		ArrayList<String> usedFileList = fileUtils.getUsedFileList(contentSplit, userID);	
-		System.out.println("usedFileList-----------------");
-		for (String s: usedFileList) {
-			System.out.println(s);
-		}
+		
 		// 이동한 파일 리스트
 		ArrayList<String> reNameList = fileUtils.moveFile(directory, tempDir, usedFileList);
-		System.out.println("reNameList-----------------");
-		for (String s: reNameList) {
-			System.out.println(s);
-		}
+		
 		// 임시폴더로 되어 있는 이미지 경로를 정식 경로로 바꿔줌
 		if (usedFileList.size() != 0 && reNameList.size() != 0) {
 			content = fileUtils.getModifyedContent(contentSplit, usedFileList, reNameList, userID);
-			System.out.println("getModifyedContent-----------------");
-			System.out.println(content);
 		}
 		
 		// 이미지 업로드시 사이즈 지정을 하지 않으면 px로 고정되어 있어 
 		// 페이지내에서 이미지 리사이즈가 안되는 현상때문에 px 을  % 로 수정
 		String modifydeContent = changeImgStyleByWidth(content);
-		System.out.println("modifydeContent-----------------");
-		System.out.println(modifydeContent);
 		BbsDAO bbsDAO = new BbsDAO();
 		BbsDTO bbsDTO = new BbsDTO(0, nickName, password, "NOW()", title, modifydeContent, 0, 0, 0, 0);
 		int result = bbsDAO.write(bbsDTO);
@@ -144,9 +134,10 @@ public class FreeBoardRegister extends HttpServlet{
 
 	                if (isImgTag) {
 	                    sb.append(contentsChars[i]);
+	                 // style="width:(공백) 완성
 	                }
 
-	                boolean inputSizePx = false;
+	                boolean isInputSizePx = false;
 	                int imgSizeDigitMin = i;
 	                int imgSizeDigitMax = 0;
 
@@ -159,12 +150,12 @@ public class FreeBoardRegister extends HttpServlet{
 	                    if (contentsChars[i + k] == 'p') {
 	                        imgSizeDigitMax = i + k;
 	                        if (contentsChars[i + k + 1] == 'x') {
-	                            inputSizePx = true;
+	                        	isInputSizePx = true;
 	                        }
 	                    }
 	                }
 	                char[] size = {'1', '0', '0', '%', ';', '"'};
-	                if (inputSizePx) {
+	                if (isInputSizePx) {
 	                    int digit = imgSizeDigitMax - imgSizeDigitMin - 1;
 	                    sb.append(size);
 	                    i += digit + 4;

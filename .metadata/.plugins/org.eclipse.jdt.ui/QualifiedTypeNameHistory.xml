@@ -28,11 +28,8 @@
 <fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevBoardDAO"/>
 <fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevReplyDTO"/>
 <fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevCommentDTO"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevCommentDAO"/>
 <fullyQualifiedTypeName name="com.hycujjang.controller.devStory.objectPack.DevReplyDAO"/>
-<fullyQualifiedTypeName name="java.lang.Integer"/>
-<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
 <fullyQualifiedTypeName name="java.util.Map.Entry"/>
 <fullyQualifiedTypeName name="com.hycujjang.devBoard.objectPack.DevBoardDTO"/>
 <fullyQualifiedTypeName name="com.hycujjang.devBoard.objectPack.DevFileDAO"/>
@@ -41,4 +38,7 @@
 <fullyQualifiedTypeName name="javax.servlet.annotation.WebServlet"/>
 <fullyQualifiedTypeName name="com.hycujjang.devBoard.objectPack.DevBoardDAO"/>
 <fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.lang.StringBuilder"/>
 </qualifiedTypeNameHistroy>

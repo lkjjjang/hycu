@@ -24,9 +24,6 @@ public class FreeBoardListController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userID = (String) request.getSession().getAttribute("userID");
-		if (request.getParameter("pageNumber") == null) {
-			pageBack(response, "잘못된 접근 입니다.");
-		}
 		
 		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 		if (userID == null) {

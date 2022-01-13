@@ -1,6 +1,7 @@
 package com.hycujjang.devBoard.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,13 +18,6 @@ import com.hycujjang.devBoard.objectPack.DevCommentDAO;
 import com.hycujjang.devBoard.objectPack.DevCommentDTO;
 import com.hycujjang.devBoard.objectPack.DevReplyDAO;
 import com.hycujjang.devBoard.objectPack.DevReplyDTO;
-import com.hycujjang.freeboard.objectPack.comment.CommentDAO;
-import com.hycujjang.freeboard.objectPack.comment.CommentDTO;
-import com.hycujjang.freeboard.objectPack.freeBBS.BbsDAO;
-import com.hycujjang.freeboard.objectPack.freeBBS.BbsDTO;
-import com.hycujjang.freeboard.objectPack.freeBBS.ViewBbsDTO;
-import com.hycujjang.freeboard.objectPack.reply.ReplyDAO;
-import com.hycujjang.freeboard.objectPack.reply.ReplyDTO;
 
 @WebServlet("/devStoryDetailController")
 public class DevStoryDetailController extends HttpServlet{
@@ -35,7 +29,7 @@ public class DevStoryDetailController extends HttpServlet{
 				boardID = Integer.parseInt(request.getParameter("id"));
 			} catch (Exception e){
 				System.out.print("게시판 글 번호 오류");
-			}			
+			}		
 		}
 		
 		DevBoardDAO devBoardDAO = new DevBoardDAO();

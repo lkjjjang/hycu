@@ -25,7 +25,7 @@
 <script>
 	window.onload = function() { 
 		if(document.location.protocol == 'http:'){
-		//document.location.href = document.location.href.replace('http:', 'https:');
+		document.location.href = document.location.href.replace('http:', 'https:');
 		}
 	}
 </script>
@@ -71,7 +71,7 @@
 					</tr>				
 				</thead>
 				<tbody>
-					<c:forEach var="devStory" items="${devStory}" begin="0" end="${DevListPrintCount}">
+					<c:forEach var="devStory" items="${devStory}" begin="0" end="${devListPrintCount}">
 						<tr class="row">
 							<td class="col-2" style="text-align: center;">
 								${devStory.boardID} 

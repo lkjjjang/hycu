@@ -18,9 +18,11 @@
 	<link rel="stylesheet" 
 			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
 			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
-			crossorigin="anonymous">		
+			crossorigin="anonymous">
+					
 	<!-- 커스텀 CSS 추가하기 -->
 	<link rel="stylesheet" href="./css/custom.css">
+	
 	<style>
 		.pad {
 			padding-top: 5px; 
@@ -38,7 +40,7 @@
 <script type="text/javascript">
 	window.onload = function() { 
 		if(document.location.protocol == 'http:'){
-		//document.location.href = document.location.href.replace('http:', 'https:');
+		document.location.href = document.location.href.replace('http:', 'https:');
 		}
 	}
 </script>
