@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import com.hycujjang.util.DatabaseUtil;
 
 public class FileDAO {
+	/*
 	public int delete(String bbsID) {
 		String SQL = "DELETE FROM FREE_BBS_FILE WHERE bbsID = ?";
 		Connection conn = null;
@@ -26,52 +27,7 @@ public class FileDAO {
 			instanseClose(conn, pstmt, rs);
 		}
 		return -1; // 추천중복오류
-	}
-	
-	public int deleteAll(String[] bbsID) {
-		String param = "";
-		for(int i = 0; i < bbsID.length; i++) {
-			param += bbsID[i];
-			if (i < bbsID.length - 1) {
-				param += ",";
-			}
-		}
-		
-		String SQL = "DELETE FROM FREE_BBS_FILE WHERE bbsID IN (" + param + ")";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DatabaseUtil.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			return pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			instanseClose(conn, pstmt, rs);
-		}
-		return -1; //데이터베이스 오류
-	}
-	
-	public int deleteAll(String bbsID) {
-		String SQL = "DELETE FROM FREE_BBS_FILE WHERE bbsID = ?";
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = DatabaseUtil.getConnection();
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, bbsID);
-			
-			return pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			instanseClose(conn, pstmt, rs);
-		}
-		
-		return -1; // 데이터베이스 오류
-	}
+	}*/
 	
 	public int updateFileName(FileDTO fileDTO) {
 		String SQL = "UPDATE FREE_BBS_FILE SET bbsID = ?, fileLastName = ?, regDate = NOW() WHERE fileID = ?";

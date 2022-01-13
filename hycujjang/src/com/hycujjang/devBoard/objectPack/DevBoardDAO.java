@@ -6,10 +6,66 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import com.hycujjang.freeboard.controller.FreeBoardListController;
+import com.hycujjang.freeboard.objectPack.freeBBS.BbsDTO;
 import com.hycujjang.freeboard.objectPack.freeBBS.ViewBbsDTO;
 import com.hycujjang.util.DatabaseUtil;
 
 public class DevBoardDAO {
+	
+	public int getBoardID(DevBoardDTO devBoardDTO) {	
+		String SQL = "";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = 0;
+		
+		try {		
+			// boardID, boardTitle, boardPassword, boardContent, boardRegDate
+			SQL = "SELECT boardID FROM DEVSTORY_BOARD WHERE boardTitle = ? AND boardPassword = ? ORDER BY boardID DESC LIMIT 1";
+			conn = DatabaseUtil.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, devBoardDTO.getBoardTitle());
+			pstmt.setString(2, devBoardDTO.getBoardPassword());
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				result = rs.getInt(1);
+			}
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			instanseClose(conn, pstmt, rs);
+		}
+		
+		return -1;
+	}
+	
+	public String getPassword(String boardID) {
+		String SQL = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String result = null;
+		try {
+			SQL = "SELECT boardPassword FROM DEVSTORY_BOARD WHERE boardID = ?";
+			
+			conn = DatabaseUtil.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, boardID);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getString(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			instanseClose(conn, pstmt, rs);
+		}
+		return result; //-1일 경우 데이터베이스 오류
+	}
+	
 	public int contentUpdate(DevBoardDTO devBoardDTO) {
 		String SQL = "UPDATE DEVSTORY_BOARD SET boardTitle = ?, boardContent = ? WHERE boardID = ?";
 		Connection conn = null;
@@ -19,8 +75,8 @@ public class DevBoardDAO {
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, devBoardDTO.getBoardTitle());
-			pstmt.setString(3, devBoardDTO.getBoardContent());
-			pstmt.setInt(4, devBoardDTO.getBoardID());
+			pstmt.setString(2, devBoardDTO.getBoardContent());
+			pstmt.setInt(3, devBoardDTO.getBoardID());
 			
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -99,7 +155,7 @@ public class DevBoardDAO {
 		ResultSet rs = null;
 		try {	
 			//boardID, boardTitle, boardPassword, boardContent, boardRegDate
-			SQL = "SELECT boardID, boardTitle, boardContent, boardRegDate FROM DEVSTORY_BOARD WHERE boardID = ?";
+			SQL = "SELECT * FROM DEVSTORY_BOARD WHERE boardID = ?";
 			
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
@@ -111,7 +167,8 @@ public class DevBoardDAO {
 						rs.getInt(1),
 						rs.getString(2).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
 						rs.getString(3).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
-						rs.getString(4).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n")
+						rs.getString(4).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n"),
+						rs.getString(5).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("<br>", "\r\n")
 						);
 			}
 		} catch (Exception e) {
@@ -123,15 +180,40 @@ public class DevBoardDAO {
 		return result;
 	}
 	
-	public int delete(String bbsID) {
-		String SQL = "DELETE FROM DEVSTORY_BOARD WHERE bbsID = ?";
+	public int delete(String[] boardIDs) {
+		String param = "";
+		for(int i = 0; i < boardIDs.length; i++) {
+			param += boardIDs[i];
+			if (i < boardIDs.length - 1) {
+				param += ",";
+			}
+		}
+		
+		String SQL = "DELETE FROM FREE_BBS WHERE bbsID IN (" + param + ")";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			conn = DatabaseUtil.getConnection();
 			pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, Integer.parseInt(bbsID));
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			instanseClose(conn, pstmt, rs);
+		}
+		return -1; //데이터베이스 오류
+	}
+	
+	public int delete(String boardID) {
+		String SQL = "DELETE FROM DEVSTORY_BOARD WHERE boardID = ?";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseUtil.getConnection();
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, Integer.parseInt(boardID));
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

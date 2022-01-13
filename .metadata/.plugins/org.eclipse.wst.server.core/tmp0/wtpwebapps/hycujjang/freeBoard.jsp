@@ -56,7 +56,7 @@
 			</ul>
 		</div>	
 	</nav>
-	
+	<br>
 	<div class="container">
 		<h1>
     		<a class="ed link-primary text-bold title-underline" href="freeBoardListController?pageNumber=1"><span class="text-dark">자유게시판</span></a>

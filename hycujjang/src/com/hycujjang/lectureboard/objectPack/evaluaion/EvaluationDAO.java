@@ -45,6 +45,7 @@ public class EvaluationDAO {
 	
 	
 	public int write(EvaluationDTO evaluationDTO) {
+		//evaluationID, userID, lectureName, professorName, lectureYear, semesterDivide, lectureDivide, evaluationTitle, evaluationContent, totalScore, creditScore, comfortableScore, lectureScore, likeCount
 		String SQL = "INSERT INTO LECTURE_EVALUATION VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)";
 		Connection conn = null;
 		PreparedStatement pstmt = null;

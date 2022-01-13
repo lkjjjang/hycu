@@ -314,3 +314,32 @@
 1월 11, 2022 11:57:18.19 [13296:13196:0111/115718.189:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
 1월 11, 2022 11:57:18.19 [13296:13196:0111/115718.192:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
 1월 11, 2022 11:57:18.20 [13296:10720:0111/115718.204:ERROR:device_event_log_impl.cc(214)] [11:57:18.203] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+1월 11, 2022 14:28:42.79 [18080:15656:0111/142842.797:ERROR:chrome_browser_main_extra_parts_metrics.cc(226)] crbug.com/1216328: Checking Bluetooth availability started. Please report if there is no report that this ends.
+1월 11, 2022 14:28:42.79 [18080:15656:0111/142842.797:ERROR:chrome_browser_main_extra_parts_metrics.cc(229)] crbug.com/1216328: Checking Bluetooth availability ended.
+1월 11, 2022 14:28:42.79 [18080:15656:0111/142842.797:ERROR:chrome_browser_main_extra_parts_metrics.cc(232)] crbug.com/1216328: Checking default browser status started. Please report if there is no report that this ends.
+1월 11, 2022 14:28:42.80 [18080:15656:0111/142842.801:ERROR:chrome_browser_main_extra_parts_metrics.cc(236)] crbug.com/1216328: Checking default browser status ended.
+1월 11, 2022 14:28:42.81 [18080:10888:0111/142842.809:ERROR:device_event_log_impl.cc(214)] [14:28:42.809] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+1월 11, 2022 14:43:25.48 [18080:10888:0111/144325.480:ERROR:account_info_fetcher.cc(62)] OnGetTokenFailure: Invalid credentials (credentials rejected by client).
+1월 11, 2022 14:43:38.38 [18080:10888:0111/144338.388:ERROR:device_event_log_impl.cc(214)] [14:43:38.388] USB: usb_service_win.cc:261 Failed to get device driver name: 요소가 없습니다. (0x490)
+
+1월 11, 2022 18:46:57.54 NEW SESSION
+1월 11, 2022 18:46:57.54 [18384:15976:0111/184657.541:ERROR:chrome_browser_main_extra_parts_metrics.cc(227)] START: ReportBluetoothAvailability(). If you don't see the END: message, this is crbug.com/1216328.
+1월 11, 2022 18:46:57.54 [18384:15976:0111/184657.541:ERROR:chrome_browser_main_extra_parts_metrics.cc(230)] END: ReportBluetoothAvailability()
+1월 11, 2022 18:46:57.54 [18384:15976:0111/184657.541:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
+1월 11, 2022 18:46:57.54 [18384:15976:0111/184657.544:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
+1월 11, 2022 18:46:57.55 [18384:12380:0111/184657.554:ERROR:device_event_log_impl.cc(214)] [18:46:57.554] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+
+1월 12, 2022 11:25:33.97 NEW SESSION
+1월 12, 2022 11:25:33.97 [15196:11660:0112/112533.977:ERROR:chrome_browser_main_extra_parts_metrics.cc(227)] START: ReportBluetoothAvailability(). If you don't see the END: message, this is crbug.com/1216328.
+1월 12, 2022 11:25:33.97 [15196:11660:0112/112533.977:ERROR:chrome_browser_main_extra_parts_metrics.cc(230)] END: ReportBluetoothAvailability()
+1월 12, 2022 11:25:33.97 [15196:11660:0112/112533.977:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
+1월 12, 2022 11:25:33.98 [15196:11660:0112/112533.980:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
+1월 12, 2022 11:25:33.99 [15196:19532:0112/112533.992:ERROR:device_event_log_impl.cc(214)] [11:25:33.992] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+
+1월 12, 2022 16:05:04.64 NEW SESSION
+1월 12, 2022 16:05:04.64 [14880:6268:0112/160504.642:ERROR:chrome_browser_main_extra_parts_metrics.cc(227)] START: ReportBluetoothAvailability(). If you don't see the END: message, this is crbug.com/1216328.
+1월 12, 2022 16:05:04.64 [14880:6268:0112/160504.642:ERROR:chrome_browser_main_extra_parts_metrics.cc(230)] END: ReportBluetoothAvailability()
+1월 12, 2022 16:05:04.64 [14880:6268:0112/160504.642:ERROR:chrome_browser_main_extra_parts_metrics.cc(235)] START: GetDefaultBrowser(). If you don't see the END: message, this is crbug.com/1216328.
+1월 12, 2022 16:05:04.64 [14880:6268:0112/160504.644:ERROR:chrome_browser_main_extra_parts_metrics.cc(239)] END: GetDefaultBrowser()
+1월 12, 2022 16:05:04.65 [14880:16808:0112/160504.655:ERROR:device_event_log_impl.cc(214)] [16:05:04.655] Bluetooth: bluetooth_adapter_winrt.cc:1075 Getting Default Adapter failed.
+1월 12, 2022 16:05:09.65 [14880:16808:0112/160509.657:ERROR:device_event_log_impl.cc(214)] [16:05:09.657] USB: usb_device_handle_win.cc:1050 Failed to read descriptor from node connection: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다. (0x3E3)

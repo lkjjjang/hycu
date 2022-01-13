@@ -52,10 +52,10 @@
 				<li class="nav-item">
 					<a class="nav-link" href="lectureBoardController?pageNumber=1">강의평가</a>
 				</li>
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" href="freeBoardListController?pageNumber=1">자유게시판</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item active">
 					<a class="nav-link" href="devStoryListController?pageNumber=1">제작이야기</a>
 				</li>
 				<li class="nav-item dropdown">
@@ -283,14 +283,14 @@
 			var data = {boardID: boardID, password: pass}
 			$.ajax({
 				type: "post",
-				url: "contentPassCheck",
+				url: "devStoryPassCheck",
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
 				
 				success: function(json) {
 					if (json[0].resultCode == 'ok') {
-						location.href = 'contentUpdateController?id='+ boardID +'';
+						location.href = 'updateObjectForward?id='+ boardID +'';
 					} else if (json[0].resultCode == 'wrongPass'){
 						alert('비밀번호가 잘못 되었습니다.')
 					} else {
@@ -310,7 +310,7 @@
 			console.log(data);
 			$.ajax({
 				type: "post",
-				url: "freeBoardDelete",
+				url: "devStoryDeleteController",
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
@@ -318,7 +318,7 @@
 				success: function(json) {
 					if (json[0].resultCode == 'ok') {
 						alert('삭제되었습니다.');
-						location.href = 'freeBoardListController?pageNumber=1';
+						location.href = 'devStoryListController?pageNumber=1';
 					} else if (json[0].resultCode == 'wrongPass') {
 						alert('비밀번호가 잘못 되었습니다.');
 					} else {

@@ -46,9 +46,9 @@ public class FileUtils {
 				continue;
 			}
 			// 이걸 쪼갬 src="/tempImg/1111\KakaoTalk_20210423_000414767.jpg"
-			int start = content[i].lastIndexOf(File.separator) + 1;		
-			int end = content[i].length() - 1;
 			String ori = oriFile.get(fileIndex);
+			int start = rootLength + 1;		
+			int end = rootLength + ori.length() + 1;
 			if (ori.equals(content[i].substring(start, end))) {
 				content[i] = "src=\"/upload/" + getTodayDate() + File.separator + reName.get(fileIndex++) + "\"";
 			}
@@ -64,7 +64,7 @@ public class FileUtils {
 	}
 	
 	public ArrayList<String> moveFile(String targetDir, String oriDir, ArrayList<String> files) {
-		ArrayList<String> validNamse = new ArrayList<String>();
+		ArrayList<String> validNames = new ArrayList<String>();
 		try {
 			ArrayList<FileInputStream> inputStreams = new ArrayList<FileInputStream>();
 			for (String file: files) {
@@ -75,15 +75,21 @@ public class FileUtils {
 			
 			// 목표 폴더에 파일이름 중복 체크후 작업
 			for (String file: files) {
+				// /upload/ 폴더에 파일 이름이 있는 경우 파일이름 변경
+				// 변경된 파일이름을 validNames에 있으면 변경해서 담고 없으면 위에서 나온 파일이름으로 담아줌
 				if (containsFileName(targetDir, file)) {
-					validNamse.add(getChangeFileName(targetDir, file));					
+					String refileName = getChangeFileName(targetDir, file);
+					while(validNames.contains(refileName)) {
+						refileName = nameChange(validNames, refileName);
+					}
+					validNames.add(refileName);					
 				} else {
-					validNamse.add(file);
+					validNames.add(file);
 				}
 			}
 			
 			ArrayList<FileOutputStream> outputStream = new ArrayList<FileOutputStream>();
-			for (String file: validNamse) {
+			for (String file: validNames) {
 				String path = targetDir + File.separator + file;
 				FileOutputStream outputFile = new FileOutputStream(path);
 				outputStream.add(outputFile);
@@ -106,7 +112,7 @@ public class FileUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return validNamse;
+		return validNames;
 	}
 	
 	public long getFolderSize() {
@@ -125,8 +131,8 @@ public class FileUtils {
 	
 
 	public ArrayList<String> getUsedFileList(String[] content, String userID) {
-		ArrayList<String> result = new ArrayList<String>();		
-		String fileName = "";
+		ArrayList<String> result = new ArrayList<String>();	
+		int rootLength = this.root.length();
 		
 		for (int i = 0; i < content.length; i++) {
 			int tagPathLength = this.root.length() + userID.length();
@@ -138,13 +144,12 @@ public class FileUtils {
 			if (!(this.root + userID).equals(rootName)) {
 				continue;
 			}
-			
 			// src="/tempImg/1111\KakaoTalk_20210423_000414767(1).jpg"></p><p>&nbsp;
-			// 이 형태를 쪼갠후 파일명 추출
-			int separator = content[i].lastIndexOf(File.separator);			
-			String[] tempName = content[i].substring(separator + 1, content[i].length() - 1).split("\"");
-			fileName = tempName[0];
-			result.add(fileName);
+			// 이 형태를 쪼갠후 파일명 추출 위형태가 랜덤으로 들어옴
+			int start = rootLength + userID.length() + 1;		
+			int end = content[i].lastIndexOf('"');
+			String tempName = content[i].substring(start, end);
+			result.add(tempName);
 		}
 		return result;
 	}
@@ -169,31 +174,19 @@ public class FileUtils {
 			resultName = sp[nameInx] + "(1)." + sp[extInx];
 		}
 		
-		while (containsFileName(directory, resultName)) {
-			int f = resultName.lastIndexOf("(");
-			int b = resultName.lastIndexOf(")");
-			String[] resultNameSp = resultName.split("\\.");
-			
-			int num = Integer.parseInt(resultNameSp[nameInx].substring(f + 1, b));
-			int bracketFront = resultNameSp[nameInx].lastIndexOf("(");
-			
-			String reName = resultNameSp[nameInx].substring(0, bracketFront);
-			String reNum = "(" + (++num) + ").";
-			resultName = reName + reNum + resultNameSp[extInx];
+		if (!containsFileName(directory, resultName)) {
+			return resultName;
 		}
 		
-		return resultName;
+		String result = changeFileNumber(directory, resultName);	
+		return result;
 	}
 	
 	public boolean containsFileName(String directory, String name) {
 		File dir = new File(directory);
-		File files[] = dir.listFiles();
-		
-		for (File list: files) {
-			String listStr = list.toString();
-			int subStrStart = listStr.lastIndexOf(File.separator) + 1;
-			String fileName = listStr.substring(subStrStart, listStr.length()); 
-			if (fileName.equals(name)) {
+		String files[] = dir.list();
+		for (String file: files) {
+			if (file.equals(name)) {
 				return true;
 			}
 		}
@@ -261,6 +254,62 @@ public class FileUtils {
 	    } catch (Exception e) {
 	    	e.getStackTrace();
 	    }
+	}
+	private String nameChange(ArrayList<String> validNames, String fileName) {
+		int size = validNames.size();
+		String[] array = new String[size];
+		for (int i = 0; i < size; i++) {
+			array[i] = validNames.get(i);
+		}
+		
+		String result = changeNum(array, fileName);
+		return result;
+	}
+	
+	private String changeNum(String[] directory, String name) {
+		String fileNameExceptByExt = name.substring(0, name.lastIndexOf('('));
+		int num = 0;
+		
+		for (String file: directory) {
+			if (file.startsWith(fileNameExceptByExt)) {
+				int reNum = getNewNumber(file);
+				if (num < reNum) {
+					num = reNum;
+				}
+			}
+		}
+		
+		String fileName = name.substring(0, name.lastIndexOf('('));
+		String ext = name.substring(name.lastIndexOf('.'), name.length());
+		String result = fileName + "(" + ++num + ")" + ext;
+		return result;
+	}
+	
+	private String changeFileNumber(String directory, String name) {
+		File dir = new File(directory);
+		String[] files = dir.list();
+		String result = changeNum(files, name);
+		return result;
+	}
+	
+	private int getNewNumber(String file) {
+		String[] sp = file.split("\\.");
+		int start = sp[0].lastIndexOf('(');
+		int end = sp[0].lastIndexOf(')');
+		if (start == -1 || end == -1 || start >= end) {
+			return 0;
+		}
+		
+		String num = file.substring(start + 1, end);
+		int result = 0;
+		
+		try {
+			result = Integer.parseInt(num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 	private String getTodayDate() {

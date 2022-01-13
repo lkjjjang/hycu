@@ -8,19 +8,22 @@ public class DevFileDTO {
 	private String fileTempName;
 	private String fileLastName;
 	private String regDate;
+	
 	public DevFileDTO() {
 		
 	}
-	public DevFileDTO(int boardID, int fileID, String userID, String fileRealName, String fileTempName,
-			String fileLastName, String regDate) {
-		super();
+	
+	public DevFileDTO(String userID, String fileRealName, String fileTempName) {
+		this.userID = userID;
+		this.fileTempName = fileTempName;
+		this.fileRealName = fileRealName;
+	}
+	
+	public DevFileDTO(int fileID, int boardID, String fileTempName, String fileLastName) {
 		this.boardID = boardID;
 		this.fileID = fileID;
-		this.userID = userID;
-		this.fileRealName = fileRealName;
 		this.fileTempName = fileTempName;
 		this.fileLastName = fileLastName;
-		this.regDate = regDate;
 	}
 	public int getBoardID() {
 		return boardID;

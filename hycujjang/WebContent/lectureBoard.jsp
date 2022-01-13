@@ -292,7 +292,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="modal">평가 등록</h5>
+					<h5 class="modal-title" id="modal">평가 수정</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -399,7 +399,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-						<button onclick="updateReg()" class="btn btn-primary">등록하기</button>
+						<button onclick="updateReg()" class="btn btn-primary">수정하기</button>
 					</div>
 				</div>
 			</div>
@@ -521,7 +521,7 @@
 			console.log(data);
 			$.ajax({
 				type: "post",
-				url: "evaluationRegisterController",
+				url: "evaluationUpdateController",
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
@@ -613,7 +613,7 @@
 			var evaluationContent = document.getElementById("evaluationContent").value;	
 			
 			var data = {
-					evaluationID: 0,
+					evaluationID: "register", // 모두 문자열로 보내야함
 					lectureName: lectureName,
 					professorName: professorName,
 					totalScore: totalScore,

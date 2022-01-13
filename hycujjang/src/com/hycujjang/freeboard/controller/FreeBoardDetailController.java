@@ -33,15 +33,15 @@ public class FreeBoardDetailController extends HttpServlet{
 		}
 		
 		BbsDAO bbsDAO = new BbsDAO();
-		ViewBbsDTO bbsDTO = new ViewBbsDTO();
+		ViewBbsDTO viewBbsDTO = new ViewBbsDTO();
 		
 		// 조회수 증가
 		bbsDAO.hitUpdate(bbsID);
 		
 		// 글 내용 생성		
-		bbsDTO = bbsDAO.getFreeBoardDetail(bbsID);
-		regDateModify(bbsDTO);
-
+		viewBbsDTO = bbsDAO.getFreeBoardDetail(bbsID);
+		regDateModify(viewBbsDTO);
+		System.out.println(viewBbsDTO);
 		// 댓글목록 생성
 		ArrayList<CommentDTO> commentList = new ArrayList<CommentDTO>();
 		commentList = getCommentList(bbsID);
@@ -54,7 +54,7 @@ public class FreeBoardDetailController extends HttpServlet{
 		insertReplyInComment(commentList, replyList);
 
 		int commentCount = commentList.size() + replyList.size();
-		request.setAttribute("freeBoardDetail", bbsDTO);
+		request.setAttribute("freeBoardDetail", viewBbsDTO);
 		request.setAttribute("comments", commentList);
 		request.setAttribute("commentCount", commentCount);
 		

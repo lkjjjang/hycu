@@ -20,6 +20,7 @@ public class EvaluationRegisterController extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		BufferedReader br = request.getReader();
 		String requestJson = br.readLine();
+		System.out.println(requestJson);
 		HashMap<String, String> map = new HashMap<String, String>();
 		map = getMap(requestJson);
 
@@ -29,7 +30,6 @@ public class EvaluationRegisterController extends HttpServlet{
 		}
 		
 		String userID = (String) request.getSession().getAttribute("userID");
-		int evaluationID = Integer.parseInt(map.get("evaluationID"));
 		String lectureName = map.get("lectureName");
 		String professorName = map.get("professorName");
 		int lectureYear = Integer.parseInt(map.get("lectureYear"));
@@ -41,31 +41,18 @@ public class EvaluationRegisterController extends HttpServlet{
 		String creditScore = map.get("creditScore");
 		String comfortableScore = map.get("comfortableScore");
 		String lectureScore = map.get("lectureScore");
-
-		boolean isRegister = true;
-		if (evaluationID != 0) {
-			isRegister = false;
-		}
 		
 		EvaluationDAO evaluationDAO = new EvaluationDAO();
-		EvaluationDTO evaluationDTO = new EvaluationDTO(evaluationID, userID, lectureName, professorName, lectureYear,
+		// 운영체제 마다 '' "" 인식이 다른듯해 앞단에서 문자열로 넘김 evaluationID = "register"
+		EvaluationDTO evaluationDTO = new EvaluationDTO(0, userID, lectureName, professorName, lectureYear,
 				semesterDivide, lectureDivide, evaluationTitle, evaluationContent,
 				totalScore, creditScore, comfortableScore, lectureScore, 0);
 		
-		if (isRegister) {
-			int writeResult = evaluationDAO.write(evaluationDTO);
-			if (writeResult == 1) {
-				response.getWriter().write("[{\"resultCode\":\"ok\"}]");
-			} else {
-				response.getWriter().write("[{\"resultCode\":\"error\"}]");
-			}
+		int writeResult = evaluationDAO.write(evaluationDTO);
+		if (writeResult == 1) {
+			response.getWriter().write("[{\"resultCode\":\"ok\"}]");
 		} else {
-			int updateResult = evaluationDAO.update(evaluationDTO);
-			if (updateResult == 1) {
-				response.getWriter().write("[{\"resultCode\":\"ok\"}]");
-			} else {
-				response.getWriter().write("[{\"resultCode\":\"error\"}]");
-			}
+			response.getWriter().write("[{\"resultCode\":\"error\"}]");
 		}
 	}
 	
@@ -96,6 +83,7 @@ public class EvaluationRegisterController extends HttpServlet{
                 
                 String resultKey = key.toString();
                 String resultValue = value.toString();
+                System.out.println("key : " + resultKey + " value : " + resultValue);
                 if (resultValue.equals("") || resultValue == null) {
                 	return null;
                 }
@@ -125,6 +113,7 @@ public class EvaluationRegisterController extends HttpServlet{
                 
                 String resultKey = key.toString();
                 String resultValue = value.toString();
+                System.out.println("key : " + resultKey + " value : " + resultValue);
                 if (resultValue.equals("") || resultValue == null) {
                 	return null;
                 }

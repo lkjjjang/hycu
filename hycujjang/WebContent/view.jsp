@@ -321,7 +321,7 @@
 			console.log(data);
 			$.ajax({
 				type: "post",
-				url: "freeBoardDelete",
+				url: "freeBoardDeleteController",
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",

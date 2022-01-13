@@ -19,21 +19,17 @@ public class EmailCheckController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("userID") == null) {
-			pageBack(response, "잘못된 접근 입니다.");
-		}
-		
 		UserDAO userDAO = new UserDAO();	
-		String userID = (String) session.getAttribute("userID");
+		String userID = request.getParameter("userID");
 		String code = request.getParameter("code");
 		String userEmail = userDAO.getUserEmail(userID);
 		
 		if (SHA256.getSHA256(userEmail).equals(code)) {
 			userDAO.setUserEmailChecked(userID);
+			session.setAttribute("userID", userID);
 			pageBack(response, "인증에 성공했습니다.", "index.jsp");
 		} else {
 			userDAO.delete(userID);
-			session.removeAttribute("userID");
 			pageBack(response, "유효하지 않은 코드 입니다.");
 		}
 	}

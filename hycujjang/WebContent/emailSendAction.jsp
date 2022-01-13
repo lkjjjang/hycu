@@ -19,7 +19,7 @@
 <script>
 	window.onload = function() { 
 		if(document.location.protocol == 'http:'){
-		//document.location.href = document.location.href.replace('http:', 'https:');
+		document.location.href = document.location.href.replace('http:', 'https:');
 		}
 	}
 </script>

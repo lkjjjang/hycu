@@ -60,7 +60,7 @@ public class FreeBoardRegister extends HttpServlet{
 			pageBack(response, "입력 안 된 사항이 있습니다.");
 			return;
 		}
-		
+		System.out.println("content : " + content);
 		String[] contentSplit = content.split(" ");			
 		String directory = this.getServletContext().getRealPath("/upload/") + getTodayDate();
 		String tempDir = this.getServletContext().getRealPath("/tempImg/") + userID;
@@ -73,17 +73,28 @@ public class FreeBoardRegister extends HttpServlet{
 		FileUtils fileUtils = new FileUtils();
 		// 본문에서 사용된 파일 리스트
 		ArrayList<String> usedFileList = fileUtils.getUsedFileList(contentSplit, userID);	
+		System.out.println("usedFileList-----------------");
+		for (String s: usedFileList) {
+			System.out.println(s);
+		}
 		// 이동한 파일 리스트
-		ArrayList<String> reNameList = fileUtils.moveFile(directory, tempDir, usedFileList);	
+		ArrayList<String> reNameList = fileUtils.moveFile(directory, tempDir, usedFileList);
+		System.out.println("reNameList-----------------");
+		for (String s: reNameList) {
+			System.out.println(s);
+		}
 		// 임시폴더로 되어 있는 이미지 경로를 정식 경로로 바꿔줌
 		if (usedFileList.size() != 0 && reNameList.size() != 0) {
 			content = fileUtils.getModifyedContent(contentSplit, usedFileList, reNameList, userID);
+			System.out.println("getModifyedContent-----------------");
+			System.out.println(content);
 		}
 		
 		// 이미지 업로드시 사이즈 지정을 하지 않으면 px로 고정되어 있어 
 		// 페이지내에서 이미지 리사이즈가 안되는 현상때문에 px 을  % 로 수정
 		String modifydeContent = changeImgStyleByWidth(content);
-		
+		System.out.println("modifydeContent-----------------");
+		System.out.println(modifydeContent);
 		BbsDAO bbsDAO = new BbsDAO();
 		BbsDTO bbsDTO = new BbsDTO(0, nickName, password, "NOW()", title, modifydeContent, 0, 0, 0, 0);
 		int result = bbsDAO.write(bbsDTO);

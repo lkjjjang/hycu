@@ -14,7 +14,6 @@ public class BbsDTO {
 	private int useImage;
 	
 	public BbsDTO() {}
-	
 	public BbsDTO(int bbsID, String title, String password, String bbsContente) {
 		this.bbsID = bbsID;
 		this.bbsTitle = title;

@@ -38,7 +38,7 @@
 <script type="text/javascript">
 	window.onload = function() { 
 		if(document.location.protocol == 'http:'){
-		//document.location.href = document.location.href.replace('http:', 'https:');
+		document.location.href = document.location.href.replace('http:', 'https:');
 		}
 	}
 </script>
@@ -52,10 +52,10 @@
 				<li class="nav-item">
 					<a class="nav-link" href="lectureBoardController?pageNumber=1">강의평가</a>
 				</li>
-				<li class="nav-item active">
+				<li class="nav-item">
 					<a class="nav-link" href="freeBoardListController?pageNumber=1">자유게시판</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item active">
 					<a class="nav-link" href="devStoryListController?pageNumber=1">제작이야기</a>
 				</li>
 				<li class="nav-item dropdown">
@@ -72,38 +72,25 @@
 	
 	<div class="container">
 		<div>
-			<c:set var="detail" value="${freeBoardDetail}"></c:set>
+			<c:set var="detail" value="${devStoryDetail}"></c:set>
 			<table class="table" style="text-align: left;">
 				<thead>
 					<tr>
-						<th colspan="3"><h1>${detail.bbsTitle}</h1></th>
+						<th colspan="3"><h1>${detail.boardTitle}</h1></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td style="text-align: left;">
-							<span style="font-weight: bold;">작성자  </span>${detail.nickName}
+							<span style="font-weight: bold;">작성자  </span>관리자
 						</td>
 						<td colspan="2" style="text-align: right;">
-							<span style="font-weight: bold;">작성일자  </span>${detail.bbsDate}
+							<span style="font-weight: bold;">작성일자  </span>${detail.boardRegDate}
 						</td>
 					</tr>
 					<tr>
 						<td colspan="3" style="text-align: left; height: 300px;">
-							${detail.bbsContente}
-						</td>
-					</tr>
-					<tr id="upvote_bbsID">
-						<td colspan="3" style="text-align: center;">
-							<input type="hidden" id="userID" value="${userID}">
-							<c:if test="${userID == 'guest'}">
-								<!-- ${userID} 로그인시 세션에 저장해둠 -->
-								<button onclick="guest()" class="btn btn-primary">${detail.upvote_count} 추천</button>
-							</c:if>
-							<c:if test="${userID != 'guest'}">
-								<!-- ${userID} 로그인시 세션에 저장해둠 -->
-								<button onclick="upvoteUpdate(${detail.bbsID}, userID)" class="btn btn-primary">${detail.upvote_count} 추천</button>
-							</c:if>
+							${detail.boardContent}
 						</td>
 					</tr>
 				</tbody>
@@ -160,7 +147,7 @@
 							<div id="reply_text_count_${comments.commentID}">(0 / 100)</div>
 							<br>
 							<div style="text-align: center;">
-								<input type="hidden" id="bbsID" value="${detail.bbsID}">
+								<input type="hidden" id="boardID" value="${detail.boardID}">
 								<c:if test="${userID == 'guest'}">
 									<button class="btn btn-primary" onclick="guest()">댓글등록</button>
 								</c:if>
@@ -218,7 +205,7 @@
 						<div id="comment_text_count">(0 / 100)</div>
 						<br>
 						<div style="text-align: center;">
-							<input type="hidden" id="bbsID" value="${detail.bbsID}">
+							<input type="hidden" id="boardID" value="${detail.boardID}">
 							<c:if test="${userID == 'guest'}">
 								<button class="btn btn-primary" onclick="guest()">댓글등록</button>
 							</c:if>
@@ -273,15 +260,15 @@
 				return;
 			}
 			
-			var bbsID = document.getElementById("bbsID").value;
+			var boardID = document.getElementById("boardID").value;
 			// 댓글, 대댓글은 뒤에 넘버가 따라와서 정규식으로 구분함
 			var commentDelete = /commentDelete/;
 			var replyDelete = /replyDelete/;
 			
 			if (popType.value == 'contentModify') {
-				goContentModify(bbsID, pass);
+				goContentModify(boardID, pass);
 			} else if (popType.value == 'contentDelete') {
-				goContentDelete(bbsID, pass);
+				goContentDelete(boardID, pass);
 			} else if (commentDelete.test(popType.value)) {
 				goCommentDelete(popType, pass);
 			} else if (replyDelete.test(popType.value)) {
@@ -289,19 +276,19 @@
 			}
 		}
 		
-		function goContentModify(bbsID, pass) {
-			var bbsID = document.getElementById("bbsID").value;
-			var data = {bbsID: bbsID, password: pass}
+		function goContentModify(boardID, pass) {
+			var boardID = document.getElementById("boardID").value;
+			var data = {boardID: boardID, password: pass}
 			$.ajax({
 				type: "post",
-				url: "contentPassCheck",
+				url: "devStoryPassCheck",
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
 				
 				success: function(json) {
 					if (json[0].resultCode == 'ok') {
-						location.href = 'contentUpdateController?id='+ bbsID +'';
+						location.href = 'updateObjectForward?id='+ boardID +'';
 					} else if (json[0].resultCode == 'wrongPass'){
 						alert('비밀번호가 잘못 되었습니다.')
 					} else {
@@ -315,13 +302,13 @@
 			});
 		}
 		
-		function goContentDelete(bbsID, pass) {
-			var bbsID = document.getElementById("bbsID").value;
-			var data = {bbsID: bbsID, password: pass}
+		function goContentDelete(boardID, pass) {
+			var boardID = document.getElementById("boardID").value;
+			var data = {boardID: boardID, password: pass}
 			console.log(data);
 			$.ajax({
 				type: "post",
-				url: "freeBoardDelete",
+				url: "devStoryDeleteController",
 				data: JSON.stringify(data),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
@@ -329,7 +316,7 @@
 				success: function(json) {
 					if (json[0].resultCode == 'ok') {
 						alert('삭제되었습니다.');
-						location.href = 'freeBoardListController?pageNumber=1';
+						location.href = 'devStoryListController?pageNumber=1';
 					} else if (json[0].resultCode == 'wrongPass') {
 						alert('비밀번호가 잘못 되었습니다.');
 					} else {
@@ -348,7 +335,7 @@
 			replyIDSp = popType.value.split("_");
 			var replyID = replyIDSp[1];
 			var data = {replyID: replyID, password: pass};
-			commentReplyAjax(data, 'replyDeleteController');
+			commentReplyAjax(data, 'devReplyDeleteController');
 		}
 		
 		function goCommentDelete(popType, pass) {
@@ -356,10 +343,11 @@
 			commentIDSp = popType.value.split("_");
 			var commentID = commentIDSp[1];
 			var data = {commentID: commentID, password: pass};
-			commentReplyAjax(data, 'commentDeleteController');
+			commentReplyAjax(data, 'devCommentDeleteController');
 		}
 		
 		function commentReplyAjax(data, url) {
+			console.log(123);
 			$.ajax({
 				type: "post",
 				url: url,
@@ -463,56 +451,15 @@
 		}
 	</script>
 	<script type="text/javascript">
-		// 게시글 추천
-		function upvoteUpdate(bbsID, userID) {
-			var data = {bbsID: bbsID, userID: userID.value}
-			$.ajax({
-				type: "post",
-				url: "voteController",
-				data: JSON.stringify(data),
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				success: function(json) {
-					if (json[0].resultCode == 'ok') {
-						upvotePrint(json, bbsID);
-					} else if (json[0].resultCode == 'no') {
-						alert('추천은 한번만 가능 합니다.');
-						upvotePrint(json, bbsID);
-					} else {
-						alert('데이터베이스 오류 입니다.');
-						upvotePrint(json, bbsID);
-					}
-				},
-				error: function(json) {
-					alert('시스템 오류 입니다.');
-				}
-			});
-		}
-		// 부분 새로고침 하면 너무 느려서 간단한곳은 직접 작성
-		function upvotePrint(json, bbsID) {
-			var upvote = document.getElementById("upvote_bbsID");	
-			upvote.innerHTML = '<td colspan="3" style="text-align: center;">' +
-									'<input type="hidden" id="userID" value="${userID}">' +
-									'<c:if test="${userID == guest}">' +
-										'<button onclick="guest()" class="btn btn-primary">${detail.upvote_count} 추천</button>' +
-									'</c:if>' +
-									'<c:if test="${userID != guest}">' +
-										'<button onclick="upvoteUpdate(${detail.bbsID}, userID)" class="btn btn-primary">' +
-										json[0].upvoteCount + ' 추천</button>' +
-									'</c:if>' +
-							   '</td>';
-		}
-	</script>
-	<script type="text/javascript">
 		// 댓글
 		function commentRegister() {
 			var data = {
 				writeID: $("#writeID").val(),
 				password: $("#password").val(),
-				bbsID: $("#bbsID").val(),
+				boardID: $("#boardID").val(),
 				comment: $("#comment").val()
 			}
-			var url = 'commentRegisterController';
+			var url = 'devCommentRegisterController';
 			sendDataToServer(data, url);
 			writeID: $("#writeID").val("");
 			password: $("#password").val("");
@@ -523,12 +470,12 @@
 		function replyRegister(nick, pass, content, tagHideID) {
 			var data = {
 					commentID: tagHideID.value,
-					bbsID: $('#bbsID').val(),
+					boardID: $('#boardID').val(),
 					nickName: nick.value,
 					password: pass.value,
 					replyComment: content.value
 			}
-			var url = 'replyRegisterController';
+			var url = 'devReplyRegisterController';
 			sendDataToServer(data, url);
 		}
 		

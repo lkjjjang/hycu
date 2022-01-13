@@ -25,36 +25,29 @@ public class DevStoryListController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userID = (String) request.getSession().getAttribute("userID");
 		if (request.getParameter("pageNumber") == null) {
 			pageBack(response, "잘못된 접근 입니다.");
 		}
 		
+		// 전체공개
 		int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-		if (userID == null) {
-			// 로그인 안됨
-			pageBack(response, "로그인후 사용 가능합니다.");
+		ArrayList<ViewDevBoardDTO> list = new ArrayList<ViewDevBoardDTO>();
+		DevBoardDAO dao = new DevBoardDAO();
+		list = dao.getList(pageNumber);
+		regDateModify(list);
+		
+		// 페이징처리를 위해 게시글 갯수 파악
+		int listCount = getListCount(list.size());			
+		request.setAttribute("devStory", list);
+		request.setAttribute("listCount", listCount);
+		request.setAttribute("pageNumber", pageNumber);
+		request.setAttribute("DevListPrintCount", DevStoryListController.freeBBSListPrintCount);
+		
+		String devices = (String) request.getSession().getAttribute("devices");	
+		if (devices.equals("mobile")) {
+			request.getRequestDispatcher("devStoryListMobile.jsp").forward(request, response);
 		} else {
-			// 로그인 됨
-			// 게시글 생성
-			ArrayList<ViewDevBoardDTO> list = new ArrayList<ViewDevBoardDTO>();
-			DevBoardDAO dao = new DevBoardDAO();
-			list = dao.getList(pageNumber);
-			regDateModify(list);
-			
-			// 페이징처리를 위해 게시글 갯수 파악
-			int listCount = getListCount(list.size());			
-			request.setAttribute("devStory", list);
-			request.setAttribute("listCount", listCount);
-			request.setAttribute("pageNumber", pageNumber);
-			request.setAttribute("freeBBSListPrintCount", DevStoryListController.freeBBSListPrintCount);
-			
-			String devices = (String) request.getSession().getAttribute("devices");	
-			if (devices.equals("mobile")) {
-				request.getRequestDispatcher("devPage.jsp").forward(request, response);
-			} else {
-				request.getRequestDispatcher("devPage.jsp").forward(request, response);
-			}
+			request.getRequestDispatcher("devStoryList.jsp").forward(request, response);
 		}
 	}
 	

@@ -1,83 +1,85 @@
 package test;
 
 import java.security.MessageDigest;
+import java.util.HashMap;
 
 public class Program {
 
 	public static void main(String[] args) {
-		String input = "food1004**";
+		String input = "{\"evaluationID\":\"17\",\"lectureName\":\"웹서비스와애플리케이션기초\"}";
 		
-		System.out.println(getSHA256(input));
+		System.out.println(getMap(input));
 	}
 	
-	public static String getSHA256(String input) {
-		StringBuffer result = new StringBuffer();
-		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			// slat값은 내마음대로 
-			byte[] salt = "hycujjang.com! This is lkjjjang Salt.".getBytes();
-			digest.reset();
-			digest.update(salt);
-			byte[] chars = digest.digest(input.getBytes("UTF-8"));
-			for (int i = 0; i < chars.length; i++) {
-				String hex = Integer.toHexString(0xff & chars[i]);
-				if (hex.length() == 1) {
-					result.append("0");
-				}
-				result.append(hex);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result.toString();
-	}
-	
-	public static String getContentUpdate(String contents) {
-		int sbCapacity = contents.length();
-        StringBuilder sb = new StringBuilder(sbCapacity * 2);
-        String targetStr = "<img style=\"width:";
-        char[] targetCh = targetStr.toCharArray();
-        char[] contentsChars = contents.toCharArray();
+	public static HashMap<String, String> getMap(String json) {
+		StringBuilder key = new StringBuilder(json.length() / 2);
+        StringBuilder value = new StringBuilder(json.length() /2 );
+        HashMap<String, String> result = new HashMap<String, String>();
+        char[] chars = json.toCharArray();
+        int startInx = 2;
+        // {"evaluationID":"17","lectureName":"웹서비스와애플리케이션기초"}
+        for (int i = 1; i < chars.length; i++) {
+            if (chars[i - 1] == '"' && chars[i] == ',' && chars[i + 1] == '"') {
+                boolean isValue = false;
+                for (int j = startInx; j < i - 2; j++) {
+                    if (!isValue && chars[j] != '"') {
+                        key.append(chars[j]);
+                    }
 
-        for (int i = 0; i < contentsChars.length; i++) {
-            if (contentsChars[i] == '<') {
-                boolean isImgTag = false;
-                for (int j = 0; j < targetCh.length; j++) {
-                    if (contentsChars[i] != targetCh[j]) {
-                        isImgTag = false;
-                        sb.append(contentsChars[i]);
-                        break;
-                    } else {
-                        isImgTag = true;
-                        sb.append(contentsChars[i++]);
+                    if (chars[j] == '"') {
+                        isValue = true;
+                        j += 2;
+                    }
+
+                    if (isValue) {
+                        value.append(chars[j + 1]);
                     }
                 }
-
-                if (isImgTag) {
-                    sb.append(contentsChars[i]);
+                
+                String resultKey = key.toString();
+                String resultValue = value.toString();
+                System.out.println("key : " + resultKey + " value : " + resultValue);
+                if (resultValue.equals("") || resultValue == null) {
+                	return null;
                 }
-
-                boolean inputSizePx = false;
-
-                for (int k = 1; k <= 6; k++) {
-                    if (i + 30 > sbCapacity) {
-                        break;
+                
+                result.put(resultKey, resultValue);
+                startInx = i + 2;
+                key.setLength(0);
+                value.setLength(0);
+            }
+            
+            if (i == chars.length - 1) {
+                boolean isValue = false;
+                for (int j = startInx; j < i - 2; j++) {
+                    if (!isValue && chars[j] != '"') {
+                        key.append(chars[j]);
                     }
-                    if (contentsChars[i + k] == 'p' && contentsChars[i + k + 1] == 'x') {
-                        inputSizePx = true;
+
+                    if (chars[j] == '"') {
+                        isValue = true;
+                        j += 2;
+                    }
+
+                    if (isValue) {
+                        value.append(chars[j + 1]);
                     }
                 }
-
-                char[] size = {'1', '0', '0', '%', ';', '"'};
-                if (inputSizePx) {
-                    sb.append("100%;");
-                    i += size.length;
+                
+                String resultKey = key.toString();
+                String resultValue = value.toString();
+                System.out.println("key : " + resultKey + " value : " + resultValue);
+                if (resultValue.equals("") || resultValue == null) {
+                	return null;
                 }
-            } else {
-                sb.append(contentsChars[i]);
+                
+                result.put(resultKey, resultValue);
+                startInx = i + 2;
+                key.setLength(0);
+                value.setLength(0);
             }
         }
-        return sb.toString();
+        return result;
 	}
 
 }

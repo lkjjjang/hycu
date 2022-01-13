@@ -8,11 +8,10 @@ public class DevBoardDTO {
 	private String boardRegDate;
 	public DevBoardDTO() {
 	}
-	public DevBoardDTO(int boardID, String boardTitle, String boardContent, String boardRegDate) {
-		this.boardID = boardID;
+	public DevBoardDTO(String boardTitle, String boardPassword, String boardContent) {
 		this.boardTitle = boardTitle;
+		this.boardPassword = boardPassword;
 		this.boardContent = boardContent;
-		this.boardRegDate = boardRegDate;
 	}
 	
 	public DevBoardDTO(int boardID, String boardTitle, String boardPassword, String boardContent, String boardRegDate) {

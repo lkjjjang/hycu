@@ -49,13 +49,11 @@ public class UserRegisterController extends HttpServlet {
 		
 		UserDAO user = new UserDAO();
 		UserDTO userDTO = new UserDTO(userID, pass, email, SHA256.getSHA256(email), false);	
-		EmailSend mail = new EmailSend(email);
+		EmailSend mail = new EmailSend(email, userID);
 		int sendResult = mail.send();
 		
 		if (sendResult == 1) {
 			user.join(userDTO);
-			HttpSession session = request.getSession();
-			session.setAttribute("userID", userID);
 			result = getResultJson("ok");
 		} else {
 			result = getResultJson("error");
@@ -76,7 +74,6 @@ public class UserRegisterController extends HttpServlet {
 	private HashMap<String, String> jsonParse(String json) {
 		// 앞에서 넘겨준 데이터 형식 {"id":"1111111","pass":"11111111","email":"2021100346@hycu.ac.kr"}
 		HashMap<String, String> result = new HashMap<String, String>();
-		System.out.println(json);
 		String markRemove = json.replace("{", "").replace("}", "").replace("\"", "");
 		String[] split = markRemove.split(",");
 		

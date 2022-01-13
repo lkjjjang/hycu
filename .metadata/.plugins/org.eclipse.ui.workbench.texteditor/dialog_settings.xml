@@ -2,27 +2,27 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="modify" key="selection"/>
+		<item value="lectureName" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="modify"/>
+			<item value="lectureName"/>
+			<item value="registerModal"/>
 			<item value="System"/>
+			<item value="boardID"/>
+			<item value="showPop"/>
+			<item value="deleteAll"/>
+			<item value="contentDelete"/>
+			<item value="contentModify"/>
+			<item value="modify"/>
 			<item value="bbsID"/>
 			<item value="commentRegister"/>
 			<item value="bbsTitle"/>
 			<item value="CommentDTO"/>
 			<item value="addReplyList"/>
-			<item value="contentModify"/>
-			<item value="contentDelete"/>
 			<item value="freeBoardController"/>
-			<item value="upvote_bbsID"/>
-			<item value="id=&quot;userID&quot;"/>
-			<item value="admin"/>
-			<item value="upvoteUpdate"/>
-			<item value="text_count"/>
 		</list>
 		<list key="replacehistory">
 		</list>
